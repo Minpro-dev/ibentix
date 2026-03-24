@@ -18,4 +18,4 @@
 1. create branch --> `git checkout -b branch-name`
 2. `git add`
 3. `git commit -m 'commit message'`
-4. `git push origin main`
+4. `git push --set-upstream origin branch name`
