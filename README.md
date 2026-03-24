@@ -1,1 +1,3 @@
-test
+- variable declaration --> camelCase
+- types --> interface
+- function --> arrow function
