@@ -12,8 +12,18 @@ datasource db {
   provider = "postgresql"
 }
 
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum Role {
+  ATTENDEE
+  ORGANIZER
+}
+
 model User {
-  id           String    @id @default(uuid())
+  userId       String    @id @default(uuid())
   firstName    String    @db.VarChar(35)
   lastName     String    @db.VarChar(35)
   email        String    @unique @db.VarChar(100)
@@ -29,15 +39,33 @@ model User {
   updatedAt    DateTime  @updatedAt
   deletedAt    DateTime?
 
+  country Country @relation(fields: [countryId], references: [countryId])
+  points  Point[]
+
   @@map("users")
 }
 
-enum Gender {
-  MALE
-  FEMALE
+model Country {
+  countryId   String    @id @default(uuid())
+  countryName String    @db.VarChar(75)
+  countryCode String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+
+  users User[]
+
+  @@map("countries")
 }
 
-enum Role {
-  ATTENDEE
-  ORGANIZER
+model Point {
+  pointId     String   @id @default(uuid())
+  userId      String
+  pointAmount Int
+  validFrom   DateTime
+  validUntil  DateTime
+  
+  user User @relation(fields: [userId], references: [userId])
+
+  @@map("points")
 }
