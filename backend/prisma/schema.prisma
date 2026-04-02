@@ -31,6 +31,17 @@ enum PaymentStatus {
   CANCELED
 }
 
+enum TicketStatus {
+  ACTIVE
+  USED
+  CANCELLED
+}
+
+enum PointType {
+  EARNED
+  REDEEMED
+  EXPIRED
+}
 model User {
   userId                String    @id @default(uuid())
   firstName             String    @db.VarChar(35)
@@ -38,6 +49,7 @@ model User {
   email                 String    @unique @db.VarChar(100)
   phone                 String    @unique @db.VarChar(15)
   gender                Gender
+  address               String
   countryId             String
   role                  Role
   password              String    @db.VarChar(100)
@@ -45,25 +57,23 @@ model User {
   isVerified            Boolean   @default(false)
   otp                   String?
   otpExpiresAt          DateTime?
-  pointsId              BigInt
-  generatedReferralCode String?
-  referralCode          String    @unique
+  myReferralCode String @unique
+  usedReferralCode      String?   
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
   deletedAt             DateTime?
 
   country Country @relation(fields: [countryId], references: [countryId])
-  events  Event[] @relation("OrganizerEvents")
 
   points           Point[]
   tickets          Ticket[]
   orders           Order[]
   reviews          Review[]
   wishlists        Wishlist[]
-  organizerProfile OrganizerProfile?
+  organizerProfile OrganizerProfile[]
 
-  referralCoupons ReferralCoupon[] @relation("UserCoupons")
-  referredCoupons ReferralCoupon[] @relation("ReferralOwner")
+  referralCoupons ReferralCoupon[] @relation("CouponReceiver")
+  referredCoupons ReferralCoupon[] @relation("CouponGiver")
 
   @@map("users")
 }
@@ -87,7 +97,7 @@ model Point {
   pointAmount Int
   validFrom   DateTime
   validUntil  DateTime
-  isActive    Boolean
+  pointType     PointType
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -100,10 +110,12 @@ model Point {
 
 model Ticket {
   ticketId      String    @id @default(uuid())
+  ticketCode String @unique
   orderId       String
   userId        String
   attendeeName  String
   attendeeEmail String
+  status TicketStatus
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   deletedAt     DateTime?
@@ -115,16 +127,11 @@ model Ticket {
 }
 
 model Order {
-  orderId String @id @default(uuid())
-
-  invoiceNumber String @unique
-
-  userId  String
-  eventId String
-
-  orderNumber    String
+  orderId        String  @id @default(uuid())
+  invoiceNumber  String  @unique
+  userId         String
+  eventId        String 
   ticketQuantity Int
-
   unitPrice      Decimal
   subtotal       Decimal
   discountAmount Decimal
@@ -132,21 +139,21 @@ model Order {
   totalAmount    Decimal
 
   eventCouponId    String?
-  appCouponId      String?
-  referralCouponId String?
+  appCouponId      String? 
+  referralCouponId String? 
 
-  paymentId String? @unique
-
-  expireAt DateTime
-
+  paymentId String?   @unique
+  expireAt  DateTime
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  user  User  @relation(fields: [userId], references: [userId])
-  event Event @relation(fields: [eventId], references: [eventId])
-
-  payment Payment? @relation(fields: [paymentId], references: [paymentId])
+  user           User            @relation(fields: [userId], references: [userId])
+  event          Event           @relation(fields: [eventId], references: [eventId])
+  eventCoupon    EventCoupon?    @relation(fields: [eventCouponId], references: [eventCouponId])
+  appCoupon      AppCoupon?      @relation(fields: [appCouponId], references: [appCouponId])
+  referralCoupon ReferralCoupon? @relation(fields: [referralCouponId], references: [referralCouponId])
+  payment        Payment?        @relation(fields: [paymentId], references: [paymentId])
 
   tickets Ticket[]
   review  Review?
@@ -174,9 +181,10 @@ model Payment {
 
 model Event {
   eventId     String @id @default(uuid())
-  organizerId String
+  organizerId String 
 
   title       String
+  slug        String
   description String?
 
   availableSlot Int
@@ -185,8 +193,6 @@ model Event {
   locationName String
   address      String
   city         String
-
-  slug String
 
   eventDate        DateTime
   startSellingDate DateTime
@@ -199,22 +205,21 @@ model Event {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  organizer User @relation("OrganizerEvents", fields: [organizerId], references: [userId])
+  organizer OrganizerProfile @relation(fields: [organizerId], references: [organizerId])
 
   orders     Order[]
   reviews    Review[]
   wishlists  Wishlist[]
-  coupons    EventCoupon[]
+  coupons    EventCoupon?
   categories EventCategory[]
 
   @@map("events")
 }
 
 model EventCoupon {
-  couponId   String  @id @default(uuid())
-  couponCode String
-  eventId    String
-  userId     String?
+  eventCouponId String @id @default(uuid())
+  couponCode    String @db.VarChar(20)
+  eventId       String @unique
 
   validFrom      DateTime
   validUntil     DateTime
@@ -226,7 +231,8 @@ model EventCoupon {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  event Event @relation(fields: [eventId], references: [eventId])
+  event  Event   @relation(fields: [eventId], references: [eventId])
+  orders Order[]
 
   @@map("eventCoupons")
 }
@@ -251,7 +257,8 @@ model Review {
   eventId     String
   userId      String
   rating      Int // 1 - 5
-  description String?
+  title       String
+  description String
   isAnonymous Boolean
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -265,10 +272,10 @@ model Review {
 }
 
 model ReferralCoupon {
-  referralId     String @id @default(uuid())
-  couponCode     String @unique
-  userId         String
-  referralCodeBy String
+  referralCouponId String @id @default(uuid())
+  couponCode       String @unique
+  userId           String
+  referralCodeBy   String
 
   validFrom  DateTime
   validUntil DateTime
@@ -281,8 +288,9 @@ model ReferralCoupon {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user       User @relation("UserCoupons", fields: [userId], references: [userId])
-  referredBy User @relation("ReferralOwner", fields: [referralCodeBy], references: [userId])
+  orders     Order[]
+  user       User   @relation("CouponReceiver", fields: [userId], references: [userId])
+  referredBy User   @relation("CouponGiver", fields: [referralCodeBy], references: [userId])
 
   @@map("referralCoupons")
 }
@@ -290,7 +298,8 @@ model ReferralCoupon {
 model AppCoupon {
   appCouponId          String @id @default(uuid())
   couponCode           String
-  totalCouponAvailable Int
+  totalCouponAvailable Int?
+  usedCount            Int  @default(0)
 
   validFrom      DateTime
   validUntil     DateTime
@@ -298,6 +307,8 @@ model AppCoupon {
 
   usedAt    DateTime?
   deletedAt DateTime?
+
+  orders Order[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -307,7 +318,7 @@ model AppCoupon {
 
 model OrganizerProfile {
   organizerId String    @id @default(uuid())
-  userId      String    @unique
+  userId      String    
   name        String    @db.VarChar(30)
   image       String?
   createdAt   DateTime  @default(now())
@@ -316,6 +327,7 @@ model OrganizerProfile {
 
   // RELATION (1-1)
   user User @relation(fields: [userId], references: [userId])
+  events Event[]
 
   @@map("organizerProfiles")
 }
