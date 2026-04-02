@@ -2,6 +2,8 @@ import "dotenv/config";
 import express, { Express, NextFunction, Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import { globalErrorHandler } from "./middleware/error.middleware";
+import authRouter from "./routers/auth.route";
 
 const app: Express = express();
 
@@ -22,6 +24,12 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
+
+// auth endpoint
+app.use("/api/auth", authRouter);
+
+// error middleware
+app.use(globalErrorHandler);
 
 //app config
 app.listen(PORT, () => {
