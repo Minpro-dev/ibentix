@@ -9,7 +9,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 enum Gender {
@@ -42,26 +44,31 @@ enum PointType {
   REDEEMED
   EXPIRED
 }
+
+// model SupabaseTesting {
+//   id String @id @default(uuid())
+// }
+
 model User {
-  userId                String    @id @default(uuid())
-  firstName             String    @db.VarChar(35)
-  lastName              String    @db.VarChar(35)
-  email                 String    @unique @db.VarChar(100)
-  phone                 String    @unique @db.VarChar(15)
-  gender                Gender
-  address               String
-  countryId             String
-  role                  Role
-  password              String    @db.VarChar(100)
-  avatar                String?
-  isVerified            Boolean   @default(false)
-  otp                   String?
-  otpExpiresAt          DateTime?
-  myReferralCode String @unique
-  usedReferralCode      String?   
-  createdAt             DateTime  @default(now())
-  updatedAt             DateTime  @updatedAt
-  deletedAt             DateTime?
+  userId           String    @id @default(uuid())
+  firstName        String    @db.VarChar(35)
+  lastName         String    @db.VarChar(35)
+  email            String    @unique @db.VarChar(100)
+  phone            String    @unique @db.VarChar(15)
+  gender           Gender
+  address          String
+  countryId        String
+  role             Role
+  password         String    @db.VarChar(100)
+  avatar           String?
+  isVerified       Boolean   @default(false)
+  otp              String?
+  otpExpiresAt     DateTime?
+  myReferralCode   String    @unique
+  usedReferralCode String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  deletedAt        DateTime?
 
   country Country @relation(fields: [countryId], references: [countryId])
 
@@ -92,12 +99,12 @@ model Country {
 }
 
 model Point {
-  pointId     String   @id @default(uuid())
+  pointId     String    @id @default(uuid())
   userId      String
   pointAmount Int
   validFrom   DateTime
   validUntil  DateTime
-  pointType     PointType
+  pointType   PointType
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -109,15 +116,15 @@ model Point {
 }
 
 model Ticket {
-  ticketId      String    @id @default(uuid())
-  ticketCode String @unique
+  ticketId      String       @id @default(uuid())
+  ticketCode    String       @unique
   orderId       String
   userId        String
   attendeeName  String
   attendeeEmail String
-  status TicketStatus
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  status        TicketStatus
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
   deletedAt     DateTime?
 
   user  User  @relation(fields: [userId], references: [userId])
@@ -130,7 +137,7 @@ model Order {
   orderId        String  @id @default(uuid())
   invoiceNumber  String  @unique
   userId         String
-  eventId        String 
+  eventId        String
   ticketQuantity Int
   unitPrice      Decimal
   subtotal       Decimal
@@ -139,8 +146,8 @@ model Order {
   totalAmount    Decimal
 
   eventCouponId    String?
-  appCouponId      String? 
-  referralCouponId String? 
+  appCouponId      String?
+  referralCouponId String?
 
   paymentId String?   @unique
   expireAt  DateTime
@@ -181,7 +188,7 @@ model Payment {
 
 model Event {
   eventId     String @id @default(uuid())
-  organizerId String 
+  organizerId String
 
   title       String
   slug        String
@@ -289,8 +296,8 @@ model ReferralCoupon {
   updatedAt DateTime @updatedAt
 
   orders     Order[]
-  user       User   @relation("CouponReceiver", fields: [userId], references: [userId])
-  referredBy User   @relation("CouponGiver", fields: [referralCodeBy], references: [userId])
+  user       User    @relation("CouponReceiver", fields: [userId], references: [userId])
+  referredBy User    @relation("CouponGiver", fields: [referralCodeBy], references: [userId])
 
   @@map("referralCoupons")
 }
@@ -299,7 +306,7 @@ model AppCoupon {
   appCouponId          String @id @default(uuid())
   couponCode           String
   totalCouponAvailable Int?
-  usedCount            Int  @default(0)
+  usedCount            Int    @default(0)
 
   validFrom      DateTime
   validUntil     DateTime
@@ -318,7 +325,7 @@ model AppCoupon {
 
 model OrganizerProfile {
   organizerId String    @id @default(uuid())
-  userId      String    
+  userId      String
   name        String    @db.VarChar(30)
   image       String?
   createdAt   DateTime  @default(now())
@@ -326,7 +333,7 @@ model OrganizerProfile {
   deletedAt   DateTime?
 
   // RELATION (1-1)
-  user User @relation(fields: [userId], references: [userId])
+  user   User    @relation(fields: [userId], references: [userId])
   events Event[]
 
   @@map("organizerProfiles")
