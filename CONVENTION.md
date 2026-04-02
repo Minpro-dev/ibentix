@@ -1,10 +1,10 @@
-##Code standard convention:
+## Code standard convention:
 
 - variable declaration --> camelCase
 - types --> interface
 - function --> arrow function
 
-##Git message & branch :
+## Git message & branch :
 
 | Type     | Desc                          |
 | -------- | ----------------------------- |
@@ -13,9 +13,9 @@
 | chore    | Maintenance / technical stuff |
 | refactor | refactor                      |
 
-##Flow
+## Flow
 
-1. create branch --> `git checkout -b branch-name`
+1. create branch --> `git checkout -b [branch-name]`
 2. `git add`
 3. `git commit -m 'commit message'`
-4. `git push origin main`
+4. `git push origin [branch-name]`
