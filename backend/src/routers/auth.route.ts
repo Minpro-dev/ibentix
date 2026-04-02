@@ -3,6 +3,6 @@ import { authController } from "../controllers/auth.controller";
 
 const route = Router();
 
-route.get("/", authController.test);
+route.post("/signup", authController.signup);
 
 export default route;
