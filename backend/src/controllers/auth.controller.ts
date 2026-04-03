@@ -6,19 +6,64 @@ import {
   generateRefreshToken,
   verifyRefreshToken,
 } from "../utils/token.util";
-import { REFRESH_COOKIE_OPTIONS } from "../config/cookie.config";
+import {
+  REFRESH_COOKIE_OPTIONS,
+  USER_EMAIL_OTP_COOKIE_OPTIONS,
+} from "../config/cookie.config";
 import { AppError } from "../utils/AppError";
 import { prisma } from "../config/prismaClient.config";
 import { formatUserResponse } from "../utils/formatUserResponse";
+import { emailService } from "../services/email.service";
 
 export const authController = {
   // SIGNUP
   signup: catchAsync(async (req: Request, res: Response) => {
     const user = await authService.registerUser(req.body, req?.file);
 
+    await emailService.sendOtp(
+      user?.otp as string,
+      user?.email as string,
+      `${user?.firstName} ${user?.lastName}`,
+    );
+
+    const userResponse = formatUserResponse(user);
+
+    res.cookie("emailForOtp", user?.email, USER_EMAIL_OTP_COOKIE_OPTIONS);
+
     return res.status(200).json({
       status: "Success",
-      data: user,
+      data: userResponse,
+    });
+  }),
+
+  // VERIFY OTP
+  verifyOtp: catchAsync(async (req: Request, res: Response) => {
+    const email = req.cookies.emailForOtp;
+    const otp = req.body.otp;
+
+    if (!email) {
+      throw new AppError(401, "OTP has expired, resend to get a new OTP");
+    }
+
+    await authService.verifyOtp(otp, email);
+
+    res.clearCookie("emailForOtp", USER_EMAIL_OTP_COOKIE_OPTIONS);
+
+    res.status(200).json({
+      status: "success",
+      message: "Email verified successfully, you can now login",
+    });
+  }),
+
+  // RESEND OTP
+  resendOtp: catchAsync(async (req: Request, res: Response) => {
+    const email = req.cookies.emailForOtp;
+
+    await authService.resendOtp(email);
+
+    res.status(200).json({
+      status: "success",
+      message: "OTP has been resent, please check your email",
     });
   }),
 

@@ -9,6 +9,8 @@ const route = Router();
 route.post("/signup", upload.single("avatar"), authController.signup);
 route.post("/login", authController.login);
 route.get("/refresh", authController.refresh);
+route.post("/verify-otp", authController.verifyOtp);
+route.get("/resend-otp", authController.resendOtp);
 
 route.get(
   "/event",

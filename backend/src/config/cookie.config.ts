@@ -13,5 +13,5 @@ export const USER_EMAIL_OTP_COOKIE_OPTIONS: CookieOptions = {
   secure: process.env.NODE_ENV === "production",
   sameSite: "lax",
   path: "/",
-  maxAge: 60 * 60 * 1000 * 5, // 5 minutes
+  // maxAge: 60 * 60 * 1000 * 5, // 5 minutes
 };
