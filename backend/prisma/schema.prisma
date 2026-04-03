@@ -49,6 +49,17 @@ enum PointType {
 //   id String @id @default(uuid())
 // }
 
+model RefreshToken {
+  refreshTokenId        String   @id @default(uuid())
+  token     String   @unique @db.Text
+  userId    String
+  user      User     @relation(fields: [userId], references: [userId])
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@map("refreshTokens")
+}
+
 model User {
   userId           String    @id @default(uuid())
   firstName        String    @db.VarChar(35)
@@ -78,6 +89,7 @@ model User {
   reviews          Review[]
   wishlists        Wishlist[]
   organizerProfile OrganizerProfile[]
+  refreshTokens RefreshToken[]
 
   referralCoupons ReferralCoupon[] @relation("CouponReceiver")
   referredCoupons ReferralCoupon[] @relation("CouponGiver")
