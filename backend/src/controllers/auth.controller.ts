@@ -47,9 +47,23 @@ export const authController = {
 
     await authService.verifyOtp(otp, email);
 
+    res.clearCookie("emailForOtp", USER_EMAIL_OTP_COOKIE_OPTIONS);
+
     res.status(200).json({
       status: "success",
       message: "Email verified successfully, you can now login",
+    });
+  }),
+
+  // RESEND OTP
+  resendOtp: catchAsync(async (req: Request, res: Response) => {
+    const email = req.cookies.emailForOtp;
+
+    await authService.resendOtp(email);
+
+    res.status(200).json({
+      status: "success",
+      message: "OTP has been resent, please check your email",
     });
   }),
 
