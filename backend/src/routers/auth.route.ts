@@ -7,5 +7,6 @@ const route = Router();
 
 route.post("/signup", upload.single("avatar"), authController.signup);
 route.post("/login", authController.login);
+route.get("/refresh", authController.refresh);
 
 export default route;

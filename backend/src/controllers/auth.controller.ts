@@ -1,11 +1,18 @@
 import { Request, Response } from "express";
 import { catchAsync } from "../utils/catchAsync";
 import { authService } from "../services/auth.service";
-import { generateAccessToken, generateRefreshToken } from "../utils/token.util";
-import { referralCodeGenerator } from "../utils/referralCodeGenerator";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+  verifyRefreshToken,
+} from "../utils/token.util";
 import { REFRESH_COOKIE_OPTIONS } from "../config/cookie.config";
+import { AppError } from "../utils/AppError";
+import { prisma } from "../config/prismaClient.config";
+import { formatUserResponse } from "../utils/formatUserResponse";
 
 export const authController = {
+  // SIGNUP
   signup: catchAsync(async (req: Request, res: Response) => {
     const user = await authService.registerUser(req.body, req?.file);
 
@@ -15,6 +22,7 @@ export const authController = {
     });
   }),
 
+  // LOGIN
   login: catchAsync(async (req: Request, res: Response) => {
     const user = await authService.validateUser(req.body);
 
@@ -38,8 +46,48 @@ export const authController = {
     });
   }),
 
+  // REFRESH TOKEN
   refresh: catchAsync(async (req: Request, res: Response) => {
     const oldRefreshToken = req.cookies.refreshToken;
-    console.log("oldRefreshToken -->", oldRefreshToken);
+
+    if (!oldRefreshToken) {
+      throw new AppError(401, "Your session has finished, re-login");
+    }
+
+    const decode = verifyRefreshToken(oldRefreshToken);
+
+    const storedToken = await prisma.refreshToken.findUnique({
+      where: {
+        token: oldRefreshToken,
+      },
+      include: {
+        user: true,
+      },
+    });
+
+    if (!storedToken) {
+      throw new AppError(401, "Suspecious activity detected");
+    }
+
+    const payload = {
+      userId: storedToken.userId,
+      role: storedToken.user.role,
+      fullName: `${storedToken.user.firstName} ${storedToken.user.lastName}`,
+    };
+
+    // generate both tokens
+    const data = await authService.rotateToken(oldRefreshToken, payload);
+    const newAccessToken = generateAccessToken(payload);
+    const userResponse = formatUserResponse(data.user);
+
+    res.cookie("refreshToken", data.token, REFRESH_COOKIE_OPTIONS);
+
+    res.status(200).json({
+      status: "successful",
+      data: {
+        accessToken: newAccessToken,
+        user: userResponse,
+      },
+    });
   }),
 };
