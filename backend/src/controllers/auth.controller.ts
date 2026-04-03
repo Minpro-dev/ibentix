@@ -77,7 +77,6 @@ export const authController = {
 
     // generate both tokens
     const data = await authService.rotateToken(oldRefreshToken, payload);
-
     const newAccessToken = generateAccessToken(payload);
     const userResponse = formatUserResponse(data.user);
 
