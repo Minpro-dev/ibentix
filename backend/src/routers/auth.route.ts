@@ -6,5 +6,6 @@ import { upload } from "../config/multer.config";
 const route = Router();
 
 route.post("/signup", upload.single("avatar"), authController.signup);
+route.post("/login", authController.login);
 
 export default route;
