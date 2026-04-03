@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import { referralCodeGenerator } from "../utils/referralCodeGenerator";
 import { formatUserResponse } from "../utils/formatUserResponse";
 import { uploadSingle } from "../utils/cloudinaryUploader";
+import { AppError } from "../utils/AppError";
 const SALT_ROUNDS = 10;
 
 export const authService = {
@@ -50,6 +51,35 @@ export const authService = {
           usedReferralCode: data.usedReferralCode || null,
         },
       });
+
+      return formatUserResponse(user);
+    } catch (error) {
+      handlePrismaError(error);
+    }
+  },
+
+  // LOGIN
+  validateUser: async ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => {
+    try {
+      const user = await prisma.user.findUnique({
+        where: { email, deletedAt: null },
+      });
+
+      if (!user) {
+        throw new AppError(401, "Invalid credentials");
+      }
+
+      const isMatch = await bcrypt.compare(password, user.password);
+
+      if (!isMatch) {
+        throw new AppError(401, "Invalid credentials");
+      }
 
       return formatUserResponse(user);
     } catch (error) {
