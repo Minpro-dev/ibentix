@@ -6,6 +6,7 @@ import { referralCodeGenerator } from "../utils/referralCodeGenerator";
 import { formatUserResponse } from "../utils/formatUserResponse";
 import { uploadSingle } from "../utils/cloudinaryUploader";
 import { AppError } from "../utils/AppError";
+import { TokenPayload } from "../utils/token.util";
 const SALT_ROUNDS = 10;
 
 export const authService = {
@@ -82,6 +83,21 @@ export const authService = {
       }
 
       return formatUserResponse(user);
+    } catch (error) {
+      handlePrismaError(error);
+    }
+  },
+
+  // STORE REFRESH TOKEN
+  storeRefreshToken: async (token: string, userId: string, expiresAt: Date) => {
+    try {
+      await prisma.refreshToken.create({
+        data: {
+          token,
+          userId,
+          expiresAt,
+        },
+      });
     } catch (error) {
       handlePrismaError(error);
     }
