@@ -37,4 +37,9 @@ export const authController = {
       data: { accessToken, user },
     });
   }),
+
+  refresh: catchAsync(async (req: Request, res: Response) => {
+    const oldRefreshToken = req.cookies.refreshToken;
+    console.log("oldRefreshToken -->", oldRefreshToken);
+  }),
 };

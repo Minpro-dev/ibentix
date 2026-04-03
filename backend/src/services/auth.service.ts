@@ -6,7 +6,7 @@ import { referralCodeGenerator } from "../utils/referralCodeGenerator";
 import { formatUserResponse } from "../utils/formatUserResponse";
 import { uploadSingle } from "../utils/cloudinaryUploader";
 import { AppError } from "../utils/AppError";
-import { TokenPayload } from "../utils/token.util";
+import { generateRefreshToken, TokenPayload } from "../utils/token.util";
 const SALT_ROUNDS = 10;
 
 export const authService = {
@@ -101,5 +101,28 @@ export const authService = {
     } catch (error) {
       handlePrismaError(error);
     }
+  },
+
+  // ROTATE TOKEN
+  rotateToken: async (oldRefreshToken: string, payload: TokenPayload) => {
+    // new token
+    const newRefreshToken = generateRefreshToken(payload);
+
+    return prisma.$transaction(async (tx) => {
+      // delete prev token
+      tx.refreshToken.deleteMany({ where: { token: oldRefreshToken } });
+
+      // store new token in db
+      return tx.refreshToken.create({
+        data: {
+          token: newRefreshToken,
+          userId: payload.userId,
+          expiresAt: new Date(Date.now() + 7 + 24 * 60 * 60 * 1000),
+        },
+        include: {
+          user: true,
+        },
+      });
+    });
   },
 };
