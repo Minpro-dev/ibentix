@@ -59,7 +59,7 @@ model User {
   address          String
   countryId        String
   role             Role
-  password         String    @db.VarChar(100)
+  password         String    
   avatar           String?
   isVerified       Boolean   @default(false)
   otp              String?
@@ -88,7 +88,7 @@ model User {
 model Country {
   countryId   String    @id @default(uuid())
   countryName String    @db.VarChar(75)
-  countryCode String
+  countryCode String    @unique
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   deletedAt   DateTime?

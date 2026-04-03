@@ -7,7 +7,7 @@ import authRouter from "./routers/auth.route";
 
 const app: Express = express();
 
-const PORT = 9000;
+const PORT = 8000;
 
 // json middleware
 app.use(express.json());
