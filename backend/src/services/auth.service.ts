@@ -7,6 +7,7 @@ import { formatUserResponse } from "../utils/formatUserResponse";
 import { uploadSingle } from "../utils/cloudinaryUploader";
 import { AppError } from "../utils/AppError";
 import { generateRefreshToken, TokenPayload } from "../utils/token.util";
+import { emailService } from "./email.service";
 const SALT_ROUNDS = 10;
 
 export const authService = {
@@ -53,10 +54,40 @@ export const authService = {
         },
       });
 
-      return formatUserResponse(user);
+      return user;
     } catch (error) {
       handlePrismaError(error);
     }
+  },
+
+  // VERIFY OTP
+  verifyOtp: async (otp: string, email: string) => {
+    const user = await prisma.user.findUnique({ where: { email } });
+
+    if (!user) {
+      throw new AppError(404, "User is not found");
+    }
+
+    if (user.isVerified) {
+      throw new AppError(400, "User has been verified");
+    }
+
+    if (!user.otpExpiresAt || user.otpExpiresAt < new Date()) {
+      throw new AppError(401, "OTP has expired, resend to get a new OTP");
+    }
+
+    if (otp !== user.otp) {
+      throw new AppError(400, "Incorrect OTP");
+    }
+
+    return await prisma.user.update({
+      where: { email },
+      data: {
+        isVerified: true,
+        otp: null,
+        otpExpiresAt: null,
+      },
+    });
   },
 
   // LOGIN
