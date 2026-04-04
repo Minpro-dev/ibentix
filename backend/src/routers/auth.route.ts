@@ -1,27 +1,56 @@
-import { Request, Response, Router } from "express";
-import { authController } from "../controllers/auth.controller";
+import { Router } from "express";
+import {
+  createEvent,
+  getAllEvents,
+  getEventDetail,
+  getEventsByOrganizer,
+  updateEvent,
+} from '../controllers/event.controller';
 
-import { upload } from "../config/multer.config";
-import { authentication, authorization } from "../middleware/auth.middleware";
+import { authentication, authorization } from '../middleware/auth.middleware';
+import { upload } from '../config/multer.config';
+import { validate } from '../middleware/validate.middleware';
+import { createEventSchema, updateEventSchema } from '../validations/event.validation';
 
 const route = Router();
 
-route.post("/signup", upload.single("avatar"), authController.signup);
-route.post("/login", authController.login);
-route.get("/refresh", authController.refresh);
-route.post("/verify-otp", authController.verifyOtp);
-route.get("/resend-otp", authController.resendOtp);
+// --- ORGANIZER ---
+route.get(
+  '/organizer/me',
+  authentication,
+  authorization('ORGANIZER'),
+  getEventsByOrganizer
+);
 
 route.get(
-  "/event",
+  '/organizer/:event_id',
   authentication,
-  authorization("ORGANIZER"),
-  (req: Request, res: Response) => {
-    res.status(200).json({
-      status: "success",
-      message: "get data successful",
-    });
-  },
+  authorization('ORGANIZER'),
+  getEventDetail
+);
+
+// --- ATTENDEE ---
+route.get('/', getAllEvents);
+route.get('/:event_id', getEventDetail);
+
+// --- CREATE ---
+route.post(
+  '/',
+  authentication,
+  authorization('ORGANIZER'),
+  upload.single('thumbnail'),
+  validate(createEventSchema),
+  createEvent
+);
+
+// --- UPDATE ---
+route.patch(
+  '/:event_id',
+  authentication,
+  authorization('ORGANIZER'),
+  upload.single('thumbnail'),
+  validate(updateEventSchema),
+  updateEvent
 );
 
 export default route;
