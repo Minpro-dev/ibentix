@@ -1,56 +1,34 @@
-import { Router } from "express";
-import {
-  createEvent,
-  getAllEvents,
-  getEventDetail,
-  getEventsByOrganizer,
-  updateEvent,
-} from '../controllers/event.controller';
-
-import { authentication, authorization } from '../middleware/auth.middleware';
-import { upload } from '../config/multer.config';
-import { validate } from '../middleware/validate.middleware';
-import { createEventSchema, updateEventSchema } from '../validations/event.validation';
+import { Request, Response, Router } from "express";
+import { authController } from "../controllers/auth.controller";
+import { upload } from "../config/multer.config";
+import { authentication, authorization } from "../middleware/auth.middleware";
+import { validate } from "../middleware/validation.middleware";
+import { loginSchema, signupSchema } from "../schemas/auth.schema";
 
 const route = Router();
 
-// --- ORGANIZER ---
-route.get(
-  '/organizer/me',
-  authentication,
-  authorization('ORGANIZER'),
-  getEventsByOrganizer
-);
-
-route.get(
-  '/organizer/:event_id',
-  authentication,
-  authorization('ORGANIZER'),
-  getEventDetail
-);
-
-// --- ATTENDEE ---
-route.get('/', getAllEvents);
-route.get('/:event_id', getEventDetail);
-
-// --- CREATE ---
 route.post(
-  '/',
-  authentication,
-  authorization('ORGANIZER'),
-  upload.single('thumbnail'),
-  validate(createEventSchema),
-  createEvent
+  "/signup",
+  upload.single("avatar"),
+  validate(signupSchema),
+  authController.signup,
 );
 
-// --- UPDATE ---
-route.patch(
-  '/:event_id',
+route.post("/login", validate(loginSchema), authController.login);
+route.get("/refresh", authController.refresh);
+route.post("/verify-otp", authController.verifyOtp);
+route.get("/resend-otp", authController.resendOtp);
+
+route.get(
+  "/event",
   authentication,
-  authorization('ORGANIZER'),
-  upload.single('thumbnail'),
-  validate(updateEventSchema),
-  updateEvent
+  authorization("ORGANIZER"),
+  (req: Request, res: Response) => {
+    res.status(200).json({
+      status: "success",
+      message: "get data successful",
+    });
+  },
 );
 
 export default route;
