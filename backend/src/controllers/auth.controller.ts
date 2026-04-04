@@ -14,7 +14,7 @@ import { AppError } from "../utils/AppError";
 import { prisma } from "../config/prismaClient.config";
 import { formatUserResponse } from "../utils/formatUserResponse";
 import { emailService } from "../services/email.service";
-import { SignupSchema } from "../schemas/auth.schema";
+import { LoginSchema, SignupSchema } from "../schemas/auth.schema";
 
 export const authController = {
   // SIGNUP
@@ -71,28 +71,34 @@ export const authController = {
   }),
 
   // LOGIN
-  login: catchAsync(async (req: Request, res: Response) => {
-    const user = await authService.validateUser(req.body);
+  login: catchAsync(
+    async (req: Request<{}, {}, LoginSchema>, res: Response) => {
+      const user = await authService.validateUser(req.body);
 
-    const payload = {
-      userId: user?.userId,
-      fullName: `${user?.firstName} ${user?.lastName}`,
-      role: user?.role,
-    };
+      const payload = {
+        userId: user?.userId,
+        fullName: `${user?.firstName} ${user?.lastName}`,
+        role: user?.role,
+      };
 
-    const accessToken = generateAccessToken(payload);
-    const refreshToken = generateRefreshToken(payload);
-    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+      const accessToken = generateAccessToken(payload);
+      const refreshToken = generateRefreshToken(payload);
+      const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
-    await authService.storeRefreshToken(refreshToken, user?.userId, expiresAt);
+      await authService.storeRefreshToken(
+        refreshToken,
+        user?.userId,
+        expiresAt,
+      );
 
-    res.cookie("refreshToken", refreshToken, REFRESH_COOKIE_OPTIONS);
+      res.cookie("refreshToken", refreshToken, REFRESH_COOKIE_OPTIONS);
 
-    return res.status(200).json({
-      status: "Success",
-      data: { accessToken, user },
-    });
-  }),
+      return res.status(200).json({
+        status: "Success",
+        data: { accessToken, user },
+      });
+    },
+  ),
 
   // REFRESH TOKEN
   refresh: catchAsync(async (req: Request, res: Response) => {

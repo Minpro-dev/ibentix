@@ -41,4 +41,12 @@ export const signupSchema = z.object({
   }),
 });
 
+export const loginSchema = z.object({
+  body: signupSchema.shape.body.pick({
+    email: true,
+    password: true,
+  }),
+});
+
 export type SignupSchema = z.infer<typeof signupSchema>["body"];
+export type LoginSchema = z.infer<typeof loginSchema>["body"];
