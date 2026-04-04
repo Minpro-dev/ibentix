@@ -1,12 +1,19 @@
 import { Request, Response, Router } from "express";
 import { authController } from "../controllers/auth.controller";
-
 import { upload } from "../config/multer.config";
 import { authentication, authorization } from "../middleware/auth.middleware";
+import { validate } from "../middleware/validation.middleware";
+import { signupSchema } from "../schemas/auth.schema";
 
 const route = Router();
 
-route.post("/signup", upload.single("avatar"), authController.signup);
+route.post(
+  "/signup",
+  upload.single("avatar"),
+  validate(signupSchema),
+  authController.signup,
+);
+
 route.post("/login", authController.login);
 route.get("/refresh", authController.refresh);
 route.post("/verify-otp", authController.verifyOtp);

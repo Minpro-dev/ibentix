@@ -14,27 +14,30 @@ import { AppError } from "../utils/AppError";
 import { prisma } from "../config/prismaClient.config";
 import { formatUserResponse } from "../utils/formatUserResponse";
 import { emailService } from "../services/email.service";
+import { SignupSchema } from "../schemas/auth.schema";
 
 export const authController = {
   // SIGNUP
-  signup: catchAsync(async (req: Request, res: Response) => {
-    const user = await authService.registerUser(req.body, req?.file);
+  signup: catchAsync(
+    async (req: Request<{}, {}, SignupSchema>, res: Response) => {
+      const user = await authService.registerUser(req.body, req?.file);
 
-    await emailService.sendOtp(
-      user?.otp as string,
-      user?.email as string,
-      `${user?.firstName} ${user?.lastName}`,
-    );
+      await emailService.sendOtp(
+        user?.otp as string,
+        user?.email as string,
+        `${user?.firstName} ${user?.lastName}`,
+      );
 
-    const userResponse = formatUserResponse(user);
+      const userResponse = formatUserResponse(user);
 
-    res.cookie("emailForOtp", user?.email, USER_EMAIL_OTP_COOKIE_OPTIONS);
+      res.cookie("emailForOtp", user?.email, USER_EMAIL_OTP_COOKIE_OPTIONS);
 
-    return res.status(200).json({
-      status: "Success",
-      data: userResponse,
-    });
-  }),
+      return res.status(200).json({
+        status: "Success",
+        data: userResponse,
+      });
+    },
+  ),
 
   // VERIFY OTP
   verifyOtp: catchAsync(async (req: Request, res: Response) => {
