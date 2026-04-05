@@ -9,7 +9,7 @@ import {
 } from "./schema/signUpSchema";
 
 function SingupPage() {
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  // const [isModalOpen, setIsModalOpen] = useState(true); //FIXME
   const [step, setStep] = useState(1);
   const [role, setRole] = useState<Role>("ATTENDEE");
 
@@ -17,9 +17,9 @@ function SingupPage() {
     setRole(role);
   };
 
-  const handleModalOpen = () => {
-    setIsModalOpen((open) => !open);
-  };
+  // const handleModalOpen = () => { //FIXME
+  //   setIsModalOpen((open) => !open);
+  // };
 
   const handleNextStep = () => {
     setStep(2);

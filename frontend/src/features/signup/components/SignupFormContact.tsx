@@ -1,22 +1,6 @@
-import { Field, type FormikErrors, type FormikTouched } from "formik";
+import { Field } from "formik";
 import type { Role } from "../../../types/userType";
-
-export interface ContactFormValue {
-  firstName: string;
-  lastName: string;
-  gender: "MALE" | "FEMALE" | "";
-  referralCode?: string;
-  countryId?: string;
-  address: string;
-}
-
-interface SignupFormContactProps {
-  onHandleSelectRole: (role: Role) => void;
-  onHandleNext: () => void;
-  role: string;
-  errors: FormikErrors<ContactFormValue>;
-  touched: FormikTouched<ContactFormValue>;
-}
+import type { SignupFormContactProps } from "../types/signupTypes";
 
 const userRoles: Role[] = ["ATTENDEE", "ORGANIZER"];
 

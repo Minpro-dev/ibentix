@@ -1,17 +1,6 @@
-import { Field, type FormikErrors, type FormikTouched } from "formik";
+import { Field } from "formik";
 import { useState } from "react";
-
-interface LoginFormType {
-  email: string;
-  password: string;
-}
-
-interface LoginFormProps {
-  errors: FormikErrors<LoginFormType>;
-  touched: FormikTouched<LoginFormType>;
-  isValid: boolean;
-  dirty: boolean;
-}
+import type { LoginFormProps } from "../types/loginTypes";
 
 function LoginForm({ errors, touched, isValid, dirty }: LoginFormProps) {
   const [hidePassword, setHidePassword] = useState(true);
@@ -19,6 +8,7 @@ function LoginForm({ errors, touched, isValid, dirty }: LoginFormProps) {
   const handleHidePassword = () => {
     setHidePassword((hide) => !hide);
   };
+
   return (
     <div className="space-y-5">
       {/* Row 2: Contact */}
@@ -61,9 +51,8 @@ function LoginForm({ errors, touched, isValid, dirty }: LoginFormProps) {
 
       {/* Action Button */}
       <button
-        disabled={isValid && dirty}
+        disabled={!isValid && !dirty}
         type="submit"
-        // onClick={getAllData}
         className="w-full mt-2 bg-indigo-600 hover:bg-indigo-700 text-white  py-4 rounded-2xl shadow-xl shadow-indigo-100 transition-all active:scale-95 tracking-wider text-md">
         Login
       </button>
