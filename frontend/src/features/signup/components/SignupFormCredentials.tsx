@@ -1,21 +1,6 @@
-import { Field, type FormikErrors, type FormikTouched } from "formik";
+import { Field } from "formik";
 import { useState } from "react";
-import { getAllData } from "../../../services/authService";
-
-export interface ContactFormValue {
-  email: string;
-  phone: string;
-  password: string;
-  reconfirmPassword: string;
-}
-
-interface SignupFormCredentialsProps {
-  onHandlePrev: () => void;
-  errors: FormikErrors<ContactFormValue>;
-  touched: FormikTouched<ContactFormValue>;
-  isValid: boolean;
-  dirty: boolean;
-}
+import type { SignupFormCredentialsProps } from "../types/signupTypes";
 
 function SignupFormCredentials({
   onHandlePrev,
@@ -26,7 +11,7 @@ function SignupFormCredentials({
 }: SignupFormCredentialsProps) {
   const [hidePassword, setHidePassword] = useState(true);
 
-  const handlehidePassword = () => {
+  const handleHidePassword = () => {
     setHidePassword((hide) => !hide);
   };
 
@@ -92,7 +77,7 @@ function SignupFormCredentials({
         </div>
       </div>
 
-      <div onClick={handlehidePassword} className="cursor-pointer">
+      <div onClick={handleHidePassword} className="cursor-pointer ">
         <p>{hidePassword ? "Show password" : "Hide password"}</p>
       </div>
 

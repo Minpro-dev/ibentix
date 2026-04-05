@@ -1,6 +1,6 @@
 import { useState } from "react";
 import SignupFormCredentials from "./components/SignupFormCredentials";
-import SignupContact from "./components/SignupFormContact";
+import SignupFormContact from "./components/SignupFormContact";
 import type { Role } from "../../types/userType";
 import { Form, Formik } from "formik";
 import {
@@ -9,7 +9,7 @@ import {
 } from "./schema/signUpSchema";
 
 function SingupPage() {
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  // const [isModalOpen, setIsModalOpen] = useState(true); //FIXME
   const [step, setStep] = useState(1);
   const [role, setRole] = useState<Role>("ATTENDEE");
 
@@ -17,9 +17,9 @@ function SingupPage() {
     setRole(role);
   };
 
-  const handleModalOpen = () => {
-    setIsModalOpen((open) => !open);
-  };
+  // const handleModalOpen = () => { //FIXME
+  //   setIsModalOpen((open) => !open);
+  // };
 
   const handleNextStep = () => {
     setStep(2);
@@ -61,7 +61,7 @@ function SingupPage() {
             {({ errors, touched, isValid, dirty }) => (
               <Form>
                 {step === 1 ? (
-                  <SignupContact
+                  <SignupFormContact
                     onHandleSelectRole={handleSelectRole}
                     onHandleNext={handleNextStep}
                     errors={errors}
