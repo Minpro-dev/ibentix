@@ -1,9 +1,14 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import AppLayout from "./pages/AppLayout";
+import AppLayout from "./ui/AppLayout";
 import SignupPage from "./features/signup/SingupPage";
 import LoginPage from "./features/login/LoginPage";
 import DashboardPage from "./features/dashboard/DashboardPage";
 import HomePage from "./features/home/HomePage";
+import api from "./api/axiosInstance";
+import { useEffect, useRef } from "react";
+import { useAuthStore } from "./store/useAuthStore";
+import Unauthorized from "./ui/Unauthorized";
+import PrivateRoute from "./ui/PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -20,17 +25,51 @@ const router = createBrowserRouter([
       },
       {
         path: "organizer/dashboard",
-        element: <DashboardPage />,
+        element: (
+          <PrivateRoute allowedRoles={["ORGANIZER"]}>
+            <DashboardPage />
+          </PrivateRoute>
+        ),
       },
       {
         path: "home",
-        element: <HomePage />,
+        element: (
+          <PrivateRoute allowedRoles={["ATTENDEE"]}>
+            <HomePage />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "unauthorized",
+        element: <Unauthorized />,
       },
     ],
   },
 ]);
 
 function App() {
+  const setAuth = useAuthStore((state) => state.setAuth);
+  const setInitializing = useAuthStore((state) => state.setInitializing);
+  const isInistialized = useRef(false);
+
+  useEffect(() => {
+    const initializeAuth = async () => {
+      if (isInistialized.current) return;
+      isInistialized.current = true;
+      try {
+        const { data } = await api.get("/auth/refresh");
+        console.log("app ->", data);
+        setAuth(data.data.accessToken, data.data.user);
+      } catch (error) {
+        console.log("error -> ", error);
+      } finally {
+        setInitializing(false);
+      }
+    };
+
+    initializeAuth();
+  }, [setAuth, setInitializing]);
+
   return (
     <>
       <RouterProvider router={router} />

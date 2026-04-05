@@ -181,10 +181,10 @@ export const authService = {
 
     return prisma.$transaction(async (tx) => {
       // delete prev token
-      tx.refreshToken.deleteMany({ where: { token: oldRefreshToken } });
+      await tx.refreshToken.deleteMany({ where: { token: oldRefreshToken } });
 
       // store new token in db
-      return tx.refreshToken.create({
+      return await tx.refreshToken.create({
         data: {
           token: newRefreshToken,
           userId: payload.userId,

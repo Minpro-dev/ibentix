@@ -1,5 +1,6 @@
 import { Role } from "../../generated/prisma/enums";
 import jwt from "jsonwebtoken";
+import { AppError } from "./AppError";
 
 export interface TokenPayload {
   userId: string;
@@ -9,13 +10,13 @@ export interface TokenPayload {
 
 // GENERATE ACCESS TOKEN
 export const generateAccessToken = (payload: TokenPayload): string => {
-  return jwt.sign(payload, process.env.JWT_ACCESS_SECRET!, { expiresIn: "5m" });
+  return jwt.sign(payload, process.env.JWT_ACCESS_SECRET!, { expiresIn: "5s" });
 };
 
 // GENERATE REFRESH TOKEN
 export const generateRefreshToken = (payload: TokenPayload): string => {
   return jwt.sign(payload, process.env.JWT_REFRESH_SECRET!, {
-    expiresIn: "10m",
+    expiresIn: "10s",
   });
 };
 
@@ -26,5 +27,13 @@ export const verifyAccessToken = (token: string): TokenPayload => {
 
 // VERIFY REFRESH TOKEN
 export const verifyRefreshToken = (token: string): TokenPayload => {
-  return jwt.verify(token, process.env.JWT_REFRESH_SECRET!) as TokenPayload;
+  try {
+    return jwt.verify(token, process.env.JWT_REFRESH_SECRET!) as TokenPayload;
+  } catch (error: any) {
+    if (error.name === "TokenExpiredError") {
+      throw new AppError(401, "Session finished");
+    } else {
+      throw new AppError(401, "Invalid refresh token");
+    }
+  }
 };

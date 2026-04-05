@@ -5,7 +5,12 @@ interface User {
   firstName: string;
   lastName: string;
   email: string;
+  phone: string;
+  gender: "MALE" | "FEMALE";
+  address: string;
+  countryId: string;
   role: "ATTENDEE" | "ORGANIZER";
+  avatar: string | null;
   createdAt: string;
 }
 
