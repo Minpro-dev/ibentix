@@ -29,12 +29,12 @@ function SignupFormContact({
 }: SignupFormContactProps) {
   return (
     <>
-      <div className="flex gap-5 py-5">
+      <div className="flex gap-5 pb-5">
         {userRoles?.map((userRole, index) => (
           <div
             key={index}
             onClick={() => onHandleSelectRole(userRole)}
-            className={`w-[50%] py-3 px-5 ${userRole === role ? "bg-indigo-600 text-zinc-50" : "bg-white  text-zinc-800"} flex justify-center items-center rounded-xl`}>
+            className={`w-[50%] py-3 px-5 ${userRole === role ? "bg-indigo-600 text-zinc-50" : "bg-white  text-zinc-800"} flex justify-center items-center rounded-xl cursor-pointer`}>
             <p>
               As{" "}
               {userRole[0] + userRole.slice(1, userRole.length).toLowerCase()}
@@ -48,9 +48,7 @@ function SignupFormContact({
         {/* Row 1: Names */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-bold text-indigo-700 ml-1">
-              First Name
-            </label>
+            <label className="text-sm text-indigo-700 ml-1">First Name</label>
             <Field
               name="firstName"
               placeholder="Novpa"
@@ -63,9 +61,7 @@ function SignupFormContact({
             )}
           </div>
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-bold text-indigo-700 ml-1">
-              Last Name
-            </label>
+            <label className="text-sm text-indigo-700 ml-1">Last Name</label>
             <Field
               name="lastName"
               placeholder="Ranny"
@@ -80,9 +76,7 @@ function SignupFormContact({
         {/* Row 3: Gender & Country (Role Removed) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-bold text-indigo-700 ml-1">
-              Gender
-            </label>
+            <label className="text-sm text-indigo-700 ml-1">Gender</label>
             <Field
               as="select"
               name="gender"
@@ -95,9 +89,7 @@ function SignupFormContact({
             )}
           </div>
           <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-bold text-indigo-700 ml-1">
-              Country
-            </label>
+            <label className="text-sm text-indigo-700 ml-1">Country</label>
             <Field
               as="select"
               name="countryId"
@@ -117,7 +109,7 @@ function SignupFormContact({
 
         {/* Referral Code */}
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-bold text-indigo-700 ml-1">
+          <label className="text-sm text-indigo-700 ml-1">
             Referral Code (Optional)
           </label>
           <Field
@@ -134,9 +126,7 @@ function SignupFormContact({
 
         {/* Address Area */}
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-bold text-indigo-700 ml-1">
-            Full Address
-          </label>
+          <label className="text-sm text-indigo-700 ml-1">Full Address</label>
           <Field
             as="textarea"
             name="address"
@@ -153,7 +143,7 @@ function SignupFormContact({
           type="button"
           // disabled={}
           onClick={onHandleNext}
-          className={`w-full mt-2 bg-indigo-600 hover:bg-indigo-700 text-white font-black py-4 rounded-2xl shadow-xl shadow-indigo-100 transition-all active:scale-95 tracking-widest text-sm`}>
+          className={`w-full mt-2 bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-2xl shadow-xl shadow-indigo-100 transition-all active:scale-95 tracking-wider text-md`}>
           Next
         </button>
       </div>

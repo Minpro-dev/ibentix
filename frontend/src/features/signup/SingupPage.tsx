@@ -52,8 +52,8 @@ function SingupPage() {
     <main>
       <div className="flex justify-center">
         <div className="w-[90%] sm:w-[80%] md:w-[70%] lg:w-[50%] px-8 py-8 border border-zinc-300 rounded-xl">
-          <div className="flex justify-center items-center py-5">
-            <h1 className="text-2xl font-semibold text-zinc-600">
+          <div className="flex justify-center items-center pt-5 pb-10">
+            <h1 className="text-3xl font-helvetica-arial font-semibold text-zinc-600">
               Create Account
             </h1>
           </div>
@@ -99,17 +99,6 @@ function SingupPage() {
               </Form>
             )}
           </Formik>
-
-          {/* <form onSubmit={formik.handleSubmit} className="space-y-5">
-            {isModalOpen && (
-              <SignupContact
-                onHandleSelectRole={handleSelectRole}
-                role={role}
-                formik={formik}
-              />
-            )}
-            {isModalOpen && <SignupFormCredentials />}
-          </form> */}
         </div>
       </div>
     </main>

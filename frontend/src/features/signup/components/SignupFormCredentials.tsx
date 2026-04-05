@@ -35,9 +35,7 @@ function SignupFormCredentials({
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-bold text-indigo-700 ml-1">
-            Email Address
-          </label>
+          <label className="text-sm text-indigo-700 ml-1">Email Address</label>
           <Field
             name="email"
             placeholder="name@email.com"
@@ -48,9 +46,7 @@ function SignupFormCredentials({
           )}
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-bold text-indigo-700 ml-1">
-            Phone Number
-          </label>
+          <label className="text-sm text-indigo-700 ml-1">Phone Number</label>
           <Field
             name="phone"
             maxLength={15}
@@ -66,9 +62,7 @@ function SignupFormCredentials({
       {/* Row 4: Passwords */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-bold text-indigo-700 ml-1">
-            Password
-          </label>
+          <label className="text-sm text-indigo-700 ml-1">Password</label>
           <Field
             name="password"
             type={hidePassword ? "password" : "text"}
@@ -80,7 +74,7 @@ function SignupFormCredentials({
           )}
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-bold text-indigo-700 ml-1">
+          <label className="text-sm text-indigo-700 ml-1">
             Reconfirm Password
           </label>
           <Field
@@ -105,14 +99,14 @@ function SignupFormCredentials({
       <button
         disabled={isValid && dirty}
         type="submit"
-        className="w-full mt-2 bg-indigo-600 hover:bg-indigo-700 text-white font-black py-4 rounded-2xl shadow-xl shadow-indigo-100 transition-all active:scale-95 tracking-widest text-sm">
+        className="w-full mt-2 bg-indigo-600 hover:bg-indigo-700 text-white  py-4 rounded-2xl shadow-xl shadow-indigo-100 transition-all active:scale-95 tracking-wider text-md">
         Create Account
       </button>
       {/* Previous Button */}
       <button
         type="button"
         onClick={onHandlePrev}
-        className="w-full mt-2 bg-indigo-600 hover:bg-indigo-700 text-white font-black py-4 rounded-2xl shadow-xl shadow-indigo-100 transition-all active:scale-95 tracking-widest text-sm">
+        className="w-full mt-2 bg-indigo-600 hover:bg-indigo-700 text-white  py-4 rounded-2xl shadow-xl shadow-indigo-100 transition-all active:scale-95 tracking-wider text-md">
         Previous
       </button>
     </div>
