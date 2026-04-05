@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+@theme {
+  --font-sans: "Poppins", sans-serif;
+  --height-screen: "100dvh";
+  /* --color-linear-card-pop-up: #141516;
+  --color-purple-card: #dbe5ff; */
+  --font-space-mono: "Space Mono", monospace;
+}

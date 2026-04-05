@@ -1,7 +1,24 @@
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import AppLayout from "./pages/AppLayout";
+import SignupPage from "./features/signup/SingupPage";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <AppLayout />,
+    children: [
+      {
+        path: "login",
+        element: <SignupPage />,
+      },
+    ],
+  },
+]);
+
 function App() {
   return (
     <>
-      <h1 className="text-indigo-500">Ibentix -- Coming soon</h1>
+      <RouterProvider router={router} />
     </>
   );
 }
