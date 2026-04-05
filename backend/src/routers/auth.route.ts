@@ -19,6 +19,13 @@ route.get("/refresh", authController.refresh);
 route.post("/verify-otp", authController.verifyOtp);
 route.get("/resend-otp", authController.resendOtp);
 
+route.get("/testing", (req: Request, res: Response) => {
+  res.status(200).json({
+    status: "success",
+    message: "get data successful",
+  });
+});
+
 route.get(
   "/event",
   authentication,
