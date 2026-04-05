@@ -4,6 +4,7 @@ import { catchAsync } from '../utils/catchAsync';
 import { uploadCloudinary } from '../utils/uploadCloudinary';
 import { AppError } from '../utils/AppError';
 
+
 // 1. CREATE EVENT
 export const createEvent = catchAsync(async (req: any, res: Response) => {
   if (!req.user?.id) {
@@ -15,14 +16,12 @@ export const createEvent = catchAsync(async (req: any, res: Response) => {
 
   if (req.file?.buffer) {
     try {
-      const uploadResult = await uploadCloudinary(req.file.buffer, 'events');
-      thumbnailUrl = uploadResult;
-    } catch (error) {
+      thumbnailUrl = await uploadCloudinary(req.file.buffer, 'events');
+    } catch {
       throw new AppError(500, 'Failed to upload thumbnail');
     }
   }
 
-  // VALIDATION
   if (!req.body.title) {
     throw new AppError(400, 'Event title is required');
   }
@@ -30,19 +29,14 @@ export const createEvent = catchAsync(async (req: any, res: Response) => {
   const availableSlot = parseInt(String(req.body.available_slot));
   const price = parseFloat(String(req.body.price));
 
-  if (isNaN(availableSlot)) {
-    throw new AppError(400, 'Invalid available_slot');
-  }
-
-  if (isNaN(price)) {
-    throw new AppError(400, 'Invalid price');
-  }
+  if (isNaN(availableSlot)) throw new AppError(400, 'Invalid available_slot');
+  if (isNaN(price)) throw new AppError(400, 'Invalid price');
 
   const payload = {
     ...req.body,
     thumbnail_url: thumbnailUrl,
     available_slot: availableSlot,
-    price: price,
+    price,
     isFree: String(req.body.isFree) === 'true',
   };
 
@@ -56,18 +50,19 @@ export const createEvent = catchAsync(async (req: any, res: Response) => {
 });
 
 
-// 2. GET ALL EVENTS
-export const getAllEvents = catchAsync(async (_req: Request, res: Response) => {
-  const result = await eventService.getAllEventsService();
+// 2. GET ALL EVENTS (WITH FILTER 🔥)
+export const getAllEvents = catchAsync(async (req: Request, res: Response) => {
+  const result = await eventService.getAllEventsService(req.query);
 
   res.status(200).json({
     status: 'success',
+    message: 'Events retrieved successfully',
     data: result,
   });
 });
 
 
-// 3. GET EVENT DETAIL
+// 3. GET EVENT DETAIL (by ID)
 export const getEventDetail = catchAsync(async (req: Request, res: Response) => {
   const { event_id } = req.params;
 
@@ -88,7 +83,28 @@ export const getEventDetail = catchAsync(async (req: Request, res: Response) => 
 });
 
 
-// 4. GET EVENTS BY ORGANIZER
+// 4. GET EVENT BY SLUG
+export const getEventBySlug = catchAsync(async (req: Request, res: Response) => {
+  const { slug } = req.params;
+
+  if (!slug) {
+    throw new AppError(400, 'slug is required');
+  }
+
+  const result = await eventService.getEventBySlugService(slug as string);
+
+  if (!result) {
+    throw new AppError(404, 'Event not found');
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: result,
+  });
+});
+
+
+// 5. GET EVENTS BY ORGANIZER
 export const getEventsByOrganizer = catchAsync(async (req: any, res: Response) => {
   if (!req.user?.id) {
     throw new AppError(401, 'Unauthorized');
@@ -104,7 +120,19 @@ export const getEventsByOrganizer = catchAsync(async (req: any, res: Response) =
 });
 
 
-// 5. UPDATE EVENT
+// 6. GET TRENDING EVENTS
+export const getTrendingEvents = catchAsync(async (_req: Request, res: Response) => {
+  const result = await eventService.getTrendingEventsService();
+
+  res.status(200).json({
+    status: 'success',
+    message: 'Trending events retrieved',
+    data: result,
+  });
+});
+
+
+// 7. UPDATE EVENT
 export const updateEvent = catchAsync(async (req: any, res: Response) => {
   const { event_id } = req.params;
 
@@ -119,29 +147,30 @@ export const updateEvent = catchAsync(async (req: any, res: Response) => {
   const organizerId = req.user.userId;
   let updateData: any = { ...req.body };
 
+  // upload thumbnail
   if (req.file?.buffer) {
     try {
-      const uploadResult = await uploadCloudinary(req.file.buffer, 'events');
-      updateData.thumbnail_url = uploadResult;
-    } catch (error) {
+      updateData.thumbnail_url = await uploadCloudinary(req.file.buffer, 'events');
+    } catch {
       throw new AppError(500, 'Failed to upload thumbnail');
     }
   }
 
+  // validation number
   if (req.body.available_slot) {
     const slot = parseInt(String(req.body.available_slot));
-    if (isNaN(slot)) {
-      throw new AppError(400, 'Invalid available_slot');
-    }
+    if (isNaN(slot)) throw new AppError(400, 'Invalid available_slot');
     updateData.available_slot = slot;
   }
 
   if (req.body.price) {
     const price = parseFloat(String(req.body.price));
-    if (isNaN(price)) {
-      throw new AppError(400, 'Invalid price');
-    }
+    if (isNaN(price)) throw new AppError(400, 'Invalid price');
     updateData.price = price;
+  }
+
+  if (req.body.event_date) {
+    updateData.event_date = new Date(req.body.event_date);
   }
 
   if (req.body.isFree !== undefined) {
@@ -154,13 +183,32 @@ export const updateEvent = catchAsync(async (req: any, res: Response) => {
     organizerId
   );
 
-  if (!result) {
-    throw new AppError(404, 'Event not found or not authorized');
-  }
-
   res.status(200).json({
     status: 'success',
     message: 'Event updated successfully',
     data: result,
+  });
+});
+
+
+// 8. DELETE EVENT (SOFT DELETE)
+export const deleteEvent = catchAsync(async (req: any, res: Response) => {
+  const { event_id } = req.params;
+
+  if (!event_id) {
+    throw new AppError(400, 'event_id is required');
+  }
+
+  if (!req.user?.userId) {
+    throw new AppError(401, 'Unauthorized');
+  }
+
+  const organizerId = req.user.userId;
+
+  await eventService.deleteEventService(event_id, organizerId);
+
+  res.status(200).json({
+    status: 'success',
+    message: 'Event deleted successfully',
   });
 });
