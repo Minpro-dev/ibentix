@@ -26,7 +26,7 @@ function SignupFormCredentials({
 }: SignupFormCredentialsProps) {
   const [hidePassword, setHidePassword] = useState(true);
 
-  const handlehidePassword = () => {
+  const handleHidePassword = () => {
     setHidePassword((hide) => !hide);
   };
 
@@ -92,7 +92,7 @@ function SignupFormCredentials({
         </div>
       </div>
 
-      <div onClick={handlehidePassword} className="cursor-pointer">
+      <div onClick={handleHidePassword} className="cursor-pointer">
         <p>{hidePassword ? "Show password" : "Hide password"}</p>
       </div>
 

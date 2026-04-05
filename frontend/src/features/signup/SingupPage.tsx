@@ -1,6 +1,6 @@
 import { useState } from "react";
 import SignupFormCredentials from "./components/SignupFormCredentials";
-import SignupContact from "./components/SignupFormContact";
+import SignupFormContact from "./components/SignupFormContact";
 import type { Role } from "../../types/userType";
 import { Form, Formik } from "formik";
 import {
@@ -61,7 +61,7 @@ function SingupPage() {
             {({ errors, touched, isValid, dirty }) => (
               <Form>
                 {step === 1 ? (
-                  <SignupContact
+                  <SignupFormContact
                     onHandleSelectRole={handleSelectRole}
                     onHandleNext={handleNextStep}
                     errors={errors}
