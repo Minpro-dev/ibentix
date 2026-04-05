@@ -4,18 +4,40 @@ import LoginForm from "./components/LoginForm";
 import type { LoginFormType } from "./types/loginTypes";
 import { handleSubmitLogin } from "../../services/authService";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../store/useAuthStore";
 
 function LoginPage() {
   const navigate = useNavigate();
+  const setAuth = useAuthStore((state) => state.setAuth);
+
   const handleSubmitForm = async (values: LoginFormType) => {
     const res = await handleSubmitLogin(values);
 
+    console.log("res -> ", res);
+
+    const token = res?.accessToken;
+    const userResponse = res?.user;
+
+    const user = {
+      id: userResponse?.userId,
+      firstName: userResponse?.firstName,
+      lastName: userResponse?.lastName,
+      email: userResponse?.email,
+      phone: userResponse?.phone,
+      gender: userResponse?.gender,
+      address: userResponse?.address,
+      countryId: userResponse?.countryId,
+      role: userResponse?.role,
+      avatar: userResponse?.avatar,
+      createdAt: userResponse?.createdAt,
+    };
+
+    setAuth(token, user);
+
     if (res.user.role === "ATTENDEE") {
-      navigate("/home");
-      return;
+      navigate("/home", { replace: true });
     } else {
-      navigate("/organizer/dashboard");
-      return;
+      navigate("/organizer/dashboard", { replace: true });
     }
   };
 

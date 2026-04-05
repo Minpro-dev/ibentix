@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { TokenPayload, verifyAccessToken } from "../utils/token.util";
 import { AppError } from "../utils/AppError";
+import { catchAsync } from "../utils/catchAsync";
 
 declare global {
   namespace Express {
@@ -11,29 +12,27 @@ declare global {
 }
 
 // AUTHENTICATION
-export const authentication = (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  const requestHeader = req.headers.authorization;
+export const authentication = catchAsync(
+  (req: Request, res: Response, next: NextFunction) => {
+    const requestHeader = req.headers.authorization;
 
-  if (!requestHeader || !requestHeader.startsWith("Bearer")) {
-    throw new AppError(401, "Unauthorized action");
-  }
+    if (!requestHeader || !requestHeader.startsWith("Bearer")) {
+      throw new AppError(401, "Unauthorized action");
+    }
 
-  const token = req.headers.authorization?.split(" ")[1] as string;
+    const token = requestHeader?.split(" ")[1];
 
-  const decoded = verifyAccessToken(token);
+    const decoded = verifyAccessToken(token);
 
-  req.user = {
-    userId: decoded.userId,
-    role: decoded.role,
-    fullName: decoded.fullName,
-  };
+    req.user = {
+      userId: decoded.userId,
+      role: decoded.role,
+      fullName: decoded.fullName,
+    };
 
-  next();
-};
+    next();
+  },
+);
 
 export const authorization = (...allowedRoles: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
