@@ -29,25 +29,6 @@ function SingupPage() {
     setStep(1);
   };
 
-  // initialValues: {
-  //   firstName: "",
-  //   lastName: "",
-  //   email: "",
-  //   phone: "",
-  //   gender: "",
-  //   countryId: "",
-  //   address: "",
-  //   password: "",
-  //   confirmPassword: "",
-  //   referralCode: "",
-  // },
-
-  // validationSchema: signupSchema,
-
-  // onSubmit: (values) => {
-  //   console.log(values);
-  // },
-
   return (
     <main>
       <div className="flex justify-center">

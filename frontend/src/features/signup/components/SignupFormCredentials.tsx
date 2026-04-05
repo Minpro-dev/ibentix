@@ -1,5 +1,6 @@
 import { Field, type FormikErrors, type FormikTouched } from "formik";
 import { useState } from "react";
+import { getAllData } from "../../../services/authService";
 
 export interface ContactFormValue {
   email: string;
@@ -99,6 +100,7 @@ function SignupFormCredentials({
       <button
         disabled={isValid && dirty}
         type="submit"
+        // onClick={getAllData}
         className="w-full mt-2 bg-indigo-600 hover:bg-indigo-700 text-white  py-4 rounded-2xl shadow-xl shadow-indigo-100 transition-all active:scale-95 tracking-wider text-md">
         Create Account
       </button>
