@@ -106,6 +106,7 @@ model User {
   organizerProfile OrganizerProfile[]
   refreshTokens    RefreshToken[]
   resetPassword    ResetPassword[]
+  eventCoupons     EventCoupon[]
 
   referralCoupons ReferralCoupon[] @relation("CouponReceiver")
   referredCoupons ReferralCoupon[] @relation("CouponGiver")
@@ -256,6 +257,7 @@ model EventCoupon {
   couponCode    String @db.VarChar(20)
   eventId       String @unique
 
+  userId         String
   validFrom      DateTime
   validUntil     DateTime
   discountAmount Decimal
@@ -267,6 +269,7 @@ model EventCoupon {
   updatedAt DateTime @updatedAt
 
   event  Event   @relation(fields: [eventId], references: [eventId])
+  user   User    @relation(fields: [userId], references: [userId])
   orders Order[]
 
   @@map("eventCoupons")

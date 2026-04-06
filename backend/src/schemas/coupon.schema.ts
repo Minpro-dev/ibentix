@@ -1,5 +1,6 @@
 import * as z from "zod";
 
+// --------- CREATE
 export const createEventCouponSchema = z.object({
   body: z.object({
     couponCode: z
@@ -27,9 +28,24 @@ export const createEventCouponSchema = z.object({
   }),
 });
 
+// ----- GET BY ID
 export const getCouponDetailsSchema = z.object({
   params: z.object({
     eventCouponId: z.uuid(),
+  }),
+});
+
+// ----- GET ALL
+export const getAllEventCouponsSchema = z.object({
+  params: z.object({
+    userId: z.uuid(),
+  }),
+  query: z.object({
+    eventId: z.uuid().optional(),
+    search: z.string().optional(),
+    validFrom: z.string().optional(),
+    validUntil: z.string().optional(),
+    createdAt: z.string().optional(),
   }),
 });
 
@@ -39,3 +55,9 @@ export type createEventCouponSchema = z.infer<
 export type getCouponDetailsSchema = z.infer<
   typeof getCouponDetailsSchema
 >["params"];
+export type getAllCouponsParamsSchema = z.infer<
+  typeof getAllEventCouponsSchema
+>["params"];
+export type getAllCouponsQuerySchema = z.infer<
+  typeof getAllEventCouponsSchema
+>["query"];

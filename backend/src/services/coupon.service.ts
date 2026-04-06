@@ -1,8 +1,9 @@
 import { endOfDay, startOfDay } from "date-fns";
 import { prisma } from "../config/prismaClient.config";
-import { EventCouponType } from "../types/coupon.type";
+import { EventCouponType, GetAllEventCoupon } from "../types/coupon.type";
 import { AppError } from "../utils/AppError";
 import { handlePrismaError } from "../utils/prismaErrorHandler";
+import { EventCouponWhereInput } from "../../generated/prisma/models";
 
 export const couponService = {
   createEventCoupon: async (data: EventCouponType) => {
@@ -47,5 +48,41 @@ export const couponService = {
     }
 
     return eventCouponDetails;
+  },
+
+  getAllCoupons: (data: GetAllEventCoupon) => {
+    const where: EventCouponWhereInput = {
+      deletedAt: null,
+    };
+
+    if (data.eventId) {
+      where.eventId = data.eventId;
+    }
+
+    if (data.validFrom && data.validUntil) {
+      where.AND = [
+        { validFrom: { gte: startOfDay(data.validFrom) } },
+        { validUntil: { lte: endOfDay(data.validUntil) } },
+      ];
+    }
+
+    if (data.validFrom) {
+      where.validFrom = { gte: startOfDay(data.validFrom) };
+    }
+
+    if (data.validUntil) {
+      where.validUntil = { lte: endOfDay(data.validUntil) };
+    }
+
+    if (data.createdAt) {
+      where.AND = [
+        { createdAt: { gte: startOfDay(data.createdAt) } },
+        { createdAt: { lte: endOfDay(data.createdAt) } },
+      ];
+    }
+
+    const coupons = prisma.eventCoupon.findMany({ where });
+
+    return coupons;
   },
 };
