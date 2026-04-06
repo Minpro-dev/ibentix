@@ -13,7 +13,7 @@ declare global {
 
 // AUTHENTICATION
 export const authentication = catchAsync(
-  (req: Request, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     const requestHeader = req.headers.authorization;
 
     if (!requestHeader || !requestHeader.startsWith("Bearer")) {
