@@ -14,7 +14,13 @@ import { AppError } from "../utils/AppError";
 import { prisma } from "../config/prismaClient.config";
 import { formatUserResponse } from "../utils/formatUserResponse";
 import { emailService } from "../services/email.service";
-import { LoginSchema, SignupSchema } from "../schemas/auth.schema";
+import {
+  LoginSchema,
+  SignupSchema,
+  updatePasswordSchema,
+  updatePasswordSchemaBody,
+  updatePasswordSchemaParams,
+} from "../schemas/auth.schema";
 
 export const authController = {
   //----------- SIGNUP
@@ -156,4 +162,20 @@ export const authController = {
       message: "Request successful, link has been sent to the email",
     });
   }),
+
+  createNewPassword: catchAsync(
+    async (
+      req: Request<updatePasswordSchemaParams, {}, updatePasswordSchemaBody>,
+      res: Response,
+    ) => {
+      const token = req.params.token;
+      const { newPassword } = req.body;
+      console.log("token , typeof", token, typeof token);
+      await authService.createNewPassword(token, newPassword);
+
+      res.status(200).json({
+        status: "success",
+      });
+    },
+  ),
 };

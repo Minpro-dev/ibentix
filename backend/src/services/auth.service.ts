@@ -211,6 +211,19 @@ export const authService = {
       throw new AppError(404, "User is not found");
     }
 
+    const isTokenActive = await prisma.resetPassword.findFirst({
+      where: {
+        userId: user.userId,
+        expiresAt: {
+          gt: new Date(),
+        },
+      },
+    });
+
+    if (isTokenActive) {
+      throw new AppError(400, "Your previous link is still active");
+    }
+
     const rawResetToken = generateRawToken();
 
     const hashedToken = crypto
@@ -233,5 +246,53 @@ export const authService = {
       resetUrl,
       `${user.firstName} ${user.lastName}`,
     );
+  },
+
+  // ------------- CREATE NEW PASSWORD
+  createNewPassword: async (token: string, newPassword: string) => {
+    try {
+      const hashedInputToken = crypto
+        .createHash("sha256")
+        .update(token)
+        .digest("hex");
+
+      const isMatch = await prisma.resetPassword.findFirst({
+        where: {
+          hashedToken: hashedInputToken,
+          expiresAt: {
+            gt: new Date(),
+          },
+        },
+
+        include: {
+          user: true,
+        },
+      });
+
+      if (!isMatch) {
+        throw new AppError(401, "Link has expired, request new link");
+      }
+
+      const hashedPassword = await bcrypt.hash(newPassword, SALT_ROUNDS);
+
+      await prisma.$transaction(async (tx) => {
+        await tx.user.update({
+          where: {
+            userId: isMatch.userId,
+          },
+          data: {
+            password: hashedPassword,
+          },
+        });
+
+        await prisma.resetPassword.deleteMany({
+          where: {
+            userId: isMatch.userId,
+          },
+        });
+      });
+    } catch (error) {
+      handlePrismaError(error);
+    }
   },
 };

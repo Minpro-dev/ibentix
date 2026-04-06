@@ -3,6 +3,7 @@ import { otpEmailTemplate } from "../utils/otpEmailTemplate";
 import { resetPasswordEmailTemplate } from "../utils/resetPasswordEmailTemplate";
 
 export const emailService = {
+  // ---------- SEND OTP
   sendOtp: async (otp: string, email: string, fullName: string) => {
     try {
       const template = otpEmailTemplate(otp, fullName);
@@ -19,6 +20,7 @@ export const emailService = {
     }
   },
 
+  // --------- SEND RESET PASSWORD
   sendResetPassword: async (
     email: string,
     resetUrl: string,
