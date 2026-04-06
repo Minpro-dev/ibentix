@@ -27,6 +27,15 @@ export const createEventCouponSchema = z.object({
   }),
 });
 
+export const getCouponDetailsSchema = z.object({
+  params: z.object({
+    eventCouponId: z.uuid(),
+  }),
+});
+
 export type createEventCouponSchema = z.infer<
   typeof createEventCouponSchema
 >["body"];
+export type getCouponDetailsSchema = z.infer<
+  typeof getCouponDetailsSchema
+>["params"];
