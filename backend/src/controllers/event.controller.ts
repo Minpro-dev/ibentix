@@ -50,7 +50,7 @@ export const createEvent = catchAsync(async (req: any, res: Response) => {
 });
 
 
-// 2. GET ALL EVENTS (WITH FILTER 🔥)
+// 2. GET ALL EVENTS (WITH FILTER )
 export const getAllEvents = catchAsync(async (req: Request, res: Response) => {
   const result = await eventService.getAllEventsService(req.query);
 

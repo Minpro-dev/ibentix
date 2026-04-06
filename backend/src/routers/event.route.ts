@@ -51,7 +51,7 @@ route.post(
   '/',
   authentication,
   upload.single('thumbnail'),
-  validate(createEventSchema), // optional (Zod)
+  validate(createEventSchema), 
   createEvent
 );
 

@@ -4,6 +4,9 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import { globalErrorHandler } from "./middleware/error.middleware";
 import authRouter from "./routers/auth.route";
+import eventRouter from "./routers/event.route"
+import organizerRouter from './routers/organizer.route';
+
 
 const app: Express = express();
 
@@ -27,6 +30,12 @@ app.use(
 
 // auth endpoint
 app.use("/api/auth", authRouter);
+
+// event endpoint
+app.use("/api/events", eventRouter);
+
+// organizer endpoint
+app.use('/api/organizer', organizerRouter);
 
 // error middleware
 app.use(globalErrorHandler);
