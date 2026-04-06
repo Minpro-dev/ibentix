@@ -1,6 +1,7 @@
 import { Role } from "../../generated/prisma/enums";
 import jwt from "jsonwebtoken";
 import { AppError } from "./AppError";
+import crypto from "crypto";
 
 export interface TokenPayload {
   userId: string;
@@ -36,4 +37,9 @@ export const verifyRefreshToken = (token: string): TokenPayload => {
       throw new AppError(401, "Invalid refresh token");
     }
   }
+};
+
+// ------- GENERATE RANDOM TOKEN
+export const generateRawToken = (length: number = 32): string => {
+  return crypto.randomBytes(length).toString("hex");
 };

@@ -6,12 +6,18 @@ import { referralCodeGenerator } from "../utils/referralCodeGenerator";
 import { formatUserResponse } from "../utils/formatUserResponse";
 import { uploadSingle } from "../utils/cloudinaryUploader";
 import { AppError } from "../utils/AppError";
-import { generateRefreshToken, TokenPayload } from "../utils/token.util";
+import {
+  generateRawToken,
+  generateRefreshToken,
+  TokenPayload,
+} from "../utils/token.util";
 import { emailService } from "./email.service";
+import crypto from "crypto";
+
 const SALT_ROUNDS = 10;
 
 export const authService = {
-  // SIGNUP
+  //--------------------- SIGNUP
   registerUser: async (data: any, file: Express.Multer.File | undefined) => {
     try {
       const avatar = await uploadSingle(file);
@@ -60,7 +66,7 @@ export const authService = {
     }
   },
 
-  // RESEND OTP
+  //--------------------- RESEND OTP
   resendOtp: async (email: string) => {
     const user = await prisma.user.findUnique({
       where: {
@@ -100,7 +106,7 @@ export const authService = {
     );
   },
 
-  // VERIFY OTP
+  //--------------------- VERIFY OTP
   verifyOtp: async (otp: string, email: string) => {
     const user = await prisma.user.findUnique({ where: { email } });
 
@@ -130,7 +136,7 @@ export const authService = {
     });
   },
 
-  // LOGIN
+  //--------------------- LOGIN
   validateUser: async ({
     email,
     password,
@@ -159,7 +165,7 @@ export const authService = {
     }
   },
 
-  // STORE REFRESH TOKEN
+  //--------------------- STORE REFRESH TOKEN
   storeRefreshToken: async (token: string, userId: string, expiresAt: Date) => {
     try {
       await prisma.refreshToken.create({
@@ -174,7 +180,7 @@ export const authService = {
     }
   },
 
-  // ROTATE TOKEN
+  //--------------------- ROTATE TOKEN
   rotateToken: async (oldRefreshToken: string, payload: TokenPayload) => {
     // new token
     const newRefreshToken = generateRefreshToken(payload);
@@ -195,5 +201,98 @@ export const authService = {
         },
       });
     });
+  },
+
+  //--------------------- RESET PASSWORD REQUEST
+  resetPasswordRequest: async (email: string) => {
+    const user = await prisma.user.findUnique({ where: { email } });
+
+    if (!user) {
+      throw new AppError(404, "User is not found");
+    }
+
+    const isTokenActive = await prisma.resetPassword.findFirst({
+      where: {
+        userId: user.userId,
+        expiresAt: {
+          gt: new Date(),
+        },
+      },
+    });
+
+    if (isTokenActive) {
+      throw new AppError(400, "Your previous link is still active");
+    }
+
+    const rawResetToken = generateRawToken();
+
+    const hashedToken = crypto
+      .createHash("sha256")
+      .update(rawResetToken)
+      .digest("hex");
+
+    const resetUrl = `http://localhost:5173/reset-password?token=${rawResetToken}`;
+
+    await prisma.resetPassword.create({
+      data: {
+        userId: user.userId,
+        hashedToken,
+        expiresAt: new Date(Date.now() + 15 * 60 * 1000),
+      },
+    });
+
+    await emailService.sendResetPassword(
+      email,
+      resetUrl,
+      `${user.firstName} ${user.lastName}`,
+    );
+  },
+
+  // ------------- CREATE NEW PASSWORD
+  createNewPassword: async (token: string, newPassword: string) => {
+    try {
+      const hashedInputToken = crypto
+        .createHash("sha256")
+        .update(token)
+        .digest("hex");
+
+      const isMatch = await prisma.resetPassword.findFirst({
+        where: {
+          hashedToken: hashedInputToken,
+          expiresAt: {
+            gt: new Date(),
+          },
+        },
+
+        include: {
+          user: true,
+        },
+      });
+
+      if (!isMatch) {
+        throw new AppError(401, "Link has expired, request new link");
+      }
+
+      const hashedPassword = await bcrypt.hash(newPassword, SALT_ROUNDS);
+
+      await prisma.$transaction(async (tx) => {
+        await tx.user.update({
+          where: {
+            userId: isMatch.userId,
+          },
+          data: {
+            password: hashedPassword,
+          },
+        });
+
+        await prisma.resetPassword.deleteMany({
+          where: {
+            userId: isMatch.userId,
+          },
+        });
+      });
+    } catch (error) {
+      handlePrismaError(error);
+    }
   },
 };

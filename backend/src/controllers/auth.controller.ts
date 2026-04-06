@@ -14,10 +14,16 @@ import { AppError } from "../utils/AppError";
 import { prisma } from "../config/prismaClient.config";
 import { formatUserResponse } from "../utils/formatUserResponse";
 import { emailService } from "../services/email.service";
-import { LoginSchema, SignupSchema } from "../schemas/auth.schema";
+import {
+  LoginSchema,
+  SignupSchema,
+  updatePasswordSchema,
+  updatePasswordSchemaBody,
+  updatePasswordSchemaParams,
+} from "../schemas/auth.schema";
 
 export const authController = {
-  // SIGNUP
+  //----------- SIGNUP
   signup: catchAsync(
     async (req: Request<{}, {}, SignupSchema>, res: Response) => {
       const user = await authService.registerUser(req.body, req?.file);
@@ -39,7 +45,7 @@ export const authController = {
     },
   ),
 
-  // VERIFY OTP
+  //----------- VERIFY OTP
   verifyOtp: catchAsync(async (req: Request, res: Response) => {
     const email = req.cookies.emailForOtp;
     const otp = req.body.otp;
@@ -58,7 +64,7 @@ export const authController = {
     });
   }),
 
-  // RESEND OTP
+  //----------- RESEND OTP
   resendOtp: catchAsync(async (req: Request, res: Response) => {
     const email = req.cookies.emailForOtp;
 
@@ -70,7 +76,7 @@ export const authController = {
     });
   }),
 
-  // LOGIN
+  //----------- LOGIN
   login: catchAsync(
     async (req: Request<{}, {}, LoginSchema>, res: Response) => {
       const user = await authService.validateUser(req.body);
@@ -100,7 +106,7 @@ export const authController = {
     },
   ),
 
-  // REFRESH TOKEN
+  //----------- REFRESH TOKEN
   refresh: catchAsync(async (req: Request, res: Response) => {
     const oldRefreshToken = req.cookies.refreshToken;
 
@@ -144,4 +150,33 @@ export const authController = {
       },
     });
   }),
+
+  //----------- RESET PASSWORD REQUEST
+  resetPasswordRequest: catchAsync(async (req: Request, res: Response) => {
+    const { email } = req.body;
+
+    await authService.resetPasswordRequest(email);
+
+    res.status(200).json({
+      status: "success",
+      message: "Request successful, link has been sent to the email",
+    });
+  }),
+
+  // CREATE / PATCH NEW PASSWORD
+  createNewPassword: catchAsync(
+    async (
+      req: Request<updatePasswordSchemaParams, {}, updatePasswordSchemaBody>,
+      res: Response,
+    ) => {
+      const token = req.params.token;
+      const { newPassword } = req.body;
+      console.log("token , typeof", token, typeof token);
+      await authService.createNewPassword(token, newPassword);
+
+      res.status(200).json({
+        status: "success",
+      });
+    },
+  ),
 };

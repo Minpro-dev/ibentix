@@ -48,5 +48,27 @@ export const loginSchema = z.object({
   }),
 });
 
+export const updatePasswordSchema = z.object({
+  body: z.object({
+    newPassword: z
+      .string()
+      .min(8, "Password at least has 8 characters")
+      // Contoh regex: Harus ada huruf besar, kecil, dan angka
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+        "Password must contain capital, lower case, dan numbers",
+      ),
+  }),
+  params: z.object({
+    token: z.string(),
+  }),
+});
+
 export type SignupSchema = z.infer<typeof signupSchema>["body"];
 export type LoginSchema = z.infer<typeof loginSchema>["body"];
+export type updatePasswordSchemaBody = z.infer<
+  typeof updatePasswordSchema
+>["body"];
+export type updatePasswordSchemaParams = z.infer<
+  typeof updatePasswordSchema
+>["params"];
