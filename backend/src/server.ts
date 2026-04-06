@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import { globalErrorHandler } from "./middleware/error.middleware";
 import authRouter from "./routers/auth.route";
+import couponRouter from "./routers/coupon.route";
 
 const app: Express = express();
 
@@ -24,6 +25,9 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
+
+// coupon endpoint
+app.use("/api/coupon", couponRouter);
 
 // auth endpoint
 app.use("/api/auth", authRouter);
