@@ -20,6 +20,8 @@ route.post(
 
 route.get(
   "/:eventCouponId",
+  authentication,
+  authorization("ATTENDEE"),
   validate(getCouponDetailsSchema),
   couponController.getCouponDetails,
 );
