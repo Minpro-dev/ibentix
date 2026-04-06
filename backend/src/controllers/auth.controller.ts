@@ -163,6 +163,7 @@ export const authController = {
     });
   }),
 
+  // CREATE / PATCH NEW PASSWORD
   createNewPassword: catchAsync(
     async (
       req: Request<updatePasswordSchemaParams, {}, updatePasswordSchemaBody>,
