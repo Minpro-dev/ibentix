@@ -1,4 +1,5 @@
 export interface EventCouponType {
+  userId: string;
   couponCode: string;
   eventId: string;
   validFrom: Date;

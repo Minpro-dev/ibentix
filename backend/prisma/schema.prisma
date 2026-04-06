@@ -107,6 +107,7 @@ model User {
   refreshTokens    RefreshToken[]
   resetPassword    ResetPassword[]
   eventCoupons     EventCoupon[]
+  events           Event[]
 
   referralCoupons ReferralCoupon[] @relation("CouponReceiver")
   referredCoupons ReferralCoupon[] @relation("CouponGiver")
@@ -218,6 +219,7 @@ model Payment {
 model Event {
   eventId     String @id @default(uuid())
   organizerId String
+  userId      String
 
   title       String
   slug        String
@@ -242,6 +244,7 @@ model Event {
   deletedAt DateTime?
 
   organizer OrganizerProfile @relation(fields: [organizerId], references: [organizerId])
+  user User @relation(fields: [userId], references: [userId])
 
   orders     Order[]
   reviews    Review[]

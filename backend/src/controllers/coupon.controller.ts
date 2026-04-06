@@ -12,10 +12,17 @@ export const couponController = {
   createEventCoupon: catchAsync(
     async (req: Request<{}, {}, createEventCouponSchema>, res: Response) => {
       console.log("req-body -->", req.body);
-      const { couponCode, eventId, validFrom, validUntil, discountAmount } =
-        req.body;
+      const {
+        userId,
+        couponCode,
+        eventId,
+        validFrom,
+        validUntil,
+        discountAmount,
+      } = req.body;
 
       const eventCoupon = await couponService.createEventCoupon({
+        userId,
         couponCode,
         eventId,
         validFrom,
@@ -51,16 +58,19 @@ export const couponController = {
     ) => {
       // get all (userId)
       // filter: --> eventId, search, validFrom, validUntil, createdAt
-      const eventCouponId = req.params.userId;
+      const userId = req.params.userId;
       const { eventId, search, validFrom, validUntil, createdAt } = req.query;
 
-      const coupons = await couponService.getAllCoupons({
-        eventId,
-        search,
-        validFrom,
-        validUntil,
-        createdAt,
-      });
+      const coupons = await couponService.getAllCoupons(
+        {
+          eventId,
+          search,
+          validFrom,
+          validUntil,
+          createdAt,
+        },
+        userId,
+      );
 
       res.status(200).json({
         status: "success",

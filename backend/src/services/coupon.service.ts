@@ -50,8 +50,9 @@ export const couponService = {
     return eventCouponDetails;
   },
 
-  getAllCoupons: (data: GetAllEventCoupon) => {
+  getAllCoupons: (data: GetAllEventCoupon, userId: string) => {
     const where: EventCouponWhereInput = {
+      userId,
       deletedAt: null,
     };
 

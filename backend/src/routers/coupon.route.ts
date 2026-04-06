@@ -29,7 +29,7 @@ route.get(
 );
 
 route.get(
-  "/:userId",
+  "/user/:userId",
   validate(getAllEventCouponsSchema),
   couponController.getAllCoupons,
 );
