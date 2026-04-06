@@ -9,6 +9,7 @@ import { useEffect, useRef } from "react";
 import { useAuthStore } from "./store/useAuthStore";
 import Unauthorized from "./ui/Unauthorized";
 import PrivateRoute from "./ui/PrivateRoute";
+import ResetPasswordPage from "./features/resetPassword/ResetPasswordPage";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: "unauthorized",
         element: <Unauthorized />,
+      },
+      {
+        path: "reset-password",
+        element: <ResetPasswordPage />,
       },
     ],
   },
