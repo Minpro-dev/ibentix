@@ -18,6 +18,7 @@ route.post("/login", validate(loginSchema), authController.login);
 route.get("/refresh", authController.refresh);
 route.post("/verify-otp", authController.verifyOtp);
 route.get("/resend-otp", authController.resendOtp);
+route.post("/reset-password", authController.resetPasswordRequest);
 
 route.get("/testing", (req: Request, res: Response) => {
   res.status(200).json({
