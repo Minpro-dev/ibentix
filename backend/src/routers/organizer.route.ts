@@ -2,7 +2,6 @@ import { Router } from 'express';
 import {
   getProfile,
   updateProfile,
-  getMyEvents,
   getOrders,
   updateOrderStatus,
   getAttendees,
@@ -22,8 +21,6 @@ route.use(authentication, authorization('ORGANIZER'));
 route.get('/profile', getProfile);
 route.patch('/profile', updateProfile);
 
-// EVENTS
-route.get('/events', getMyEvents);
 
 // ORDERS
 route.get('/orders', getOrders);

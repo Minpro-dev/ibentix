@@ -31,17 +31,9 @@ export const updateProfile = catchAsync(async (req: any, res: Response) => {
   });
 });
 
-// 3. GET MY EVENTS
-export const getMyEvents = catchAsync(async (req: any, res: Response) => {
-  const result = await organizerService.getMyEventsService(req.user.id);
 
-  res.status(200).json({
-    status: 'success',
-    data: result,
-  });
-});
 
-// 4. GET ORDERS
+// 3. GET ORDERS
 export const getOrders = catchAsync(async (req: any, res: Response) => {
   const result = await organizerService.getOrdersService(
     req.user.id,

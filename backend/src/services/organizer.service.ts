@@ -20,18 +20,8 @@ export const updateOrganizerProfileService = async (
   });
 };
 
-// 3. GET MY EVENTS
-export const getMyEventsService = async (organizerId: string) => {
-  return await prisma.event.findMany({
-    where: {
-      organizer_id: organizerId,
-      deleted_at: null,
-    },
-    orderBy: { created_at: 'desc' },
-  });
-};
 
-// 4. GET ORDERS (FILTERABLE)
+// 3. GET ORDERS (FILTERABLE)
 export const getOrdersService = async (organizerId: string, query: any) => {
   const { event_id, status } = query;
 
@@ -76,7 +66,7 @@ export const getAttendeesService = async (eventId: string) => {
   });
 };
 
-// 7. CREATE COUPON
+// 7. CREATE COUPON by ORGANIZER
 export const createCouponService = async (
   eventId: string,
   data: any
@@ -92,7 +82,7 @@ export const createCouponService = async (
   });
 };
 
-// 8. GET COUPONS
+// 8. GET COUPONS by ORGANIZER
 export const getCouponsService = async (eventId: string) => {
   return await prisma.event_coupons.findMany({
     where: {
