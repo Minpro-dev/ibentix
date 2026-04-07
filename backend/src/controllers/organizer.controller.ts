@@ -74,32 +74,7 @@ export const getAttendees = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// 7. CREATE COUPON
-export const createCoupon = catchAsync(async (req: Request, res: Response) => {
-  const { event_id } = req.params;
-
-  const result = await organizerService.createCouponService(event_id as string, req.body);
-
-  res.status(201).json({
-    status: 'success',
-    message: 'Coupon created',
-    data: result,
-  });
-});
-
-// 8. GET COUPONS
-export const getCoupons = catchAsync(async (req: Request, res: Response) => {
-  const { event_id } = req.params;
-
-  const result = await organizerService.getCouponsService(event_id as string);
-
-  res.status(200).json({
-    status: 'success',
-    data: result,
-  });
-});
-
-// 9. DASHBOARD
+// 7. DASHBOARD
 export const getDashboard = catchAsync(async (req: any, res: Response) => {
   const result = await organizerService.getDashboardService(req.user.id);
 

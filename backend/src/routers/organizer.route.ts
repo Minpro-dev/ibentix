@@ -5,8 +5,6 @@ import {
   getOrders,
   updateOrderStatus,
   getAttendees,
-  createCoupon,
-  getCoupons,
   getDashboard,
 } from '../controllers/organizer.controller';
 
@@ -29,9 +27,6 @@ route.patch('/orders/:order_id/status', updateOrderStatus);
 // ATTENDEES
 route.get('/events/:event_id/attendees', getAttendees);
 
-// COUPONS
-route.post('/events/:event_id/coupons', createCoupon);
-route.get('/events/:event_id/coupons', getCoupons);
 
 // DASHBOARD
 route.get('/dashboard', getDashboard);
