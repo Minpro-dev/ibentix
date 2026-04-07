@@ -18,9 +18,9 @@ const SALT_ROUNDS = 10;
 
 export const authService = {
   //--------------------- SIGNUP
-  registerUser: async (data: any, file: Express.Multer.File | undefined) => {
+
+  registerUser: async (data: any) => {
     try {
-      const avatar = await uploadSingle(file);
       const hashedPassword = await bcrypt.hash(data.password, SALT_ROUNDS);
       const otpExpiresAt = new Date(Date.now() + 5 * 60 * 1000); // expired 5 menit
 
@@ -51,7 +51,7 @@ export const authService = {
           countryId: data.countryId,
           role: data.role,
           password: hashedPassword,
-          avatar: avatar || null,
+          avatar: null,
           isVerified: false,
           otp,
           otpExpiresAt,
@@ -61,6 +61,45 @@ export const authService = {
       });
 
       return user;
+    } catch (error) {
+      handlePrismaError(error);
+    }
+  },
+
+  // ----------------- EDIT USER DETAILS
+  editUserDetails: async (
+    userId: string,
+    data: any,
+    file: Express.Multer.File | undefined,
+  ) => {
+    try {
+      const user = await prisma.user.findUnique({
+        where: { userId, deletedAt: null },
+      });
+
+      if (!user) {
+        throw new AppError(404, "User is not found");
+      }
+
+      const updateData: any = {
+        ...data,
+      };
+      console.log(updateData);
+
+      if (file) {
+        updateData.avatar = file ? await uploadSingle(file) : user.avatar;
+      }
+
+      if (data.password) {
+        updateData.password = await bcrypt.hash(data.password, SALT_ROUNDS);
+      }
+
+      const updatedUser = await prisma.user.update({
+        where: { userId },
+        data: updateData,
+      });
+
+      return formatUserResponse(updatedUser);
     } catch (error) {
       handlePrismaError(error);
     }
