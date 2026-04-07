@@ -47,6 +47,13 @@ export const getAllEventCouponsSchema = z.object({
   }),
 });
 
+// ------ DELETE
+export const deleteEventCouponSchema = z.object({
+  body: createEventCouponSchema.shape.body.pick({
+    eventId: true,
+  }),
+});
+
 export type createEventCouponSchema = z.infer<
   typeof createEventCouponSchema
 >["body"];
@@ -56,3 +63,6 @@ export type getCouponDetailsSchema = z.infer<
 export type getAllCouponsQuerySchema = z.infer<
   typeof getAllEventCouponsSchema
 >["query"];
+export type deleteEventCouponSchema = z.infer<
+  typeof deleteEventCouponSchema
+>["body"];

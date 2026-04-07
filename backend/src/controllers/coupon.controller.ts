@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { catchAsync } from "../utils/catchAsync";
 import {
   createEventCouponSchema,
+  deleteEventCouponSchema,
   getAllCouponsQuerySchema,
   getCouponDetailsSchema,
 } from "../schemas/coupon.schema";
@@ -101,6 +102,21 @@ export const couponController = {
         data: {
           newCoupon,
         },
+      });
+    },
+  ),
+
+  // -------------- DELETE COUPON
+  deleteCoupon: catchAsync(
+    async (req: Request<{}, {}, deleteEventCouponSchema>, res: Response) => {
+      const userId = req.user?.userId as string;
+      const { eventId } = req.body;
+
+      await couponService.deleteCoupon(userId, eventId);
+
+      res.status(200).json({
+        staus: "success",
+        message: "Delete coupon successful",
       });
     },
   ),

@@ -42,4 +42,12 @@ route.get(
   couponController.getAllCoupons,
 );
 
+route.delete(
+  "/",
+  authentication,
+  authorization("ORGANIZER"),
+  validate(getAllEventCouponsSchema),
+  couponController.deleteCoupon,
+);
+
 export default route;
