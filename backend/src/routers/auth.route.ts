@@ -14,7 +14,7 @@ const route = Router();
 
 route.post(
   "/signup",
-  upload.single("avatar"),
+  // upload.single("avatar"),
   validate(signupSchema),
   authController.signup,
 );

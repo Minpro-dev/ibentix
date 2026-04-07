@@ -27,7 +27,7 @@ export const authController = {
   //----------- SIGNUP
   signup: catchAsync(
     async (req: Request<{}, {}, SignupSchema>, res: Response) => {
-      const user = await authService.registerUser(req.body, req?.file);
+      const user = await authService.registerUser(req.body);
 
       await emailService.sendOtp(
         user?.otp as string,

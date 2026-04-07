@@ -36,7 +36,7 @@ export const signupSchema = z.object({
         "Password must contain capital, lower case, dan numbers",
       ),
     confirmPassword: z.string(),
-    avatar: z.string().optional(),
+    // avatar: z.string().optional(),
     usedReferralCode: z.string().optional(),
   }),
 });

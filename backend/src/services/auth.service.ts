@@ -18,9 +18,9 @@ const SALT_ROUNDS = 10;
 
 export const authService = {
   //--------------------- SIGNUP
-  registerUser: async (data: any, file: Express.Multer.File | undefined) => {
+
+  registerUser: async (data: any) => {
     try {
-      const avatar = await uploadSingle(file);
       const hashedPassword = await bcrypt.hash(data.password, SALT_ROUNDS);
       const otpExpiresAt = new Date(Date.now() + 5 * 60 * 1000); // expired 5 menit
 
@@ -51,7 +51,7 @@ export const authService = {
           countryId: data.countryId,
           role: data.role,
           password: hashedPassword,
-          avatar: avatar || null,
+          avatar: null,
           isVerified: false,
           otp,
           otpExpiresAt,
