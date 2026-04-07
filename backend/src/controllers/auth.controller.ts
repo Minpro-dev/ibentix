@@ -15,6 +15,7 @@ import { prisma } from "../config/prismaClient.config";
 import { formatUserResponse } from "../utils/formatUserResponse";
 import { emailService } from "../services/email.service";
 import {
+  EditUserDetails,
   LoginSchema,
   SignupSchema,
   updatePasswordSchema,
@@ -41,6 +42,24 @@ export const authController = {
       return res.status(200).json({
         status: "Success",
         data: userResponse,
+      });
+    },
+  ),
+
+  //-------------- EDIT USER DETAILS
+  editUserDetails: catchAsync(
+    async (req: Request<{}, {}, EditUserDetails>, res: Response) => {
+      const userId = req.user?.userId as string;
+      const updatedUser = await authService.editUserDetails(
+        userId,
+        req.body,
+        req?.file,
+      );
+
+      res.status(201).json({
+        status: "success",
+        message: "Update user info successfull",
+        data: updatedUser,
       });
     },
   ),
