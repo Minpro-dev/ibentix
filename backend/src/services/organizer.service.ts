@@ -66,33 +66,8 @@ export const getAttendeesService = async (eventId: string) => {
   });
 };
 
-// 7. CREATE COUPON by ORGANIZER
-export const createCouponService = async (
-  eventId: string,
-  data: any
-) => {
-  return await prisma.event_coupons.create({
-    data: {
-      event_id: eventId,
-      coupon_code: data.coupon_code,
-      discount_amount: Number(data.discount_amount),
-      valid_from: new Date(data.valid_from),
-      valid_until: new Date(data.valid_until),
-    },
-  });
-};
 
-// 8. GET COUPONS by ORGANIZER
-export const getCouponsService = async (eventId: string) => {
-  return await prisma.event_coupons.findMany({
-    where: {
-      event_id: eventId,
-      deleted_at: null,
-    },
-  });
-};
-
-// 9. DASHBOARD
+// 7. DASHBOARD
 export const getDashboardService = async (organizerId: string) => {
   const totalEvents = await prisma.event.count({
     where: { organizer_id: organizerId },
