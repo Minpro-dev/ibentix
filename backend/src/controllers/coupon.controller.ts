@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { catchAsync } from "../utils/catchAsync";
 import {
   createEventCouponSchema,
-  getAllCouponsParamsSchema,
   getAllCouponsQuerySchema,
   getCouponDetailsSchema,
 } from "../schemas/coupon.schema";
@@ -11,15 +10,10 @@ import { couponService } from "../services/coupon.service";
 export const couponController = {
   createEventCoupon: catchAsync(
     async (req: Request<{}, {}, createEventCouponSchema>, res: Response) => {
-      console.log("req-body -->", req.body);
-      const {
-        userId,
-        couponCode,
-        eventId,
-        validFrom,
-        validUntil,
-        discountAmount,
-      } = req.body;
+      //   console.log("req-body -->", req.body);
+      const userId = req.user?.userId as string;
+      const { couponCode, eventId, validFrom, validUntil, discountAmount } =
+        req.body;
 
       const eventCoupon = await couponService.createEventCoupon({
         userId,
@@ -37,12 +31,16 @@ export const couponController = {
     },
   ),
 
+  // ------ GET COUPON DETAILS
   getCouponDetails: catchAsync(
     async (req: Request<getCouponDetailsSchema, {}, {}>, res: Response) => {
       const eventCouponId = req.params.eventCouponId;
+      const userId = req.user?.userId as string;
 
-      const eventCouponDetails =
-        await couponService.getCouponDetails(eventCouponId);
+      const eventCouponDetails = await couponService.getCouponDetails(
+        eventCouponId,
+        userId,
+      );
 
       res.status(200).json({
         status: "success",
@@ -51,14 +49,16 @@ export const couponController = {
     },
   ),
 
+  //------- GET ALL COUPONS
   getAllCoupons: catchAsync(
     async (
-      req: Request<getAllCouponsParamsSchema, {}, {}, getAllCouponsQuerySchema>,
+      req: Request<{}, {}, {}, getAllCouponsQuerySchema>,
       res: Response,
     ) => {
-      // get all (userId)
+      // get all (by userId)
       // filter: --> eventId, search, validFrom, validUntil, createdAt
-      const userId = req.params.userId;
+      const userId = req.user?.userId as string;
+      console.log("user Id", userId);
       const { eventId, search, validFrom, validUntil, createdAt } = req.query;
 
       const coupons = await couponService.getAllCoupons(
@@ -75,6 +75,32 @@ export const couponController = {
       res.status(200).json({
         status: "success",
         data: coupons,
+      });
+    },
+  ),
+
+  // ------- EDIT COUPON
+  editCoupon: catchAsync(
+    async (req: Request<{}, {}, createEventCouponSchema>, res: Response) => {
+      const userId = req.user?.userId as string;
+      const { couponCode, eventId, validFrom, validUntil, discountAmount } =
+        req.body;
+
+      const newCoupon = await couponService.editCoupon({
+        userId,
+        couponCode,
+        eventId,
+        validFrom,
+        validUntil,
+        discountAmount,
+      });
+
+      res.status(201).json({
+        status: "success",
+        message: "Update coupon successfull",
+        data: {
+          newCoupon,
+        },
       });
     },
   ),

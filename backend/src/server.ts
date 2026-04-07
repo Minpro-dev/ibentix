@@ -27,7 +27,7 @@ app.use(
 );
 
 // coupon endpoint
-app.use("/api/coupon", couponRouter);
+app.use("/api/event-coupon", couponRouter);
 
 // auth endpoint
 app.use("/api/auth", authRouter);

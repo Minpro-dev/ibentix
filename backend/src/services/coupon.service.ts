@@ -4,6 +4,7 @@ import { EventCouponType, GetAllEventCoupon } from "../types/coupon.type";
 import { AppError } from "../utils/AppError";
 import { handlePrismaError } from "../utils/prismaErrorHandler";
 import { EventCouponWhereInput } from "../../generated/prisma/models";
+import { includes } from "zod";
 
 export const couponService = {
   createEventCoupon: async (data: EventCouponType) => {
@@ -35,7 +36,8 @@ export const couponService = {
     }
   },
 
-  getCouponDetails: async (eventCouponId: string) => {
+  // ----- GET COUPON DETAILS
+  getCouponDetails: async (eventCouponId: string, userId: string) => {
     const eventCouponDetails = await prisma.eventCoupon.findUnique({
       where: {
         eventCouponId,
@@ -47,9 +49,14 @@ export const couponService = {
       throw new AppError(404, "Event coupon is not found");
     }
 
+    if (userId !== eventCouponDetails.userId) {
+      throw new AppError(401, "Only owner can see the coupon details");
+    }
+
     return eventCouponDetails;
   },
 
+  // -------- GET ALL COUPONS
   getAllCoupons: (data: GetAllEventCoupon, userId: string) => {
     const where: EventCouponWhereInput = {
       userId,
@@ -82,8 +89,52 @@ export const couponService = {
       ];
     }
 
+    if (data.search) {
+      where.OR = [
+        { couponCode: { contains: data.search, mode: "insensitive" } },
+      ];
+    }
+
     const coupons = prisma.eventCoupon.findMany({ where });
 
     return coupons;
+  },
+
+  // -------- EDIT COUPON
+  editCoupon: async ({
+    userId,
+    couponCode,
+    eventId,
+    validFrom,
+    validUntil,
+    discountAmount,
+  }: EventCouponType) => {
+    try {
+      const coupon = await prisma.eventCoupon.findUnique({
+        where: {
+          eventId,
+        },
+      });
+
+      if (!coupon) {
+        throw new AppError(404, "No coupon match in database");
+      }
+
+      const newCoupon = await prisma.eventCoupon.update({
+        where: { eventId },
+        data: {
+          userId,
+          couponCode,
+          eventId,
+          validFrom,
+          validUntil,
+          discountAmount,
+        },
+      });
+
+      return newCoupon;
+    } catch (error) {
+      handlePrismaError(error);
+    }
   },
 };

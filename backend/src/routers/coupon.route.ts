@@ -10,7 +10,6 @@ import { authentication, authorization } from "../middleware/auth.middleware";
 
 const route = Router();
 
-// FIXME - add authentication & authorization middleware
 route.post(
   "/",
   authentication,
@@ -19,17 +18,26 @@ route.post(
   couponController.createEventCoupon,
 );
 
-// FIXME - consider to add userId
-route.get(
-  "/:eventCouponId",
+route.put(
+  "/",
   authentication,
-  authorization("ATTENDEE"),
+  authorization("ORGANIZER"),
+  validate(createEventCouponSchema),
+  couponController.editCoupon,
+);
+
+route.get(
+  "/details/:eventCouponId",
+  authentication,
+  authorization("ORGANIZER"),
   validate(getCouponDetailsSchema),
   couponController.getCouponDetails,
 );
 
 route.get(
-  "/user/:userId",
+  "/",
+  authentication,
+  authorization("ORGANIZER"),
   validate(getAllEventCouponsSchema),
   couponController.getAllCoupons,
 );

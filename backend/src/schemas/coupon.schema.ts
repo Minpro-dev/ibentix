@@ -8,7 +8,7 @@ export const createEventCouponSchema = z.object({
       .min(5, "Coupon code at least 5 characters")
       .max(10, "Maximum coupon code is 10 characters"),
     eventId: z.uuid(),
-    userId: z.uuid(),
+    // userId: z.uuid(),
     validFrom: z.preprocess(
       (val) => {
         if (typeof val === "string" || val instanceof Date) {
@@ -38,9 +38,6 @@ export const getCouponDetailsSchema = z.object({
 
 // ----- GET ALL
 export const getAllEventCouponsSchema = z.object({
-  params: z.object({
-    userId: z.uuid(),
-  }),
   query: z.object({
     eventId: z.uuid().optional(),
     search: z.string().optional(),
@@ -55,9 +52,6 @@ export type createEventCouponSchema = z.infer<
 >["body"];
 export type getCouponDetailsSchema = z.infer<
   typeof getCouponDetailsSchema
->["params"];
-export type getAllCouponsParamsSchema = z.infer<
-  typeof getAllEventCouponsSchema
 >["params"];
 export type getAllCouponsQuerySchema = z.infer<
   typeof getAllEventCouponsSchema

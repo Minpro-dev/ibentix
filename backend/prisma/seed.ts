@@ -1,57 +1,100 @@
 import { prisma } from "../src/config/prismaClient.config";
 
-const events = [
+// command --> npx prisma db seed
+
+const eventCoupons = [
   {
-    eventId: "c3a6b73a-1b74-4a16-8b7b-e33b4a69b710",
-    organizerId: "f87e7f0e-c4ce-4d36-a044-1c3e89b344bd",
-
-    title: "Surabaya Startup Expo 2026",
-    slug: "surabaya-startup-expo-2026",
-    description:
-      "Expo tahunan yang mempertemukan startup, investor, dan komunitas teknologi di Surabaya.",
-
-    availableSlot: 200,
-    thumbnailUrl: "https://picsum.photos/seed/event3/600/400",
-
-    locationName: "Grand City Convention Hall",
-    address: "Jl. Walikota Mustajab No. 1",
-    city: "Tanggerang",
-
-    eventDate: new Date("2026-10-18T09:00:00Z"),
-    startSellingDate: new Date("2026-06-01T00:00:00Z"),
-    endSellingDate: new Date("2026-10-15T23:59:59Z"),
-
-    isFree: false,
-    price: 250000,
+    couponCode: "MOVIEFEST22",
+    userId: "678272fb-af57-429b-8e41-4eb78e541c05",
+    eventId: "75775fab-d486-4d5e-977c-5985586466d2",
+    validFrom: new Date("2026-06-15T00:00:00.000Z"),
+    validUntil: new Date("2026-06-30T00:00:00.000Z"),
+    discountAmount: 22,
   },
-
   {
-    eventId: "ae5f7a51-5e73-45b8-9bf5-50a1e7336d36",
-    organizerId: "f87e7f0e-c4ce-4d36-a044-1c3e89b344bd",
-
-    title: "Bali Art & Culture Week",
-    slug: "bali-art-and-culture-week",
-    description:
-      "Perayaan seni dan budaya dengan pameran, workshop, pertunjukan musik, dan kuliner khas Bali.",
-
-    availableSlot: 500,
-    thumbnailUrl: "https://picsum.photos/seed/event4/600/400",
-
-    locationName: "Bali Expo Center",
-    address: "Jl. Raya Janti No. 143",
-    city: "Bali",
-
-    eventDate: new Date("2026-08-20T10:00:00Z"),
-    startSellingDate: new Date("2026-04-15T00:00:00Z"),
-    endSellingDate: new Date("2026-08-18T23:59:59Z"),
-
-    isFree: true,
-    price: 0,
+    couponCode: "FOODFEST10",
+    userId: "678272fb-af57-429b-8e41-4eb78e541c05",
+    eventId: "59c758f8-3d1d-4ccc-9ad2-40826f990283",
+    validFrom: new Date("2026-03-05T00:00:00.000Z"),
+    validUntil: new Date("2026-03-18T00:00:00.000Z"),
+    discountAmount: 10,
+  },
+  {
+    couponCode: "EDUFAIR25",
+    userId: "678272fb-af57-429b-8e41-4eb78e541c05",
+    eventId: "4ef325cc-6f24-432e-b409-e914737285a3",
+    validFrom: new Date("2026-10-01T00:00:00.000Z"),
+    validUntil: new Date("2026-10-20T00:00:00.000Z"),
+    discountAmount: 25,
+  },
+  {
+    couponCode: "GADGETSALE12",
+    userId: "678272fb-af57-429b-8e41-4eb78e541c05",
+    eventId: "45d54fe6-c699-4225-85db-6c1dabc9e0ee",
+    validFrom: new Date("2026-05-01T00:00:00.000Z"),
+    validUntil: new Date("2026-05-15T00:00:00.000Z"),
+    discountAmount: 12,
+  },
+  {
+    couponCode: "DESIGNWEEK18",
+    userId: "678272fb-af57-429b-8e41-4eb78e541c05",
+    eventId: "441b55fd-122f-46b3-9ba0-fa4d670bd263",
+    validFrom: new Date("2026-07-05T00:00:00.000Z"),
+    validUntil: new Date("2026-07-18T00:00:00.000Z"),
+    discountAmount: 18,
+  },
+  {
+    couponCode: "AUTOEXPO30",
+    userId: "678272fb-af57-429b-8e41-4eb78e541c05",
+    eventId: "2c767a42-5d6e-481e-ab4d-9b01225d063a",
+    validFrom: new Date("2026-09-15T00:00:00.000Z"),
+    validUntil: new Date("2026-09-30T00:00:00.000Z"),
+    discountAmount: 30,
+  },
+  {
+    couponCode: "TRAVELFAIR7",
+    userId: "678272fb-af57-429b-8e41-4eb78e541c05",
+    eventId: "2bb73656-0da1-4b19-ac25-92441bad7369",
+    validFrom: new Date("2026-04-01T00:00:00.000Z"),
+    validUntil: new Date("2026-04-12T00:00:00.000Z"),
+    discountAmount: 7,
+  },
+  {
+    couponCode: "PETSHOW10",
+    userId: "678272fb-af57-429b-8e41-4eb78e541c05",
+    eventId: "1d21e5ab-ff38-4fda-b03a-f3f86dfb8298",
+    validFrom: new Date("2026-03-12T00:00:00.000Z"),
+    validUntil: new Date("2026-03-25T00:00:00.000Z"),
+    discountAmount: 10,
+  },
+  {
+    couponCode: "GREENEXPO12",
+    userId: "678272fb-af57-429b-8e41-4eb78e541c05",
+    eventId: "1b933500-dc5b-43b6-8e19-dcbfb8c48064",
+    validFrom: new Date("2026-05-20T00:00:00.000Z"),
+    validUntil: new Date("2026-05-30T00:00:00.000Z"),
+    discountAmount: 12,
+  },
+  {
+    couponCode: "CHARITY5",
+    userId: "678272fb-af57-429b-8e41-4eb78e541c05",
+    eventId: "1a5e46f2-2401-4947-bc33-ac46643e3587",
+    validFrom: new Date("2026-02-01T00:00:00.000Z"),
+    validUntil: new Date("2026-02-12T00:00:00.000Z"),
+    discountAmount: 5,
+  },
+  {
+    couponCode: "FINTECH15",
+    userId: "678272fb-af57-429b-8e41-4eb78e541c05",
+    eventId: "0b1f6b14-4cdc-4249-9eb6-57a817636454",
+    validFrom: new Date("2026-08-10T00:00:00.000Z"),
+    validUntil: new Date("2026-08-25T00:00:00.000Z"),
+    discountAmount: 15,
   },
 ];
 
 async function main() {
-  await prisma.event.createMany({ data: events });
+  await prisma.eventCoupon.createMany({ data: eventCoupons });
 }
 
 main()
