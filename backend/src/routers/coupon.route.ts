@@ -10,6 +10,7 @@ import { authentication, authorization } from "../middleware/auth.middleware";
 
 const route = Router();
 
+//------- CREATE COUPON
 route.post(
   "/",
   authentication,
@@ -18,6 +19,7 @@ route.post(
   couponController.createEventCoupon,
 );
 
+// ------- UPDATE COUPON
 route.put(
   "/",
   authentication,
@@ -26,6 +28,7 @@ route.put(
   couponController.editCoupon,
 );
 
+// -------- GET COUPON DETAILS
 route.get(
   "/details/:eventCouponId",
   authentication,
@@ -34,6 +37,8 @@ route.get(
   couponController.getCouponDetails,
 );
 
+// ----------- GET ALL COUPONS
+// filter-query: --> eventId, search, validFrom, validUntil, createdAt
 route.get(
   "/",
   authentication,

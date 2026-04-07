@@ -120,6 +120,10 @@ export const couponService = {
         throw new AppError(404, "No coupon match in database");
       }
 
+      if (coupon.userId !== userId) {
+        throw new AppError(401, "Only coupon owner can");
+      }
+
       const newCoupon = await prisma.eventCoupon.update({
         where: { eventId },
         data: {
