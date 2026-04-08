@@ -5,6 +5,7 @@ import cors from "cors";
 import { globalErrorHandler } from "./middleware/error.middleware";
 import authRouter from "./routers/auth.route";
 import couponRouter from "./routers/coupon.route";
+import appCoupon from "./routers/appCoupon.router";
 
 const app: Express = express();
 
@@ -26,11 +27,14 @@ app.use(
   }),
 );
 
-// coupon endpoint
+// event-coupon endpoint
 app.use("/api/event-coupon", couponRouter);
 
 // auth endpoint
 app.use("/api/auth", authRouter);
+
+// app-coupon
+app.use("/api/app-coupon", appCoupon);
 
 // error middleware
 app.use(globalErrorHandler);
