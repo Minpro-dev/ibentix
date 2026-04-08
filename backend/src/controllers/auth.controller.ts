@@ -16,6 +16,7 @@ import { formatUserResponse } from "../utils/formatUserResponse";
 import { emailService } from "../services/email.service";
 import {
   EditUserDetails,
+  InsertReferral,
   LoginSchema,
   SignupSchema,
   updatePasswordSchema,
@@ -96,16 +97,17 @@ export const authController = {
   }),
 
   // ------------- POST REFERRAL
-  addReferral: catchAsync(async (req: Request, res: Response) => {
-    const { email, referralCode } = req.body;
+  addReferral: catchAsync(
+    async (req: Request<{}, {}, InsertReferral>, res: Response) => {
+      const { email, referralCode } = req.body;
+      await authService.addReferral(email, referralCode);
 
-    await authService.addReferral(email, referralCode);
-
-    res.status(201).json({
-      status: "success",
-      message: "Referral code inserted successfully",
-    });
-  }),
+      res.status(201).json({
+        status: "success",
+        message: "Referral code inserted successfully",
+      });
+    },
+  ),
 
   //----------- LOGIN
   login: catchAsync(
