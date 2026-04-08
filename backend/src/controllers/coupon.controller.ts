@@ -5,7 +5,7 @@ import {
   deleteEventCouponSchema,
   getAllCouponsQuerySchema,
   getCouponDetailsSchema,
-} from "../schemas/coupon.schema";
+} from "../schemas/eventCoupon.schema";
 import { couponService } from "../services/coupon.service";
 
 export const couponController = {

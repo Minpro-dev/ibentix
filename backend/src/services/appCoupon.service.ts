@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { catchAsync } from "../utils/catchAsync";
 import { AppCouponType } from "../types/appCoupon.type";
 import { handlePrismaError } from "../utils/prismaErrorHandler";
-import { Prisma } from "../../generated/prisma/client";
 import { prisma } from "../config/prismaClient.config";
 import { startOfDay } from "date-fns";
 

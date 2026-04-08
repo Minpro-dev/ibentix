@@ -336,7 +336,7 @@ model AppCoupon {
   validFrom      DateTime
   validUntil     DateTime
   discountAmount Decimal
-  usedAt    DateTime?
+  // usedAt    DateTime?
   deletedAt DateTime?
 
   orders Order[]
