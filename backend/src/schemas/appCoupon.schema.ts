@@ -23,6 +23,26 @@ export const createAppCouponShema = z.object({
   }),
 });
 
+// DELETE
+
+export const deleteAppCouponSchema = z.object({
+  body: z.object({
+    appCouponId: z.uuid(),
+  }),
+});
+
+export const changeAppCouponStatusSchema = z.object({
+  body: z.object({
+    appCouponId: z.uuid(),
+  }),
+});
+
 export type CreateAppCouponSchema = z.infer<
   typeof createAppCouponShema
+>["body"];
+export type DeleteAppCouponSchema = z.infer<
+  typeof deleteAppCouponSchema
+>["body"];
+export type ChangeAppCouponStatusSchema = z.infer<
+  typeof changeAppCouponStatusSchema
 >["body"];
