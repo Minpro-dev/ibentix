@@ -1,5 +1,4 @@
 import { prisma } from "../config/prismaClient.config";
-import { generateOtp } from "../utils/generateOtp";
 import { handlePrismaError } from "../utils/prismaErrorHandler";
 import bcrypt from "bcrypt";
 import { referralCodeGenerator } from "../utils/referralCodeGenerator";
@@ -13,6 +12,7 @@ import {
 } from "../utils/token.util";
 import { emailService } from "./email.service";
 import crypto from "crypto";
+import { generateOtp } from "../utils/generateRandom";
 
 const SALT_ROUNDS = 10;
 

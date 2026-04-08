@@ -12,13 +12,7 @@ import {
 
 const route = Router();
 
-route.post(
-  "/signup",
-  // upload.single("avatar"),
-  validate(signupSchema),
-  authController.signup,
-);
-
+route.post("/signup", validate(signupSchema), authController.signup);
 route.post("/login", validate(loginSchema), authController.login);
 route.get("/refresh", authController.refresh);
 route.post("/verify-otp", authController.verifyOtp);

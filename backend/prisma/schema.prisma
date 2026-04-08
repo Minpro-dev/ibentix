@@ -244,7 +244,7 @@ model Event {
   deletedAt DateTime?
 
   organizer OrganizerProfile @relation(fields: [organizerId], references: [organizerId])
-  user User @relation(fields: [userId], references: [userId])
+  user      User             @relation(fields: [userId], references: [userId])
 
   orders     Order[]
   reviews    Review[]
@@ -313,14 +313,13 @@ model Review {
 }
 
 model ReferralCoupon {
-  referralCouponId String @id @default(uuid())
-  couponCode       String @unique
+  referralCouponId String  @id @default(uuid())
+  couponCode       String  @unique
   userId           String
   referralCodeBy   String
 
   validFrom  DateTime
   validUntil DateTime
-  isActive   Boolean
 
   discountAmount Decimal
   usedAt         DateTime?
@@ -330,7 +329,7 @@ model ReferralCoupon {
   updatedAt DateTime @updatedAt
 
   orders     Order[]
-  user       User    @relation("CouponReceiver", fields: [userId], references: [userId])
+  user       User?   @relation("CouponReceiver", fields: [userId], references: [userId])
   referredBy User    @relation("CouponGiver", fields: [referralCodeBy], references: [userId])
 
   @@map("referralCoupons")
