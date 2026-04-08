@@ -95,6 +95,18 @@ export const authController = {
     });
   }),
 
+  // ------------- POST REFERRAL
+  addReferral: catchAsync(async (req: Request, res: Response) => {
+    const { email, referralCode } = req.body;
+
+    await authService.addReferral(email, referralCode);
+
+    res.status(201).json({
+      status: "success",
+      message: "Referral code inserted successfully",
+    });
+  }),
+
   //----------- LOGIN
   login: catchAsync(
     async (req: Request<{}, {}, LoginSchema>, res: Response) => {

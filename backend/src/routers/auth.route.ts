@@ -31,4 +31,6 @@ route.patch(
   authController.editUserDetails,
 );
 
+route.post("/referral", authController.addReferral);
+
 export default route;
