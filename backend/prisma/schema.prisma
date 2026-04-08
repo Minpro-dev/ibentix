@@ -329,14 +329,13 @@ model ReferralCoupon {
 
 model AppCoupon {
   appCouponId          String @id @default(uuid())
-  couponCode           String
+  couponCode           String  @unique
   totalCouponAvailable Int?
   usedCount            Int    @default(0)
 
   validFrom      DateTime
   validUntil     DateTime
   discountAmount Decimal
-
   usedAt    DateTime?
   deletedAt DateTime?
 

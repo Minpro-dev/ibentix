@@ -1,6 +1,6 @@
 import { endOfDay, startOfDay } from "date-fns";
 import { prisma } from "../config/prismaClient.config";
-import { EventCouponType, GetAllEventCoupon } from "../types/coupon.type";
+import { EventCouponType, GetAllEventCoupon } from "../types/eventCoupon.type";
 import { AppError } from "../utils/AppError";
 import { handlePrismaError } from "../utils/prismaErrorHandler";
 import { EventCouponWhereInput } from "../../generated/prisma/models";
