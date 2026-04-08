@@ -4,17 +4,17 @@ import {
   getWishlist,
   checkWishlist,
 } from "../controllers/wishlist.controller";
-import { verifyToken } from "../middleware/auth.middleware";
+import { authentication, authorization } from "../middleware/auth.middleware";
 
 const router = Router();
 
 // LIKE / UNLIKE
-router.post("/:eventId", verifyToken, toggleWishlist);
+router.post("/:eventId", authentication, toggleWishlist);
 
 // GET MY WISHLIST
-router.get("/", verifyToken, getWishlist);
+router.get("/", authentication, getWishlist);
 
 // CHECK STATUS
-router.get("/:eventId/status", verifyToken, checkWishlist);
+router.get("/:eventId/status", authenticationgi, checkWishlist);
 
 export default router;
