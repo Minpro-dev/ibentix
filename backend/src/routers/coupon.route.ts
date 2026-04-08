@@ -5,7 +5,7 @@ import {
   createEventCouponSchema,
   getAllEventCouponsSchema,
   getCouponDetailsSchema,
-} from "../schemas/coupon.schema";
+} from "../schemas/eventCoupon.schema";
 import { authentication, authorization } from "../middleware/auth.middleware";
 
 const route = Router();
