@@ -6,6 +6,7 @@ import { globalErrorHandler } from "./middleware/error.middleware";
 import authRouter from "./routers/auth.route";
 import eventRouter from "./routers/event.route"
 import organizerRouter from './routers/organizer.route';
+import wishlistRouter from './routers/wishlist.route'
 
 
 const app: Express = express();
@@ -36,6 +37,9 @@ app.use("/api/events", eventRouter);
 
 // organizer endpoint
 app.use('/api/organizer', organizerRouter);
+
+// wishlist endpoint
+app.use("/api/wishlist", wishlistRouter);
 
 // error middleware
 app.use(globalErrorHandler);
