@@ -37,7 +37,7 @@ export const signupSchema = z.object({
       ),
     confirmPassword: z.string(),
     // avatar: z.string().optional(),
-    usedReferralCode: z.string().optional(),
+    // usedReferralCode: z.string().optional(),
   }),
 });
 
@@ -86,6 +86,15 @@ export const loginSchema = z.object({
   }),
 });
 
+export const insertReferralSchemas = z.object({
+  body: z.object({
+    email: z
+      .email({ message: "Email is not valid" })
+      .max(100, "Email is too long"),
+    referralCode: z.string().max(10, "Referral code is too long"),
+  }),
+});
+
 export const updatePasswordSchema = z.object({
   body: z.object({
     newPassword: z
@@ -104,6 +113,7 @@ export const updatePasswordSchema = z.object({
 
 export type SignupSchema = z.infer<typeof signupSchema>["body"];
 export type EditUserDetails = z.infer<typeof editUserSchema>["body"];
+export type InsertReferral = z.infer<typeof insertReferralSchemas>["body"];
 export type LoginSchema = z.infer<typeof loginSchema>["body"];
 export type updatePasswordSchemaBody = z.infer<
   typeof updatePasswordSchema

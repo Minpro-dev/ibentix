@@ -1,10 +1,11 @@
-import { Request, Response, Router } from "express";
+import { Response, Router } from "express";
 import { authController } from "../controllers/auth.controller";
 import { upload } from "../config/multer.config";
 import { authentication, authorization } from "../middleware/auth.middleware";
 import { validate } from "../middleware/validation.middleware";
 import {
   editUserSchema,
+  insertReferralSchemas,
   loginSchema,
   signupSchema,
   updatePasswordSchema,
@@ -31,6 +32,10 @@ route.patch(
   authController.editUserDetails,
 );
 
-route.post("/referral", authController.addReferral);
+route.post(
+  "/referral",
+  validate(insertReferralSchemas),
+  authController.addReferral,
+);
 
 export default route;
