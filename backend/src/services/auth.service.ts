@@ -12,7 +12,8 @@ import {
 } from "../utils/token.util";
 import { emailService } from "./email.service";
 import crypto from "crypto";
-import { generateOtp } from "../utils/generateRandom";
+import { generateCouponCode, generateOtp } from "../utils/generateRandom";
+import { addMonths } from "date-fns";
 
 const SALT_ROUNDS = 10;
 
@@ -30,7 +31,7 @@ export const authService = {
       let isUnique = false;
 
       while (!isUnique) {
-        myReferralCode = referralCodeGenerator(5);
+        myReferralCode = referralCodeGenerator(8);
         const isExisting = await prisma.user.findUnique({
           where: { myReferralCode },
         });
@@ -61,6 +62,74 @@ export const authService = {
       });
 
       return user;
+    } catch (error) {
+      handlePrismaError(error);
+    }
+  },
+
+  // -------------------- POST REFERRAL
+  addReferral: async (email: string, usedReferralCode: string) => {
+    const REFERRAL_DISCOUNT = 10;
+    const POINT_AMMOUNT = 1000;
+
+    try {
+      const referralUser = await prisma.user.findUnique({
+        where: { email, isVerified: true },
+      });
+
+      if (!referralUser) {
+        throw new AppError(
+          400,
+          "Invalid user email, email should be registered & verified",
+        );
+      }
+
+      if (usedReferralCode === referralUser.myReferralCode) {
+        throw new AppError(400, "Cannot use your own referral code");
+      }
+
+      const hasReedemedCoupon = await prisma.referralCoupon.findUnique({
+        where: { userId: referralUser.userId },
+      });
+
+      if (hasReedemedCoupon) {
+        throw new AppError(403, "User only can have 1 refferal coupon");
+      }
+
+      const referralOwner = await prisma.user.findUnique({
+        where: {
+          myReferralCode: usedReferralCode,
+        },
+      });
+
+      if (!referralOwner) {
+        throw new AppError(400, "Invalid referral code");
+      }
+
+      const couponCode = generateCouponCode();
+
+      await prisma.$transaction(async (tx) => {
+        await tx.referralCoupon.create({
+          data: {
+            couponCode,
+            userId: referralUser.userId,
+            referralCodeBy: referralOwner.userId,
+            validFrom: new Date(),
+            validUntil: addMonths(new Date(), 3),
+            discountAmount: REFERRAL_DISCOUNT,
+            usedAt: null,
+          },
+        });
+
+        await tx.point.create({
+          data: {
+            userId: referralOwner.userId,
+            pointAmount: POINT_AMMOUNT,
+            validFrom: new Date(),
+            validUntil: addMonths(new Date(), 3),
+          },
+        });
+      });
     } catch (error) {
       handlePrismaError(error);
     }

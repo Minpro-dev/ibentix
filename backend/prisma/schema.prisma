@@ -39,16 +39,6 @@ enum TicketStatus {
   CANCELLED
 }
 
-enum PointType {
-  EARNED
-  REDEEMED
-  EXPIRED
-}
-
-// model SupabaseTesting {
-//   id String @id @default(uuid())
-// }
-
 model RefreshToken {
   refreshTokenId String    @id @default(uuid())
   token          String    @unique @db.Text
@@ -129,18 +119,19 @@ model Country {
 }
 
 model Point {
-  pointId     String    @id @default(uuid())
+  pointId     String   @id @default(uuid())
   userId      String
   pointAmount Int
   validFrom   DateTime
   validUntil  DateTime
-  pointType   PointType
+  orderId     String?
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  user User @relation(fields: [userId], references: [userId])
+  user  User   @relation(fields: [userId], references: [userId])
+  order Order? @relation(fields: [orderId], references: [orderId])
 
   @@map("points")
 }
@@ -194,6 +185,7 @@ model Order {
 
   tickets Ticket[]
   review  Review?
+  points  Point[]
 
   @@map("orders")
 }
@@ -313,9 +305,9 @@ model Review {
 }
 
 model ReferralCoupon {
-  referralCouponId String  @id @default(uuid())
-  couponCode       String  @unique
-  userId           String
+  referralCouponId String @id @default(uuid())
+  couponCode       String @unique
+  userId           String @unique
   referralCodeBy   String
 
   validFrom  DateTime
