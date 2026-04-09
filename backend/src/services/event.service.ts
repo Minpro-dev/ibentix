@@ -2,6 +2,7 @@
 
 // Create Event
 // GET EVENT
+// Test Event
 
 // // 1. CREATE EVENT
 // export const createEventService = async (data: any, organizerId: string) => {
