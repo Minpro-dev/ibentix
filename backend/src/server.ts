@@ -7,7 +7,8 @@ import authRouter from "./routers/auth.route";
 import couponRouter from "./routers/coupon.route";
 import appCoupon from "./routers/appCoupon.router";
 import eventRouter from "./routers/event.route";
-import organizerRouter from "./routers/organizer.route"
+import organizerRouter from "./routers/organizer.route";
+import wishlistRouter from "./routers/wishlist.route";
 
 const app: Express = express();
 
@@ -43,6 +44,9 @@ app.use("/api/auth", authRouter);
 
 // app-coupon
 app.use("/api/app-coupon", appCoupon);
+
+// wishlist endpoint
+app.use("/api/wishlist", wishlistRouter);
 
 // error middleware
 app.use(globalErrorHandler);
