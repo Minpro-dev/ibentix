@@ -6,9 +6,9 @@ import { globalErrorHandler } from "./middleware/error.middleware";
 import authRouter from "./routers/auth.route";
 import couponRouter from "./routers/coupon.route";
 import appCoupon from "./routers/appCoupon.router";
-import eventRouter from "./routers/event.route";
-import organizerRouter from "./routers/organizer.route";
-import wishlistRouter from "./routers/wishlist.route";
+// import eventRouter from "./routers/event.route";
+// import organizerRouter from "./routers/organizer.route";
+// import wishlistRouter from "./routers/wishlist.route";
 
 const app: Express = express();
 
@@ -34,10 +34,10 @@ app.use(
 app.use("/api/event-coupon", couponRouter);
 
 // event endpoint
-app.use("/api/events", eventRouter);
+// app.use("/api/events", eventRouter);
 
 // organizer endpoint
-app.use('/api/organizer', organizerRouter);
+// app.use('/api/organizer', organizerRouter);
 
 // auth endpoint
 app.use("/api/auth", authRouter);
@@ -46,7 +46,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/app-coupon", appCoupon);
 
 // wishlist endpoint
-app.use("/api/wishlist", wishlistRouter);
+// app.use("/api/wishlist", wishlistRouter);
 
 // error middleware
 app.use(globalErrorHandler);
