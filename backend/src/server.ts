@@ -6,6 +6,7 @@ import { globalErrorHandler } from "./middleware/error.middleware";
 import authRouter from "./routers/auth.route";
 import couponRouter from "./routers/coupon.route";
 import appCoupon from "./routers/appCoupon.router";
+import eventRouter from "./routers/event.route";
 
 const app: Express = express();
 
@@ -29,6 +30,9 @@ app.use(
 
 // event-coupon endpoint
 app.use("/api/event-coupon", couponRouter);
+
+// event-coupon endpoint
+app.use("/api/events", eventRouter);
 
 // auth endpoint
 app.use("/api/auth", authRouter);
