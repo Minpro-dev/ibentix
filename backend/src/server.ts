@@ -7,6 +7,7 @@ import authRouter from "./routers/auth.route";
 import couponRouter from "./routers/coupon.route";
 import appCoupon from "./routers/appCoupon.router";
 import eventRouter from "./routers/event.route";
+import organizerRouter from "./routers/organizer.route"
 
 const app: Express = express();
 
@@ -31,8 +32,11 @@ app.use(
 // event-coupon endpoint
 app.use("/api/event-coupon", couponRouter);
 
-// event-coupon endpoint
+// event endpoint
 app.use("/api/events", eventRouter);
+
+// organizer endpoint
+app.use('/api/organizer', organizerRouter);
 
 // auth endpoint
 app.use("/api/auth", authRouter);
