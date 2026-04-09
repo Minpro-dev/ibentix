@@ -1,7 +1,7 @@
 // import { prisma } from "../config/prismaClient.config";
 
 // Create Event
-
+// GET EVENT
 
 // // 1. CREATE EVENT
 // export const createEventService = async (data: any, organizerId: string) => {
@@ -163,9 +163,9 @@
 // // 5. GET EVENTS BY ORGANIZER
 // export const getEventsByOrganizerService = async (organizerId: string) => {
 //   return await prisma.event.findMany({
-//     where: { 
+//     where: {
 //       organizer_id: organizerId,
-//       deleted_at: null 
+//       deleted_at: null
 //     },
 //     orderBy: { created_at: 'desc' }
 //   });
@@ -186,7 +186,6 @@
 //     take: 5
 //   });
 // };
-
 
 // // 7. UPDATE EVENT
 // export const updateEventService = async (eventId: string, data: any, organizerId: string) => {
@@ -235,4 +234,3 @@
 //     },
 //   });
 // };
-
