@@ -133,7 +133,6 @@ export const getAllEventsService = async (query: any) => {
     skip,
     take: Number(limit),
     include: {
-      category: true,
       organizer: true,
     },
   });
