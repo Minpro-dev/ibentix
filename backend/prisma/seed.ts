@@ -2,15 +2,32 @@ import { prisma } from "../src/config/prismaClient.config";
 
 // command --> npx prisma db seed
 
-const organizerProfiles = [
+const events = [
   {
-    userId: "fb06b4f3-304d-4dad-9046-b85ff64bc02f",
-    name: "Purwadhika",
+    organizerId: "50ca6cc7-b946-4d27-ad2d-92c360a9d58f",
+    userId: "1fc35a57-dbf2-4094-be83-6de6ed4241fb",
+
+    title: "Jakarta Tech Conference 2026",
+    slug: "jakarta-tech-conference-2026",
+    description:
+      "Konferensi teknologi terbesar untuk developer, startup, dan tech enthusiasts.",
+    availableSlot: 300,
+
+    locationName: "Jakarta Convention Center",
+    address: "Jl. Gatot Subroto No.1, Jakarta",
+    city: "Jakarta",
+
+    eventDate: "2026-09-15T09:00:00Z",
+    startSellingDate: "2026-06-01T00:00:00Z",
+    endSellingDate: "2026-09-14T23:59:00Z",
+
+    isFree: false,
+    price: 250000,
   },
 ];
 
 async function main() {
-  await prisma.organizerProfile.createMany({ data: organizerProfiles });
+  await prisma.event.createMany({ data: events });
 }
 
 main()
@@ -19,6 +36,13 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
+
+// const organizerProfiles = [
+//   {
+//     userId: "1fc35a57-dbf2-4094-be83-6de6ed4241fb",
+//     name: "Purwadhika",
+//   },
+// ];
 
 //   const events = [
 //   {

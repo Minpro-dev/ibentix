@@ -4,7 +4,6 @@ import { EventCouponType, GetAllEventCoupon } from "../types/eventCoupon.type";
 import { AppError } from "../utils/AppError";
 import { handlePrismaError } from "../utils/prismaErrorHandler";
 import { EventCouponWhereInput } from "../../generated/prisma/models";
-import { includes } from "zod";
 
 export const couponService = {
   createEventCoupon: async (data: EventCouponType) => {
