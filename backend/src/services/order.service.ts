@@ -19,7 +19,7 @@ export const orderSerivice = {
     tickets,
   }: any) => {
     console.log("user id --> ", userId);
-    // GET EVENT PRICE
+    // CHECK EVENT IN DB
     const event = await prisma.event.findUnique({ where: { eventId } });
 
     if (!event) {

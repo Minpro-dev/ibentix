@@ -1,5 +1,3 @@
-import { Request, Response } from "express";
-import { catchAsync } from "../utils/catchAsync";
 import { AppCouponType } from "../types/appCoupon.type";
 import { handlePrismaError } from "../utils/prismaErrorHandler";
 import { prisma } from "../config/prismaClient.config";
