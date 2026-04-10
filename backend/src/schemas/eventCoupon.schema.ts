@@ -8,7 +8,6 @@ export const createEventCouponSchema = z.object({
       .min(5, "Coupon code at least 5 characters")
       .max(10, "Maximum coupon code is 10 characters"),
     eventId: z.uuid(),
-    // userId: z.uuid(),
     validFrom: z.preprocess(
       (val) => {
         if (typeof val === "string" || val instanceof Date) {

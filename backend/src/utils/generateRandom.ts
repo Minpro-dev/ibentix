@@ -8,3 +8,15 @@ export const generateOtp = (): string => {
 export const generateCouponCode = (): string => {
   return `REF-${randomBytes(5).toString("hex").toUpperCase()}`;
 };
+
+export const generateInvoiceNumber = (): string => {
+  return `TRX-${randomBytes(8).toString("hex").toUpperCase()}`;
+};
+
+export const generateTicketCode = (): string => {
+  return `E-IBENTIX-${randomBytes(5).toString("hex").toUpperCase()}`;
+};
+
+export const generateReferralCouponCode = (): string => {
+  return `RC-${randomBytes(5).toString("hex").toUpperCase()}`;
+};

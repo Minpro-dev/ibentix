@@ -2,6 +2,7 @@ import { Prisma } from "../../generated/prisma/client";
 import { AppError } from "./AppError";
 
 export const handlePrismaError = (error: any): never => {
+  console.log("error -->", error); //FIXME
   if (error instanceof AppError) throw error;
 
   // A. Known Database Request Errors (Codes Pxxxx)

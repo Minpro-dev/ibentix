@@ -6,6 +6,7 @@ import { globalErrorHandler } from "./middleware/error.middleware";
 import authRouter from "./routers/auth.route";
 import couponRouter from "./routers/coupon.route";
 import appCoupon from "./routers/appCoupon.router";
+import orderCoupon from "./routers/order.router";
 // import eventRouter from "./routers/event.route";
 // import organizerRouter from "./routers/organizer.route";
 // import wishlistRouter from "./routers/wishlist.route";
@@ -47,6 +48,9 @@ app.use("/api/app-coupon", appCoupon);
 
 // wishlist endpoint
 // app.use("/api/wishlist", wishlistRouter);
+
+// order end point
+app.use("/api/order", orderCoupon);
 
 // error middleware
 app.use(globalErrorHandler);
