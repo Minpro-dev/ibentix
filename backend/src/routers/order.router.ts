@@ -1,9 +1,15 @@
 import { Router } from "express";
 import { orderController } from "../controllers/order.controller";
-import { authentication } from "../middleware/auth.middleware";
+import { authentication, authorization } from "../middleware/auth.middleware";
 
 const route = Router();
 
-route.post("/", authentication, orderController.createOrder);
+// create order
+route.post(
+  "/",
+  authentication,
+  authorization("ATTENDEE"),
+  orderController.createOrder,
+);
 
 export default route;

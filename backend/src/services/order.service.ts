@@ -7,7 +7,7 @@ import {
 } from "../utils/generateRandom";
 
 export const orderSerivice = {
-  // ---> $transactions ---> create payment✅ ---> create ticket✅ --> update pointspayment✅, update refferalCouponpayment✅ --> create orderpayment✅ --> update event_slotpayment✅ :v
+  // ---> $transactions ---> create payment✅ ---> create ticket✅ --> update points✅, update refferalCoupon✅ --> create order✅ --> update event_slot✅ :v
 
   createOrder: async ({
     userId,
