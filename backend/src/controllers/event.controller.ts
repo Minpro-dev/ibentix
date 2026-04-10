@@ -7,40 +7,35 @@ import { AppError } from '../utils/AppError';
 
 // 1. CREATE EVENT
 export const createEvent = catchAsync(async (req: any, res: Response) => {
-  if (!req.user?.id) {
-    throw new AppError(401, 'Unauthorized: User not found');
-  }
+  // if (!req.user?.userId) {
+  //   throw new AppError(401, 'Unauthorized: User not found');
+  // }
 
-  const organizerId = req.user.id;
-  let thumbnailUrl = '';
+  const userId = req.user.userId;
+  console.log(userId)
+  // let thumbnailUrl = '';
 
-  if (req.file?.buffer) {
-    try {
-      thumbnailUrl = await uploadCloudinary(req.file.buffer, 'events');
-    } catch {
-      throw new AppError(500, 'Failed to upload thumbnail');
-    }
-  }
+  // if (req.file?.buffer) {
+  //   try {
+  //     thumbnailUrl = await uploadCloudinary(req.file.buffer, 'events');
+  //   } catch {
+  //     throw new AppError(500, 'Failed to upload thumbnail');
+  //   }
+  // }
 
   if (!req.body.title) {
     throw new AppError(400, 'Event title is required');
   }
 
-  const availableSlot = parseInt(String(req.body.available_slot));
-  const price = parseFloat(String(req.body.price));
-
-  if (isNaN(availableSlot)) throw new AppError(400, 'Invalid available_slot');
-  if (isNaN(price)) throw new AppError(400, 'Invalid price');
 
   const payload = {
     ...req.body,
-    thumbnail_url: thumbnailUrl,
-    available_slot: availableSlot,
-    price,
+    // thumbnailUrl: thumbnailUrl,
+
     isFree: String(req.body.isFree) === 'true',
   };
 
-  const result = await eventService.createEventService(payload, organizerId);
+  const result = await eventService.createEventService(payload, userId);
 
   res.status(201).json({
     status: 'success',

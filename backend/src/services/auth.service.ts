@@ -252,6 +252,7 @@ export const authService = {
     email: string;
     password: string;
   }) => {
+  
     try {
       const user = await prisma.user.findUnique({
         where: { email, deletedAt: null },

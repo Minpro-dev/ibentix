@@ -12,7 +12,7 @@ import eventRouter from "./routers/event.route";
 
 const app: Express = express();
 
-const PORT = 8000;
+const PORT = 8003;
 
 // json middleware
 app.use(express.json());

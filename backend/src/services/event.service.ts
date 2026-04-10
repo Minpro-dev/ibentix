@@ -5,24 +5,24 @@ import { prisma } from "../config/prismaClient.config";
 // Test Event
 
 // 1. CREATE EVENT
-export const createEventService = async (data: any, organizerId: string) => {
+export const createEventService = async (data: any, userId: string) => {
   const slug = data.title.toLowerCase().replace(/ /g, '-') + '-' + Date.now();
 
   return await prisma.event.create({
     data: {
-      organizerId,
-      userId: data.user,
+      organizerId: data.organizerId,
+      userId,
       title: data.title,
       slug: slug,
       description: data.description,
-      availableSlot: Number(data.available_slot),
-      thumbnailUrl: data.thumbnail_url,
-      locationName: data.location_name,
+      availableSlot: Number(data.availableSlot),
+      thumbnailUrl: data.thumbnailUrl,
+      locationName: data.locationName,
       address: data.address,
       city: data.city,
-      eventDate: new Date(data.event_date),
-      startSellingDate: new Date(data.start_selling_date),
-      endSellingDate: new Date(data.end_selling_date),
+      eventDate: new Date(data.eventDate),
+      startSellingDate: new Date(data.startSellingDate),
+      endSellingDate: new Date(data.endSellingDate),
       isFree: data.isFree === true || data.isFree === 'true',
       price: data.price ? Number(data.price) : 0,
     }

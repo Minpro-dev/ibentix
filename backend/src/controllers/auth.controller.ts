@@ -112,6 +112,7 @@ export const authController = {
   //----------- LOGIN
   login: catchAsync(
     async (req: Request<{}, {}, LoginSchema>, res: Response) => {
+      console.log(req.body)
       const user = await authService.validateUser(req.body);
 
       const payload = {

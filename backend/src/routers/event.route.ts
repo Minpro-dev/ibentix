@@ -50,8 +50,8 @@ route.get('/', validate(getEventsQuerySchema), getAllEvents);
 route.post(
   '/',
   authentication,
-  upload.single('thumbnail'),
-  validate(createEventSchema), // optional (Zod)
+  // upload.single('thumbnail'),
+  // validate(createEventSchema), // optional (Zod)
   createEvent
 );
 
