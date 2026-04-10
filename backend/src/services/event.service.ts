@@ -34,19 +34,19 @@ export const getAllEventsService = async (query: any) => {
   const {
     search,
     city,
-    category_id,
+    categoryId,
     date,
     isFree,
     page = 1,
     limit = 10,
-    sort = 'event_date',
+    sort = 'eventDate',
   } = query;
 
   const skip = (Number(page) - 1) * Number(limit);
 
   // base where
   let whereClause: any = {
-    deleted_at: null,
+    deletedAt: null,
   };
 
   // SEARCH
@@ -66,8 +66,8 @@ export const getAllEventsService = async (query: any) => {
   }
 
   // CATEGORY
-  if (category_id) {
-    whereClause.category_id = category_id;
+  if (categoryId) {
+    whereClause.categoryId = categoryId;
   }
 
   // FREE / PAID
@@ -117,7 +117,7 @@ export const getAllEventsService = async (query: any) => {
     }
 
     if (startDate && endDate) {
-      whereClause.event_date = {
+      whereClause.eventDate = {
         gte: startDate,
         lte: endDate,
       };
