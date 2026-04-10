@@ -1,26 +1,27 @@
-// import { Request, Response } from 'express';
-// import * as eventService from '../services/event.service';
-// import { catchAsync } from '../utils/catchAsync';
-// import { uploadCloudinary } from '../utils/uploadCloudinary';
-// import { AppError } from '../utils/AppError';
+import { Request, Response } from 'express';
+import * as eventService from '../services/event.service';
+import { catchAsync } from '../utils/catchAsync';
+import { uploadCloudinary } from '../utils/uploadCloudinary';
+import { AppError } from '../utils/AppError';
 
 
-// // 1. CREATE EVENT
-// export const createEvent = catchAsync(async (req: any, res: Response) => {
-//   if (!req.user?.id) {
-//     throw new AppError(401, 'Unauthorized: User not found');
-//   }
+// 1. CREATE EVENT
+export const createEvent = catchAsync(async (req: any, res: Response) => {
+  if (!req.user?.id) {
+    throw new AppError(401, 'Unauthorized: User not found');
+  }
 
-//   const organizerId = req.user.id;
-//   let thumbnailUrl = '';
+  const organizerId = req.user.id;
+  let thumbnailUrl = '';
 
-//   if (req.file?.buffer) {
-//     try {
-//       thumbnailUrl = await uploadCloudinary(req.file.buffer, 'events');
-//     } catch {
-//       throw new AppError(500, 'Failed to upload thumbnail');
-//     }
-//   }
+  if (req.file?.buffer) {
+    try {
+      thumbnailUrl = await uploadCloudinary(req.file.buffer, 'events');
+    } catch {
+      throw new AppError(500, 'Failed to upload thumbnail');
+    }
+  }
+});
 
 //   if (!req.body.title) {
 //     throw new AppError(400, 'Event title is required');
