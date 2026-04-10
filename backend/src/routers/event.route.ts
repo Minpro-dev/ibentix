@@ -1,6 +1,6 @@
-// import { Router } from 'express';
-// import {
-//   createEvent,
+import { Router } from 'express';
+import {
+  createEvent,
 //   getAllEvents,
 //   getEventDetail,
 //   getEventBySlug,
@@ -8,18 +8,18 @@
 //   getTrendingEvents,
 //   updateEvent,
 //   deleteEvent,
-// } from '../controllers/event.controller';
+} from '../controllers/event.controller';
 
-// import { authentication } from '../middleware/auth.middleware';
-// import { upload } from '../config/multer.config';
+import { authentication } from '../middleware/auth.middleware';
+import { upload } from '../config/multer.config';
 
-// // (pakai Zod)
-// import { validate } from '../middleware/validation.middleware';
-// import { createEventSchema, updateEventSchema, getEventsQuerySchema } 
-// from '../validations/event.validation';
+// (pakai Zod)
+import { validate } from '../middleware/validation.middleware';
+import { createEventSchema, updateEventSchema, getEventsQuerySchema } 
+from '../validations/event.validation';
 
 
-// const route = Router();
+const route = Router();
 
 
 // // =========================
@@ -46,14 +46,14 @@
 // // GET my events
 // route.get('/organizer/me', authentication, getEventsByOrganizer);
 
-// // CREATE event
-// route.post(
-//   '/',
-//   authentication,
-//   upload.single('thumbnail'),
-//   validate(createEventSchema), // optional (Zod)
-//   createEvent
-// );
+// CREATE event
+route.post(
+  '/',
+  authentication,
+  upload.single('thumbnail'),
+  validate(createEventSchema), // optional (Zod)
+  createEvent
+);
 
 // // UPDATE event
 // route.patch(
@@ -71,4 +71,4 @@
 //   deleteEvent
 // );
 
-// export default route;
+export default route;

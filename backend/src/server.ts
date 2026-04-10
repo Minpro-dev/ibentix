@@ -8,6 +8,7 @@ import couponRouter from "./routers/coupon.route";
 import appCoupon from "./routers/appCoupon.router";
 import orderCoupon from "./routers/order.router";
 // import eventRouter from "./routers/event.route";
+import eventRouter from "./routers/event.route";
 // import organizerRouter from "./routers/organizer.route";
 // import wishlistRouter from "./routers/wishlist.route";
 
@@ -35,7 +36,7 @@ app.use(
 app.use("/api/event-coupon", couponRouter);
 
 // event endpoint
-// app.use("/api/events", eventRouter);
+app.use("/api/events", eventRouter);
 
 // organizer endpoint
 // app.use('/api/organizer', organizerRouter);

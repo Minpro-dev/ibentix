@@ -1,32 +1,33 @@
-// import { prisma } from "../config/prismaClient.config";
+import { prisma } from "../config/prismaClient.config";
 
 // Create Event
 // GET EVENT
 // Test Event
 
-// // 1. CREATE EVENT
-// export const createEventService = async (data: any, organizerId: string) => {
-//   const slug = data.title.toLowerCase().replace(/ /g, '-') + '-' + Date.now();
+// 1. CREATE EVENT
+export const createEventService = async (data: any, organizerId: string) => {
+  const slug = data.title.toLowerCase().replace(/ /g, '-') + '-' + Date.now();
 
-//   return await prisma.event.create({
-//     data: {
-//       organizerId,
-//       title: data.title,
-//       slug: slug,
-//       description: data.description,
-//       availableSlot: Number(data.available_slot),
-//       thumbnailUrl: data.thumbnail_url,
-//       locationName: data.location_name,
-//       address: data.address,
-//       city: data.city,
-//       eventDate: new Date(data.event_date),
-//       startSellingDate: new Date(data.start_selling_date),
-//       endSellingDate: new Date(data.end_selling_date),
-//       isFree: data.isFree === true || data.isFree === 'true',
-//       price: data.price ? Number(data.price) : 0,
-//     }
-//   });
-// };
+  return await prisma.event.create({
+    data: {
+      organizerId,
+      userId: data.user,
+      title: data.title,
+      slug: slug,
+      description: data.description,
+      availableSlot: Number(data.available_slot),
+      thumbnailUrl: data.thumbnail_url,
+      locationName: data.location_name,
+      address: data.address,
+      city: data.city,
+      eventDate: new Date(data.event_date),
+      startSellingDate: new Date(data.start_selling_date),
+      endSellingDate: new Date(data.end_selling_date),
+      isFree: data.isFree === true || data.isFree === 'true',
+      price: data.price ? Number(data.price) : 0,
+    }
+  });
+};
 
 // // 2. GET ALL EVENTS (Untuk Attendee)
 // export const getAllEventsService = async (query: any) => {
