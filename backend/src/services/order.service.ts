@@ -29,7 +29,7 @@ export const orderSerivice = {
   createOrder: async ({
     userId,
     eventId,
-    pointsUsed,
+    isPointsUsed,
     eventCouponId,
     appCouponId,
     referralCouponId,
@@ -48,11 +48,25 @@ export const orderSerivice = {
     const ticketQuantity = tickets.length;
     const subtotal = ticketQuantity * Number(unitPrice);
     const expiresAt = addHours(new Date(), 2);
-    const points = pointsUsed || 0;
+
+    let points = 0;
     let eventCouponAmount: number = 0;
     let appCouponAmount: number = 0;
     let referralCouponAmount: number = 0;
 
+    if (isPointsUsed) {
+      const userPoints = await prisma.point.aggregate({
+        where: {
+          userId,
+          orderId: null,
+        },
+        _sum: {
+          pointAmount: true,
+        },
+      });
+
+      points = userPoints._sum.pointAmount || 0;
+    }
     if (eventCouponId) {
       // EVENT COUPON
       const eventCoupon = await prisma.eventCoupon.findUnique({
@@ -79,10 +93,10 @@ export const orderSerivice = {
       }
     }
 
+    // APP REFERRAL
     if (referralCouponId) {
-      // APP REFERRAL
       const referralCoupon = await prisma.referralCoupon.findUnique({
-        where: { referralCouponId },
+        where: { referralCouponId, usedAt: null },
       });
 
       if (!referralCoupon) {
@@ -102,6 +116,7 @@ export const orderSerivice = {
       (discount) => !!discount && discount > 0,
     );
 
+    // TOTAL AMMOUNT AFTER DSC
     const totalAmount = appliedDiscounts.reduce((prev, dsc) => {
       return prev - (prev * dsc) / 100;
     }, subtotal);
@@ -111,13 +126,14 @@ export const orderSerivice = {
 
     const createdTickets: any = [];
 
+    // ------------------- TRANSACTIONS -------------
     const orderData: any = await prisma.$transaction(async (tx) => {
       // CREATE PAYMENT
       const payment = await tx.payment.create({
         data: {},
       });
 
-      // ORDER TRANSACTIONS
+      //ORDER TRANSACTIONS
       const order = await tx.order.create({
         data: {
           invoiceNumber,
@@ -141,7 +157,7 @@ export const orderSerivice = {
         },
       });
 
-      // CREATE TICKET
+      // GENERATE TICKET CODE
       for (const ticket of tickets) {
         let ticketCode = "";
         let isUnique = false;
@@ -170,15 +186,37 @@ export const orderSerivice = {
 
         createdTickets.push(generatedTicket);
 
-        //---------- UPDATE PROMO
-        // pointsUsed,
-        // eventCouponId,
-        // appCouponId,
+        //---------- UPDATE EVENT SLOT
+        // availableSeat
 
+        await tx.event.update({
+          where: {
+            eventId,
+          },
+          data: {
+            availableSlot: { decrement: 1 },
+          },
+        });
+      }
+      // --> end ticket loop
+
+      //---------- UPDATE USED PROMO
+      // pointsUsed - done,
+      // referralCoupon - done,
+      if (points) {
         await tx.point.updateMany({
           where: { userId },
           data: {
             orderId: order.orderId,
+          },
+        });
+      }
+
+      if (referralCouponId) {
+        await tx.referralCoupon.update({
+          where: { referralCouponId },
+          data: {
+            usedAt: new Date(),
           },
         });
       }

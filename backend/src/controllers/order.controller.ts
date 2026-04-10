@@ -7,7 +7,7 @@ export const orderController = {
     const userId = req.user?.userId;
     const {
       eventId,
-      pointsUsed,
+      isPointsUsed,
       eventCouponId,
       appCouponId,
       referralCouponId,
@@ -17,7 +17,7 @@ export const orderController = {
     const orderData = await orderSerivice.createOrder({
       userId,
       eventId,
-      pointsUsed,
+      isPointsUsed,
       eventCouponId,
       appCouponId,
       referralCouponId,
