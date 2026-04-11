@@ -165,28 +165,28 @@ export const getEventBySlugService = async (slug: string) => {
 // export const getEventsByOrganizerService = async (organizerId: string) => {
 //   return await prisma.event.findMany({
 //     where: {
-//       organizer_id: organizerId,
-//       deleted_at: null
+//       organizerId: organizerId,
+//       deletedAt: null
 //     },
-//     orderBy: { created_at: 'desc' }
+//     orderBy: { createdAt: 'desc' }
 //   });
 // };
 
-// // 6. TRENDING EVENT
-// export const getTrendingEventsService = async () => {
-//   return await prisma.event.findMany({
-//     where: {
-//       deleted_at: null,
-//       event_date: {
-//         gte: new Date()
-//       }
-//     },
-//     orderBy: {
-//       available_slot: 'asc' // makin sedikit makin trend
-//     },
-//     take: 5
-//   });
-// };
+// 6. TRENDING EVENT
+export const getTrendingEventsService = async () => {
+  return await prisma.event.findMany({
+    where: {
+      deletedAt: null,
+      eventDate: {
+        gte: new Date()
+      }
+    },
+    orderBy: {
+      availableSlot: 'asc' // makin sedikit makin trend
+    },
+    take: 5
+  });
+};
 
 // // 7. UPDATE EVENT
 // export const updateEventService = async (eventId: string, data: any, organizerId: string) => {

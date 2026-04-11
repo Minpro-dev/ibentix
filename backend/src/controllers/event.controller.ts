@@ -115,16 +115,16 @@ export const getEventBySlug = catchAsync(async (req: Request, res: Response) => 
 // });
 
 
-// // 6. GET TRENDING EVENTS
-// export const getTrendingEvents = catchAsync(async (_req: Request, res: Response) => {
-//   const result = await eventService.getTrendingEventsService();
+// 6. GET TRENDING EVENTS
+export const getTrendingEvents = catchAsync(async (_req: Request, res: Response) => {
+  const result = await eventService.getTrendingEventsService();
 
-//   res.status(200).json({
-//     status: 'success',
-//     message: 'Trending events retrieved',
-//     data: result,
-//   });
-// });
+  res.status(200).json({
+    status: 'success',
+    message: 'Trending events retrieved',
+    data: result,
+  });
+});
 
 
 // // 7. UPDATE EVENT
