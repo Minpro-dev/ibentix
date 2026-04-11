@@ -57,7 +57,7 @@ export const orderController = {
     const userId = req.user?.userId as string;
     const orderId = req.params.orderId as string;
 
-    const orderDetails = await orderSerivice.getProductDetails(userId, orderId);
+    const orderDetails = await orderSerivice.getOrderDetails(userId, orderId);
 
     res.status(200).json({
       status: "success",

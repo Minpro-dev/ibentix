@@ -316,12 +316,16 @@ export const orderSerivice = {
   },
 
   //. GET PRODUCT DETAILS (BY ORDER ID)
-  getProductDetails: async (userId: string, orderId: string) => {
+  getOrderDetails: async (userId: string, orderId: string) => {
     try {
       const orderDetails = await prisma.order.findUnique({
         where: {
           orderId,
           event: { userId },
+        },
+        include: {
+          tickets: true,
+          payment: true,
         },
       });
 
