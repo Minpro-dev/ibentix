@@ -5,139 +5,138 @@ import { prisma } from "../config/prismaClient.config";
 // Test Event
 
 // 1. CREATE EVENT
-export const createEventService = async (data: any, organizerId: string) => {
+export const createEventService = async (data: any, userId: string) => {
   const slug = data.title.toLowerCase().replace(/ /g, '-') + '-' + Date.now();
 
   return await prisma.event.create({
     data: {
-      organizerId,
-      userId: data.user,
+      organizerId: data.organizerId,
+      userId,
       title: data.title,
       slug: slug,
       description: data.description,
-      availableSlot: Number(data.available_slot),
-      thumbnailUrl: data.thumbnail_url,
-      locationName: data.location_name,
+      availableSlot: Number(data.availableSlot),
+      thumbnailUrl: data.thumbnailUrl,
+      locationName: data.locationName,
       address: data.address,
       city: data.city,
-      eventDate: new Date(data.event_date),
-      startSellingDate: new Date(data.start_selling_date),
-      endSellingDate: new Date(data.end_selling_date),
+      eventDate: new Date(data.eventDate),
+      startSellingDate: new Date(data.startSellingDate),
+      endSellingDate: new Date(data.endSellingDate),
       isFree: data.isFree === true || data.isFree === 'true',
       price: data.price ? Number(data.price) : 0,
     }
   });
 };
 
-// // 2. GET ALL EVENTS (Untuk Attendee)
-// export const getAllEventsService = async (query: any) => {
-//   const {
-//     search,
-//     city,
-//     category_id,
-//     date,
-//     isFree,
-//     page = 1,
-//     limit = 10,
-//     sort = 'event_date',
-//   } = query;
+// 2. GET ALL EVENTS (Untuk Attendee)
+export const getAllEventsService = async (query: any) => {
+  const {
+    search,
+    city,
+    categoryId,
+    date,
+    isFree,
+    page = 1,
+    limit = 10,
+    sort = 'eventDate',
+  } = query;
 
-//   const skip = (Number(page) - 1) * Number(limit);
+  const skip = (Number(page) - 1) * Number(limit);
 
-//   // base where
-//   let whereClause: any = {
-//     deleted_at: null,
-//   };
+  // base where
+  let whereClause: any = {
+    deletedAt: null,
+  };
 
-//   // SEARCH
-//   if (search) {
-//     whereClause.OR = [
-//       { title: { contains: search, mode: 'insensitive' } },
-//       { description: { contains: search, mode: 'insensitive' } },
-//     ];
-//   }
+  // SEARCH
+  if (search) {
+    whereClause.OR = [
+      { title: { contains: search, mode: 'insensitive' } },
+      { description: { contains: search, mode: 'insensitive' } },
+    ];
+  }
 
-//   // CITY
-//   if (city) {
-//     whereClause.city = {
-//       equals: city,
-//       mode: 'insensitive',
-//     };
-//   }
+  // CITY
+  if (city) {
+    whereClause.city = {
+      equals: city,
+      mode: 'insensitive',
+    };
+  }
 
-//   // CATEGORY
-//   if (category_id) {
-//     whereClause.category_id = category_id;
-//   }
+  // CATEGORY
+  if (categoryId) {
+    whereClause.categoryId = categoryId;
+  }
 
-//   // FREE / PAID
-//   if (isFree !== undefined) {
-//     whereClause.isFree = String(isFree) === 'true';
-//   }
+  // FREE / PAID
+  if (isFree !== undefined) {
+    whereClause.isFree = String(isFree) === 'true';
+  }
 
-//   // DATE FILTER
-//   if (date) {
-//     const now = new Date();
-//     let startDate: Date | undefined;
-//     let endDate: Date | undefined;
+  // DATE FILTER
+  if (date) {
+    const now = new Date();
+    let startDate: Date | undefined;
+    let endDate: Date | undefined;
 
-//     switch (date) {
-//       case 'today':
-//         startDate = new Date(now.setHours(0, 0, 0, 0));
-//         endDate = new Date(now.setHours(23, 59, 59, 999));
-//         break;
+    switch (date) {
+      case 'today':
+        startDate = new Date(now.setHours(0, 0, 0, 0));
+        endDate = new Date(now.setHours(23, 59, 59, 999));
+        break;
 
-//       case 'this_week': {
-//         const firstDay = new Date();
-//         firstDay.setDate(now.getDate() - now.getDay());
-//         const lastDay = new Date(firstDay);
-//         lastDay.setDate(firstDay.getDate() + 6);
+      case 'this_week': {
+        const firstDay = new Date();
+        firstDay.setDate(now.getDate() - now.getDay());
+        const lastDay = new Date(firstDay);
+        lastDay.setDate(firstDay.getDate() + 6);
 
-//         startDate = new Date(firstDay.setHours(0, 0, 0, 0));
-//         endDate = new Date(lastDay.setHours(23, 59, 59, 999));
-//         break;
-//       }
+        startDate = new Date(firstDay.setHours(0, 0, 0, 0));
+        endDate = new Date(lastDay.setHours(23, 59, 59, 999));
+        break;
+      }
 
-//       case 'next_week': {
-//         const nextWeekStart = new Date();
-//         nextWeekStart.setDate(now.getDate() + (7 - now.getDay()));
+      case 'next_week': {
+        const nextWeekStart = new Date();
+        nextWeekStart.setDate(now.getDate() + (7 - now.getDay()));
 
-//         const nextWeekEnd = new Date(nextWeekStart);
-//         nextWeekEnd.setDate(nextWeekStart.getDate() + 6);
+        const nextWeekEnd = new Date(nextWeekStart);
+        nextWeekEnd.setDate(nextWeekStart.getDate() + 6);
 
-//         startDate = new Date(nextWeekStart.setHours(0, 0, 0, 0));
-//         endDate = new Date(nextWeekEnd.setHours(23, 59, 59, 999));
-//         break;
-//       }
+        startDate = new Date(nextWeekStart.setHours(0, 0, 0, 0));
+        endDate = new Date(nextWeekEnd.setHours(23, 59, 59, 999));
+        break;
+      }
 
-//       case 'this_month':
-//         startDate = new Date(now.getFullYear(), now.getMonth(), 1);
-//         endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-//         break;
-//     }
+      case 'this_month':
+        startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+        endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+        break;
+    }
 
-//     if (startDate && endDate) {
-//       whereClause.event_date = {
-//         gte: startDate,
-//         lte: endDate,
-//       };
-//     }
-//   }
+    if (startDate && endDate) {
+      whereClause.eventDate = {
+        gte: startDate,
+        lte: endDate,
+      };
+    }
+  }
 
-//   // FINAL QUERY
-//   return await prisma.event.findMany({
-//     where: whereClause,
-//     orderBy: {
-//       [sort]: 'asc',
-//     },
-//     skip,
-//     take: Number(limit),
-//     include: {
-//       category: true,
-//       organizer: true,
-//     },
-//   });
-// };
+  // FINAL QUERY
+  return await prisma.event.findMany({
+    where: whereClause,
+    orderBy: {
+      [sort]: 'asc',
+    },
+    skip,
+    take: Number(limit),
+    include: {
+      organizer: true,
+    },
+  });
+};
 
 // // 3. GET EVENT DETAIL
 // export const getEventDetailService = async (eventId: string) => {

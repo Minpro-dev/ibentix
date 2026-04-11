@@ -39,7 +39,6 @@ export const getEventsQuerySchema = z.object({
 
   city: z.string().optional(),
 
-  category_id: z.string().optional(),
 
   date: z
     .enum(['today', 'this_week', 'next_week', 'this_month'])

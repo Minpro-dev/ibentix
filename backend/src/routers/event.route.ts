@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import {
   createEvent,
-//   getAllEvents,
+  getAllEvents,
 //   getEventDetail,
 //   getEventBySlug,
 //   getEventsByOrganizer,
@@ -22,12 +22,12 @@ from '../validations/event.validation';
 const route = Router();
 
 
-// // =========================
-// // ATTENDEE ROUTES
-// // =========================
+// =========================
+// ATTENDEE ROUTES
+// =========================
 
-// // GET all events (with filter + pagination)
-// route.get('/', validate(getEventsQuerySchema), getAllEvents);
+// GET all events (with filter + pagination)
+route.get('/', validate(getEventsQuerySchema), getAllEvents);
 
 // // GET trending events
 // route.get('/trending', getTrendingEvents);
@@ -50,8 +50,8 @@ const route = Router();
 route.post(
   '/',
   authentication,
-  upload.single('thumbnail'),
-  validate(createEventSchema), // optional (Zod)
+  // upload.single('thumbnail'),
+  // validate(createEventSchema), // optional (Zod)
   createEvent
 );
 
