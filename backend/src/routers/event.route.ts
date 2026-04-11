@@ -3,7 +3,7 @@ import {
   createEvent,
   getAllEvents,
   getEventDetail,
-//   getEventBySlug,
+  getEventBySlug,
 //   getEventsByOrganizer,
 //   getTrendingEvents,
 //   updateEvent,
@@ -35,8 +35,8 @@ route.get('/', validate(getEventsQuerySchema), getAllEvents);
 // GET event detail by ID
 route.get('/:eventId', getEventDetail);
 
-// // GET event detail by slug
-// route.get('/slug/:slug', getEventBySlug);
+// GET event detail by slug
+route.get('/slug/:slug', getEventBySlug);
 
 
 // // =========================
