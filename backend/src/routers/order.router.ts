@@ -24,7 +24,7 @@ route.get(
 route.get(
   "/details/:orderId",
   authentication,
-  authorization("ORGANIZER"),
+  authorization("ORGANIZER", "ATTENDEE"),
   orderController.getOrderDetails,
 );
 

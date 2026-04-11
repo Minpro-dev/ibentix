@@ -24,6 +24,7 @@ route.post(
   validate(updatePasswordSchema),
   authController.createNewPassword,
 );
+
 route.patch(
   "/update-details",
   authentication,
