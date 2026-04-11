@@ -27,7 +27,7 @@ route.post(
 
 route.patch(
   "/update-details",
-  authentication,
+  // authentication,
   upload.single("avatar"),
   validate(editUserSchema),
   authController.editUserDetails,

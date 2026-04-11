@@ -127,29 +127,31 @@ export const getTrendingEvents = catchAsync(async (_req: Request, res: Response)
 });
 
 
-// // 7. UPDATE EVENT
-// export const updateEvent = catchAsync(async (req: any, res: Response) => {
-//   const { event_id } = req.params;
+// 7. UPDATE EVENT
+export const updateEvent = catchAsync(async (req: any, res: Response) => {
+  const { eventId } = req.params;
 
-//   if (!event_id) {
-//     throw new AppError(400, 'event_id is required');
-//   }
 
-//   if (!req.user?.userId) {
-//     throw new AppError(401, 'Unauthorized');
-//   }
+  if (!eventId) {
+    throw new AppError(400, 'eventId is required');
+  }
 
-//   const organizerId = req.user.userId;
-//   let updateData: any = { ...req.body };
+  if (!req.user?.userId) {
+    throw new AppError(401, 'Unauthorized');
+  }
 
-//   // upload thumbnail
-//   if (req.file?.buffer) {
-//     try {
-//       updateData.thumbnail_url = await uploadCloudinary(req.file.buffer, 'events');
-//     } catch {
-//       throw new AppError(500, 'Failed to upload thumbnail');
-//     }
-//   }
+  const organizerId = req.user.userId;
+  let updateData: any = { ...req.body };
+
+  // upload thumbnail
+  if (req.file?.buffer) {
+    try {
+      updateData.thumbnail_url = await uploadCloudinary(req.file.buffer, 'events');
+    } catch {
+      throw new AppError(500, 'Failed to upload thumbnail');
+    }
+  }
+
 
 //   // validation number
 //   if (req.body.available_slot) {
@@ -206,4 +208,4 @@ export const getTrendingEvents = catchAsync(async (_req: Request, res: Response)
 //     status: 'success',
 //     message: 'Event deleted successfully',
 //   });
-// });
+});
