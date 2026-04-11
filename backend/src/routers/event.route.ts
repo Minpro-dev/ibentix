@@ -2,7 +2,7 @@ import { Router } from 'express';
 import {
   createEvent,
   getAllEvents,
-//   getEventDetail,
+  getEventDetail,
 //   getEventBySlug,
 //   getEventsByOrganizer,
 //   getTrendingEvents,
@@ -32,8 +32,8 @@ route.get('/', validate(getEventsQuerySchema), getAllEvents);
 // // GET trending events
 // route.get('/trending', getTrendingEvents);
 
-// // GET event detail by ID
-// route.get('/:event_id', getEventDetail);
+// GET event detail by ID
+route.get('/:eventId', getEventDetail);
 
 // // GET event detail by slug
 // route.get('/slug/:slug', getEventBySlug);

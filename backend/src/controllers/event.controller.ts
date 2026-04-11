@@ -57,25 +57,25 @@ export const getAllEvents = catchAsync(async (req: Request, res: Response) => {
 });
 
 
-// // 3. GET EVENT DETAIL (by ID)
-// export const getEventDetail = catchAsync(async (req: Request, res: Response) => {
-//   const { event_id } = req.params;
+// 3. GET EVENT DETAIL (by ID)
+export const getEventDetail = catchAsync(async (req: Request, res: Response) => {
+  const { eventId } = req.params;
 
-//   if (!event_id) {
-//     throw new AppError(400, 'event_id is required');
-//   }
+  if (!eventId) {
+    throw new AppError(400, 'eventId is required');
+  }
 
-//   const result = await eventService.getEventDetailService(event_id as string);
+  const result = await eventService.getEventDetailService(eventId as string);
 
-//   if (!result) {
-//     throw new AppError(404, 'Event not found');
-//   }
+  if (!result) {
+    throw new AppError(404, 'Event not found');
+  }
 
-//   res.status(200).json({
-//     status: 'success',
-//     data: result,
-//   });
-// });
+  res.status(200).json({
+    status: 'success',
+    data: result,
+  });
+});
 
 
 // // 4. GET EVENT BY SLUG
