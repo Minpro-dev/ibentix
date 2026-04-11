@@ -10,7 +10,7 @@ import {
   OrderWhereInput,
 } from "../../generated/prisma/models";
 import { handlePrismaError } from "../utils/prismaErrorHandler";
-import { PaymentStatus } from "../../generated/prisma/enums";
+import { PaymentStatus, Role } from "../../generated/prisma/enums";
 
 export const orderSerivice = {
   // ---> $transactions ---> create payment✅ ---> create ticket✅ --> update points✅, update refferalCoupon✅ --> create order✅ --> update event_slot✅ :v
@@ -316,13 +316,14 @@ export const orderSerivice = {
     return { orders, totalData, totalPage };
   },
 
-  //. GET PRODUCT DETAILS (BY ORDER ID)
-  getOrderDetails: async (userId: string, orderId: string) => {
+  //. GET ORDER DETAILS (BY ORDER ID)
+  getOrderDetails: async (userId: string, userRole: Role, orderId: string) => {
     try {
       const orderDetails = await prisma.order.findUnique({
         where: {
+          userId: userRole === "ATTENDEE" ? userId : undefined,
           orderId,
-          event: { userId },
+          event: { userId: userRole === "ORGANIZER" ? userId : undefined },
         },
         include: {
           tickets: true,
@@ -334,7 +335,6 @@ export const orderSerivice = {
         throw new AppError(400, "Invalid params:orderId");
       }
 
-      console.log("orderDetails -->", orderDetails);
       return orderDetails;
     } catch (error) {
       handlePrismaError(error);

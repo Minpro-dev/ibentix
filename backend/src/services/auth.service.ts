@@ -206,7 +206,9 @@ export const authService = {
       console.log(updateData);
 
       if (file) {
-        updateData.avatar = file ? await uploadSingle(file) : user.avatar;
+        updateData.avatar = file
+          ? await uploadSingle(file, "profile-avatar")
+          : user.avatar;
       }
 
       if (data.password) {

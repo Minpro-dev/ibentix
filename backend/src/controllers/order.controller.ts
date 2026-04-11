@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { catchAsync } from "../utils/catchAsync";
 import { orderSerivice } from "../services/order.service";
+import { Role } from "../../generated/prisma/enums";
 
 export const orderController = {
   createOrder: catchAsync(async (req: Request, res: Response) => {
@@ -55,9 +56,14 @@ export const orderController = {
   // GET ORDER DETAILS (BY ORDER ID)
   getOrderDetails: catchAsync(async (req: Request, res: Response) => {
     const userId = req.user?.userId as string;
+    const userRole = req.user?.role as Role;
     const orderId = req.params.orderId as string;
 
-    const orderDetails = await orderSerivice.getOrderDetails(userId, orderId);
+    const orderDetails = await orderSerivice.getOrderDetails(
+      userId,
+      userRole,
+      orderId,
+    );
 
     res.status(200).json({
       status: "success",
