@@ -30,4 +30,18 @@ export const orderController = {
       data: orderData,
     });
   }),
+
+  // ------ GET ALL ORDER WITH FILTER
+  getAllOrders: catchAsync(async (req: Request, res: Response) => {
+    const userId = req.user?.userId;
+    console.log("userId --> ", userId);
+    console.log("req.body --> ", req.query);
+    const orders = await orderSerivice.getAllOrders({ ...req.query, userId });
+
+    res.status(200).json({
+      status: "success",
+      message: "Get all order data successfull",
+      data: orders,
+    });
+  }),
 };
