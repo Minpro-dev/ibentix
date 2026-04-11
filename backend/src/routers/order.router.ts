@@ -12,4 +12,12 @@ route.post(
   orderController.createOrder,
 );
 
+// get all order
+route.get(
+  "/",
+  authentication,
+  authorization("ORGANIZER"),
+  orderController.getAllOrders,
+);
+
 export default route;

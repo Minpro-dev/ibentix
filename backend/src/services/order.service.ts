@@ -1,10 +1,14 @@
-import { addHours } from "date-fns";
+import { addHours, endOfDay, startOfDay, subDays } from "date-fns";
 import { prisma } from "../config/prismaClient.config";
 import { AppError } from "../utils/AppError";
 import {
   generateInvoiceNumber,
   generateTicketCode,
 } from "../utils/generateRandom";
+import {
+  OrderOrderByWithRelationInput,
+  OrderWhereInput,
+} from "../../generated/prisma/models";
 
 export const orderSerivice = {
   // ---> $transactions ---> create payment✅ ---> create ticket✅ --> update points✅, update refferalCoupon✅ --> create order✅ --> update event_slot✅ :v
@@ -27,6 +31,7 @@ export const orderSerivice = {
     }
 
     const unitPrice = event?.price;
+
     const invoiceNumber = generateInvoiceNumber();
     const ticketQuantity = tickets.length;
     const subtotal = ticketQuantity * Number(unitPrice);
@@ -211,5 +216,101 @@ export const orderSerivice = {
     });
 
     return orderData;
+  },
+
+  // GET ALL ORDER DATA
+  getAllOrders: async ({
+    userId,
+    limit,
+    page,
+    search,
+    eventId,
+    orderDate,
+    orderStatus,
+    lastOneWeek,
+    lastOneMonth,
+    newest,
+    oldest,
+  }: any) => {
+    //filter & search params :
+    // - limit
+    // - page
+    // - search (orderId)
+    // - by eventId
+    // - orderDate
+    // - orderStatus
+    // - last 1 week
+    // - last 30 days
+    // - sort by newest
+    // - sort by oldest
+
+    //pagination
+    const offset = (page - 1) * limit;
+
+    const where: OrderWhereInput = {
+      event: { userId },
+    };
+
+    const orderBy: OrderOrderByWithRelationInput = {};
+
+    // search by invoiceNumber ✅
+    if (search) {
+      where.invoiceNumber = { contains: search, mode: "insensitive" };
+    }
+
+    // by eventId ✅
+    if (eventId) {
+      where.eventId = eventId;
+    }
+
+    // by orderDate ✅
+    if (orderDate) {
+      where.createdAt = {
+        lte: endOfDay(orderDate),
+        gte: startOfDay(orderDate),
+      };
+    } else if (lastOneWeek === "true") {
+      const startDay = endOfDay(new Date());
+      const endDay = startOfDay(subDays(startDay, 6));
+      where.expiresAt = {
+        lte: startDay,
+        gte: endDay,
+      };
+    } else if (lastOneMonth === true) {
+      const startDay = endOfDay(new Date());
+      const endDay = startOfDay(subDays(startDay, 29));
+      where.expiresAt = {
+        lte: startDay,
+        gte: endDay,
+      };
+    }
+
+    // by orderStatus ✅
+    if (orderStatus) {
+      const status = orderStatus.toUpperCase();
+      where.payment = { paymentStatus: status };
+    }
+
+    // Sort by filter ✅
+    if (newest === "true") {
+      orderBy.createdAt = "desc";
+    } else if (oldest === "true") {
+      orderBy.createdAt = "asc";
+    }
+
+    const orders = await prisma.order.findMany({
+      skip: offset,
+      take: limit,
+      where,
+      orderBy,
+    });
+
+    const totalData = await prisma.order.count({
+      where,
+      orderBy,
+    });
+
+    const totalPage = Math.ceil(totalData / limit);
+    return { orders, totalData, totalPage };
   },
 };
