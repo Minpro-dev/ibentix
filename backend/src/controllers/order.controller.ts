@@ -61,7 +61,7 @@ export const orderController = {
 
     res.status(200).json({
       status: "success",
-      message: "Get product details successfull",
+      message: "Get order details successfull",
       data: orderDetails,
     });
   }),

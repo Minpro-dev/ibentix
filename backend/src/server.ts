@@ -5,12 +5,13 @@ import cors from "cors";
 import { globalErrorHandler } from "./middleware/error.middleware";
 import authRouter from "./routers/auth.route";
 import couponRouter from "./routers/coupon.route";
-import appCoupon from "./routers/appCoupon.router";
-import orderCoupon from "./routers/order.router";
+import appCouponRouter from "./routers/appCoupon.router";
+import orderCouponRouter from "./routers/order.router";
 // import eventRouter from "./routers/event.route";
 import eventRouter from "./routers/event.route";
 // import organizerRouter from "./routers/organizer.route";
 // import wishlistRouter from "./routers/wishlist.route";
+import paymentRouter from "./routers/payment.route";
 
 const app: Express = express();
 
@@ -45,13 +46,16 @@ app.use("/api/events", eventRouter);
 app.use("/api/auth", authRouter);
 
 // app-coupon
-app.use("/api/app-coupon", appCoupon);
+app.use("/api/app-coupon", appCouponRouter);
 
 // wishlist endpoint
 // app.use("/api/wishlist", wishlistRouter);
 
 // order end point
-app.use("/api/order", orderCoupon);
+app.use("/api/order", orderCouponRouter);
+
+// order end point
+app.use("/api/payment", paymentRouter);
 
 // error middleware
 app.use(globalErrorHandler);
