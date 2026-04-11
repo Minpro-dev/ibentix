@@ -9,6 +9,7 @@ export const formatUserResponse = (data: any) => {
     address: data.address,
     countryId: data.countryId,
     role: data.role,
+    myReferralCode: data.myReferralCode,
     avatar: data.avatar,
     isVerified: data.isVerified,
     createdAt: data.createdAt,

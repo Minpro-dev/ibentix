@@ -12,7 +12,11 @@ import {
 } from "../utils/token.util";
 import { emailService } from "./email.service";
 import crypto from "crypto";
-import { generateCouponCode, generateOtp } from "../utils/generateRandom";
+import {
+  generateCouponCode,
+  generateOtp,
+  generateReferralCouponCode,
+} from "../utils/generateRandom";
 import { addMonths } from "date-fns";
 
 const SALT_ROUNDS = 10;
@@ -21,10 +25,10 @@ export const authService = {
   //--------------------- SIGNUP
 
   registerUser: async (data: any) => {
+    console.log("data", data);
     try {
       const hashedPassword = await bcrypt.hash(data.password, SALT_ROUNDS);
       const otpExpiresAt = new Date(Date.now() + 5 * 60 * 1000); // expired 5 menit
-
       const otp = generateOtp();
 
       let myReferralCode = "";
@@ -41,28 +45,74 @@ export const authService = {
         }
       }
 
-      const user = await prisma.user.create({
-        data: {
-          firstName: data.firstName,
-          lastName: data.lastName,
-          email: data.email,
-          phone: data.phone,
-          gender: data.gender,
-          address: data.address,
-          countryId: data.countryId,
-          role: data.role,
-          password: hashedPassword,
-          avatar: null,
-          isVerified: false,
-          otp,
-          otpExpiresAt,
-          myReferralCode,
-          usedReferralCode: data.usedReferralCode || null,
-        },
+      const user = await prisma.$transaction(async (tx) => {
+        let referralCouponCode = "";
+        let isUnique = false;
+
+        while (!isUnique) {
+          referralCouponCode = generateReferralCouponCode();
+          const isExisting = await tx.referralCoupon.findUnique({
+            where: { couponCode: referralCouponCode },
+          });
+
+          if (!isExisting) {
+            isUnique = true;
+          }
+        }
+
+        const createUser = await tx.user.create({
+          data: {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+            phone: data.phone,
+            gender: data.gender,
+            address: data.address,
+            countryId: data.countryId,
+            role: data.role,
+            password: hashedPassword,
+            avatar: null,
+            isVerified: false,
+            otp,
+            otpExpiresAt,
+            myReferralCode,
+            usedReferralCode: data.usedReferralCode || null,
+          },
+        });
+
+        // IF USER ENTER usedReferralCode
+        if (data.usedReferralCode) {
+          const referralOwner = await tx.user.findUnique({
+            where: { myReferralCode: data.usedReferralCode },
+          });
+
+          await tx.referralCoupon.create({
+            data: {
+              couponCode: referralCouponCode,
+              userId: createUser.userId,
+              referralCodeBy: referralOwner!.userId,
+              validFrom: new Date(),
+              validUntil: addMonths(new Date(), 3),
+              discountAmount: 10,
+            },
+          });
+
+          await tx.point.create({
+            data: {
+              userId: referralOwner!.userId,
+              pointAmount: 1000,
+              validFrom: new Date(),
+              validUntil: addMonths(new Date(), 3),
+            },
+          });
+        }
+
+        return createUser;
       });
 
       return user;
     } catch (error) {
+      console.log("error --> ", error);
       handlePrismaError(error);
     }
   },

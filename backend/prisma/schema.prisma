@@ -33,12 +33,6 @@ enum PaymentStatus {
   CANCELED
 }
 
-enum TicketStatus {
-  ACTIVE
-  USED
-  CANCELLED
-}
-
 model RefreshToken {
   refreshTokenId String    @id @default(uuid())
   token          String    @unique @db.Text
@@ -143,7 +137,6 @@ model Ticket {
   userId        String
   attendeeName  String
   attendeeEmail String
-  status        TicketStatus
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
   deletedAt     DateTime?
@@ -170,8 +163,8 @@ model Order {
   appCouponId      String?
   referralCouponId String?
 
-  paymentId String?   @unique
-  expireAt  DateTime
+  paymentId String   @unique
+  expiresAt  DateTime
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
@@ -192,12 +185,9 @@ model Order {
 
 model Payment {
   paymentId String @id @default(uuid())
-
   paymentProof  String?
-  paymentStatus PaymentStatus
-
+  paymentStatus PaymentStatus @default(WAITING_FOR_PAYMENT)
   paymentAt DateTime?
-  expiresAt DateTime
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -257,7 +247,7 @@ model EventCoupon {
   validUntil     DateTime
   discountAmount Decimal
 
-  usedAt    DateTime?
+  // usedAt    DateTime?
   deletedAt DateTime?
 
   createdAt DateTime @default(now())
