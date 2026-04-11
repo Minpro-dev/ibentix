@@ -138,14 +138,14 @@ export const getAllEventsService = async (query: any) => {
   });
 };
 
-// // 3. GET EVENT DETAIL
-// export const getEventDetailService = async (eventId: string) => {
-//   return await prisma.event.findUnique({
-//     where: {
-//   id: eventId,
-//   deleted_at: null
-// }});
-// };
+// 3. GET EVENT DETAIL
+export const getEventDetailService = async (eventId: string) => {
+  return await prisma.event.findUnique({
+    where: {
+  eventId,
+  deletedAt: null
+}});
+};
 
 // // 4. EVENT DETAIL (Slug-based)
 // export const getEventBySlugService = async (slug: string) => {
