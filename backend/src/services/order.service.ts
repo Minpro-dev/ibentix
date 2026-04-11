@@ -291,9 +291,10 @@ export const orderSerivice = {
       where.payment = { paymentStatus: status };
     }
 
-    if (newest) {
+    // Sort by filter ✅
+    if (newest === "true") {
       orderBy.createdAt = "desc";
-    } else if (oldest) {
+    } else if (oldest === "true") {
       orderBy.createdAt = "asc";
     }
 
