@@ -51,4 +51,18 @@ export const orderController = {
       data: orders,
     });
   }),
+
+  // GET ORDER DETAILS (BY ORDER ID)
+  getOrderDetails: catchAsync(async (req: Request, res: Response) => {
+    const userId = req.user?.userId as string;
+    const orderId = req.params.orderId as string;
+
+    const orderDetails = await orderSerivice.getProductDetails(userId, orderId);
+
+    res.status(200).json({
+      status: "success",
+      message: "Get product details successfull",
+      data: orderDetails,
+    });
+  }),
 };
