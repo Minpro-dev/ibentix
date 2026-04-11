@@ -5,8 +5,8 @@ import {
   getEventDetail,
   getEventBySlug,
 //   getEventsByOrganizer,
-//   getTrendingEvents,
-//   updateEvent,
+  getTrendingEvents,
+  // updateEvent,
 //   deleteEvent,
 } from '../controllers/event.controller';
 
@@ -29,8 +29,8 @@ const route = Router();
 // GET all events (with filter + pagination)
 route.get('/', validate(getEventsQuerySchema), getAllEvents);
 
-// // GET trending events
-// route.get('/trending', getTrendingEvents);
+// GET trending events
+route.get('/trending', getTrendingEvents);
 
 // GET event detail by ID
 route.get('/:eventId', getEventDetail);
