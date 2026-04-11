@@ -147,19 +147,19 @@ export const getEventDetailService = async (eventId: string) => {
 }});
 };
 
-// // 4. EVENT DETAIL (Slug-based)
-// export const getEventBySlugService = async (slug: string) => {
-//   return await prisma.event.findFirst({
-//     where: {
-//       slug,
-//       deleted_at: null
-//     },
-//     include: {
-//       category: true,
-//       organizer: true,
-//     }
-//   });
-// };
+// 4. EVENT DETAIL (Slug-based)
+export const getEventBySlugService = async (slug: string) => {
+  return await prisma.event.findFirst({
+    where: {
+      slug,
+      deletedAt: null
+    },
+    include: {
+      // category: true,
+      organizer: true,
+    }
+  });
+};
 
 // // 5. GET EVENTS BY ORGANIZER
 // export const getEventsByOrganizerService = async (organizerId: string) => {
