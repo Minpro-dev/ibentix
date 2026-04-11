@@ -1,6 +1,7 @@
 import { PaymentStatus, Role } from "../../generated/prisma/enums";
 import { prisma } from "../config/prismaClient.config";
 import { AppError } from "../utils/AppError";
+import { uploadSingle } from "../utils/cloudinaryUploader";
 import { handlePrismaError } from "../utils/prismaErrorHandler";
 
 export const paymentService = {
@@ -53,7 +54,6 @@ export const paymentService = {
           },
           data: {
             paymentStatus: status,
-            paymentAt: new Date(),
           },
         });
       } else {
@@ -63,7 +63,8 @@ export const paymentService = {
           },
           data: {
             paymentStatus: status as PaymentStatus,
-            paymentAt: null,
+            paymentAt:
+              status === "WAITING_FOR_ADMIN_CONFIRMATION" ? new Date() : null,
           },
         });
       }
@@ -83,13 +84,52 @@ export const paymentService = {
       handlePrismaError(error);
     }
   },
+
+  // UPLOAD PAYMENT PROOF
+  uploadPaymentProof: async (
+    userId: string,
+    userRole: Role,
+    orderId: string,
+    file: Express.Multer.File | undefined,
+  ) => {
+    try {
+      const orderDetails = await prisma.order.findUnique({
+        where: {
+          orderId,
+          userId,
+        },
+      });
+
+      if (!orderDetails) {
+        throw new AppError(404, "Order is not found");
+      }
+
+      if (!file) {
+        throw new AppError(400, "Payment proof is not received");
+      }
+
+      const url = await uploadSingle(file, "payment-proof");
+
+      await prisma.payment.update({
+        where: {
+          paymentId: orderDetails.paymentId,
+        },
+        data: {
+          paymentProof: url,
+          paymentAt: new Date(),
+        },
+      });
+
+      const updatedorder = await paymentService.updateOrderStatus(
+        userId,
+        userRole,
+        orderId,
+        "WAITING_FOR_ADMIN_CONFIRMATION",
+      );
+
+      return updatedorder;
+    } catch (error) {
+      handlePrismaError(error);
+    }
+  },
 };
-
-//   PaymentStatus :
-
-//   WAITING_FOR_PAYMENT
-//   WAITING_FOR_ADMIN_CONFIRMATION
-//   DONE
-//   REJECTED
-//   EXPIRED
-//   CANCELED
