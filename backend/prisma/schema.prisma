@@ -163,7 +163,7 @@ model Order {
   appCouponId      String?
   referralCouponId String?
 
-  paymentId String?   @unique
+  paymentId String   @unique
   expiresAt  DateTime
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
