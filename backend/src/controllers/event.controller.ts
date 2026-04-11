@@ -7,60 +7,54 @@ import { AppError } from '../utils/AppError';
 
 // 1. CREATE EVENT
 export const createEvent = catchAsync(async (req: any, res: Response) => {
-  if (!req.user?.id) {
-    throw new AppError(401, 'Unauthorized: User not found');
+  // if (!req.user?.userId) {
+  //   throw new AppError(401, 'Unauthorized: User not found');
+  // }
+
+  const userId = req.user.userId;
+  console.log(userId)
+  // let thumbnailUrl = '';
+
+  // if (req.file?.buffer) {
+  //   try {
+  //     thumbnailUrl = await uploadCloudinary(req.file.buffer, 'events');
+  //   } catch {
+  //     throw new AppError(500, 'Failed to upload thumbnail');
+  //   }
+  // }
+
+  if (!req.body.title) {
+    throw new AppError(400, 'Event title is required');
   }
 
-  const organizerId = req.user.id;
-  let thumbnailUrl = '';
 
-  if (req.file?.buffer) {
-    try {
-      thumbnailUrl = await uploadCloudinary(req.file.buffer, 'events');
-    } catch {
-      throw new AppError(500, 'Failed to upload thumbnail');
-    }
-  }
+  const payload = {
+    ...req.body,
+    // thumbnailUrl: thumbnailUrl,
+
+    isFree: String(req.body.isFree) === 'true',
+  };
+
+  const result = await eventService.createEventService(payload, userId);
+
+  res.status(201).json({
+    status: 'success',
+    message: 'Event created successfully',
+    data: result,
+  });
 });
 
-//   if (!req.body.title) {
-//     throw new AppError(400, 'Event title is required');
-//   }
 
-//   const availableSlot = parseInt(String(req.body.available_slot));
-//   const price = parseFloat(String(req.body.price));
+// 2. GET ALL EVENTS (WITH FILTER )
+export const getAllEvents = catchAsync(async (req: Request, res: Response) => {
+  const result = await eventService.getAllEventsService(req.query);
 
-//   if (isNaN(availableSlot)) throw new AppError(400, 'Invalid available_slot');
-//   if (isNaN(price)) throw new AppError(400, 'Invalid price');
-
-//   const payload = {
-//     ...req.body,
-//     thumbnail_url: thumbnailUrl,
-//     available_slot: availableSlot,
-//     price,
-//     isFree: String(req.body.isFree) === 'true',
-//   };
-
-//   const result = await eventService.createEventService(payload, organizerId);
-
-//   res.status(201).json({
-//     status: 'success',
-//     message: 'Event created successfully',
-//     data: result,
-//   });
-// });
-
-
-// // 2. GET ALL EVENTS (WITH FILTER 🔥)
-// export const getAllEvents = catchAsync(async (req: Request, res: Response) => {
-//   const result = await eventService.getAllEventsService(req.query);
-
-//   res.status(200).json({
-//     status: 'success',
-//     message: 'Events retrieved successfully',
-//     data: result,
-//   });
-// });
+  res.status(200).json({
+    status: 'success',
+    message: 'Events retrieved successfully',
+    data: result,
+  });
+});
 
 
 // // 3. GET EVENT DETAIL (by ID)

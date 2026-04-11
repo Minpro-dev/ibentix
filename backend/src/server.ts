@@ -15,7 +15,7 @@ import paymentRouter from "./routers/payment.route";
 
 const app: Express = express();
 
-const PORT = 8000;
+const PORT = 8004;
 
 // json middleware
 app.use(express.json());
