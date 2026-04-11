@@ -1,4 +1,4 @@
-import { addDays, addHours, endOfDay, parseISO, startOfDay } from "date-fns";
+import { addHours, endOfDay, startOfDay, subDays } from "date-fns";
 import { prisma } from "../config/prismaClient.config";
 import { AppError } from "../utils/AppError";
 import {
@@ -6,7 +6,6 @@ import {
   generateTicketCode,
 } from "../utils/generateRandom";
 import {
-  OrderOrderByRelationAggregateInput,
   OrderOrderByWithRelationInput,
   OrderWhereInput,
 } from "../../generated/prisma/models";
@@ -276,14 +275,15 @@ export const orderSerivice = {
       where.payment = { paymentStatus: orderStatus };
     }
 
-    // if (lastOneWeek) {
-    //   const startDay = startOfDay(new Date());
-    //   const endDay = endOfDay(addDays(startDay, 6));
-    //   where.expiresAt = {
-    //     lte: startDay,
-    //     gte: endDay,
-    //   };
-    // }
+    if (lastOneWeek === "true") {
+      console.log("typeof lastOneWeek", typeof lastOneWeek);
+      const startDay = endOfDay(new Date());
+      const endDay = endOfDay(subDays(startDay, 6));
+      where.expiresAt = {
+        lte: startDay,
+        gte: endDay,
+      };
+    }
 
     // if (lastOneMonth) {
     //   const startDay = startOfDay(new Date());
