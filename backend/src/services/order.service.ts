@@ -239,16 +239,16 @@ export const orderSerivice = {
     // - by eventId
     // - orderDate
     // - orderStatus
-    // - totalAmount
     // - last 1 week
     // - last 30 days
     // - sort by newest
     // - sort by oldest
 
     //pagination
+    const offset = (page - 1) * limit;
 
     const where: OrderWhereInput = {
-      // event: { userId },
+      event: { userId },
     };
 
     const orderBy: OrderOrderByWithRelationInput = {};
@@ -299,15 +299,18 @@ export const orderSerivice = {
     }
 
     const orders = await prisma.order.findMany({
+      skip: offset,
+      take: limit,
       where,
       orderBy,
     });
 
-    const count = await prisma.order.count({
+    const totalData = await prisma.order.count({
       where,
       orderBy,
     });
 
-    return { orders, count };
+    const totalPage = Math.ceil(totalData / limit);
+    return { orders, totalData, totalPage };
   },
 };
