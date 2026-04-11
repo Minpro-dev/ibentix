@@ -5,6 +5,7 @@ export const pointService = {
     const userPoints = await prisma.point.aggregate({
       where: {
         userId,
+        orderId: null,
       },
       _sum: {
         pointAmount: true,
