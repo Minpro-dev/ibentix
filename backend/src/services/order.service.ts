@@ -9,6 +9,7 @@ import {
   OrderOrderByWithRelationInput,
   OrderWhereInput,
 } from "../../generated/prisma/models";
+import { handlePrismaError } from "../utils/prismaErrorHandler";
 
 export const orderSerivice = {
   // ---> $transactions ---> create payment✅ ---> create ticket✅ --> update points✅, update refferalCoupon✅ --> create order✅ --> update event_slot✅ :v
@@ -312,5 +313,26 @@ export const orderSerivice = {
 
     const totalPage = Math.ceil(totalData / limit);
     return { orders, totalData, totalPage };
+  },
+
+  //. GET PRODUCT DETAILS (BY ORDER ID)
+  getProductDetails: async (userId: string, orderId: string) => {
+    try {
+      const orderDetails = await prisma.order.findUnique({
+        where: {
+          orderId,
+          event: { userId },
+        },
+      });
+
+      if (!orderDetails) {
+        throw new AppError(400, "Invalid params:orderId");
+      }
+
+      console.log("orderDetails -->", orderDetails);
+      return orderDetails;
+    } catch (error) {
+      handlePrismaError(error);
+    }
   },
 };

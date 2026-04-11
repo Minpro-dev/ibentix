@@ -20,4 +20,12 @@ route.get(
   orderController.getAllOrders,
 );
 
+// get product details
+route.get(
+  "/details/:orderId",
+  authentication,
+  authorization("ORGANIZER"),
+  orderController.getOrderDetails,
+);
+
 export default route;
