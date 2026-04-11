@@ -93,7 +93,7 @@ model User {
   eventCoupons     EventCoupon[]
   events           Event[]
 
-  referralCoupons ReferralCoupon[] @relation("CouponReceiver")
+  referralCoupons ReferralCoupon? @relation("CouponReceiver")
   referredCoupons ReferralCoupon[] @relation("CouponGiver")
 
   @@map("users")
@@ -311,7 +311,7 @@ model ReferralCoupon {
   updatedAt DateTime @updatedAt
 
   orders     Order[]
-  user       User?   @relation("CouponReceiver", fields: [userId], references: [userId])
+  user       User   @relation("CouponReceiver", fields: [userId], references: [userId])
   referredBy User    @relation("CouponGiver", fields: [referralCodeBy], references: [userId])
 
   @@map("referralCoupons")
