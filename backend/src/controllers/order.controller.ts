@@ -36,11 +36,15 @@ export const orderController = {
     const userId = req.user?.userId;
     console.log("userId --> ", userId);
     console.log("req.body --> ", req.query);
-    const orders = await orderSerivice.getAllOrders({ ...req.query, userId });
+    const { orders, count } = await orderSerivice.getAllOrders({
+      ...req.query,
+      userId,
+    });
 
     res.status(200).json({
       status: "success",
       message: "Get all order data successfull",
+      totalData: count,
       data: orders,
     });
   }),

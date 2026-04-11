@@ -269,45 +269,44 @@ export const orderSerivice = {
         lte: endOfDay(orderDate),
         gte: startOfDay(orderDate),
       };
-    }
-
-    if (orderStatus) {
-      where.payment = { paymentStatus: orderStatus };
-    }
-
-    if (lastOneWeek === "true") {
-      console.log("typeof lastOneWeek", typeof lastOneWeek);
+    } else if (lastOneWeek === "true") {
       const startDay = endOfDay(new Date());
-      const endDay = endOfDay(subDays(startDay, 6));
+      const endDay = startOfDay(subDays(startDay, 6));
+      where.expiresAt = {
+        lte: startDay,
+        gte: endDay,
+      };
+    } else if (lastOneMonth === true) {
+      const startDay = endOfDay(new Date());
+      const endDay = startOfDay(subDays(startDay, 29));
       where.expiresAt = {
         lte: startDay,
         gte: endDay,
       };
     }
 
-    // if (lastOneMonth) {
-    //   const startDay = startOfDay(new Date());
-    //   const endDay = endOfDay(addDays(startDay, 29));
-    //   where.expiresAt = {
-    //     lte: startDay,
-    //     gte: endDay,
-    //   };
-    // }
+    // by orderStatus ✅
+    if (orderStatus) {
+      const status = orderStatus.toUpperCase();
+      where.payment = { paymentStatus: status };
+    }
 
     if (newest) {
       orderBy.createdAt = "desc";
-    }
-
-    if (oldest) {
+    } else if (oldest) {
       orderBy.createdAt = "asc";
     }
 
-    console.log(where);
     const orders = await prisma.order.findMany({
       where,
       orderBy,
     });
 
-    return orders;
+    const count = await prisma.order.count({
+      where,
+      orderBy,
+    });
+
+    return { orders, count };
   },
 };
