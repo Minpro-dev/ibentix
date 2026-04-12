@@ -1,3 +1,4 @@
+import { off } from "cluster";
 import { prisma } from "../config/prismaClient.config";
 
 // Create Event
@@ -6,7 +7,7 @@ import { prisma } from "../config/prismaClient.config";
 
 // 1. CREATE EVENT
 export const createEventService = async (data: any, userId: string) => {
-  const slug = data.title.toLowerCase().replace(/ /g, '-') + '-' + Date.now();
+  const slug = data.title.toLowerCase().replace(/ /g, "-") + "-" + Date.now();
 
   return await prisma.event.create({
     data: {
@@ -23,9 +24,9 @@ export const createEventService = async (data: any, userId: string) => {
       eventDate: new Date(data.eventDate),
       startSellingDate: new Date(data.startSellingDate),
       endSellingDate: new Date(data.endSellingDate),
-      isFree: data.isFree === true || data.isFree === 'true',
+      isFree: data.isFree === true || data.isFree === "true",
       price: data.price ? Number(data.price) : 0,
-    }
+    },
   });
 };
 
@@ -39,7 +40,7 @@ export const getAllEventsService = async (query: any) => {
     isFree,
     page = 1,
     limit = 10,
-    sort = 'eventDate',
+    sort = "eventDate",
   } = query;
 
   const skip = (Number(page) - 1) * Number(limit);
@@ -52,8 +53,8 @@ export const getAllEventsService = async (query: any) => {
   // SEARCH
   if (search) {
     whereClause.OR = [
-      { title: { contains: search, mode: 'insensitive' } },
-      { description: { contains: search, mode: 'insensitive' } },
+      { title: { contains: search, mode: "insensitive" } },
+      { description: { contains: search, mode: "insensitive" } },
     ];
   }
 
@@ -61,7 +62,7 @@ export const getAllEventsService = async (query: any) => {
   if (city) {
     whereClause.city = {
       equals: city,
-      mode: 'insensitive',
+      mode: "insensitive",
     };
   }
 
@@ -72,7 +73,7 @@ export const getAllEventsService = async (query: any) => {
 
   // FREE / PAID
   if (isFree !== undefined) {
-    whereClause.isFree = String(isFree) === 'true';
+    whereClause.isFree = String(isFree) === "true";
   }
 
   // DATE FILTER
@@ -82,12 +83,12 @@ export const getAllEventsService = async (query: any) => {
     let endDate: Date | undefined;
 
     switch (date) {
-      case 'today':
+      case "today":
         startDate = new Date(now.setHours(0, 0, 0, 0));
         endDate = new Date(now.setHours(23, 59, 59, 999));
         break;
 
-      case 'this_week': {
+      case "this_week": {
         const firstDay = new Date();
         firstDay.setDate(now.getDate() - now.getDay());
         const lastDay = new Date(firstDay);
@@ -98,7 +99,7 @@ export const getAllEventsService = async (query: any) => {
         break;
       }
 
-      case 'next_week': {
+      case "next_week": {
         const nextWeekStart = new Date();
         nextWeekStart.setDate(now.getDate() + (7 - now.getDay()));
 
@@ -110,7 +111,7 @@ export const getAllEventsService = async (query: any) => {
         break;
       }
 
-      case 'this_month':
+      case "this_month":
         startDate = new Date(now.getFullYear(), now.getMonth(), 1);
         endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
         break;
@@ -128,7 +129,7 @@ export const getAllEventsService = async (query: any) => {
   return await prisma.event.findMany({
     where: whereClause,
     orderBy: {
-      [sort]: 'asc',
+      [sort]: "asc",
     },
     skip,
     take: Number(limit),
@@ -142,9 +143,10 @@ export const getAllEventsService = async (query: any) => {
 export const getEventDetailService = async (eventId: string) => {
   return await prisma.event.findUnique({
     where: {
-  eventId,
-  deletedAt: null
-}});
+      eventId,
+      deletedAt: null,
+    },
+  });
 };
 
 // 4. EVENT DETAIL (Slug-based)
@@ -152,26 +154,24 @@ export const getEventBySlugService = async (slug: string) => {
   return await prisma.event.findFirst({
     where: {
       slug,
-      deletedAt: null
+      deletedAt: null,
     },
     include: {
       // category: true,
       organizer: true,
-    }
+    },
   });
 };
 
 // 5. GET EVENTS BY ORGANIZER
 export const getEventsByOrganizerService = async (userId: string) => {
-
   return await prisma.event.findMany({
     where: {
-     userId,
-      deletedAt: null
+      userId,
+      deletedAt: null,
     },
     // orderBy: { createdAt: 'desc' }
   });
-
 };
 
 // 6. TRENDING EVENT
@@ -180,13 +180,13 @@ export const getTrendingEventsService = async () => {
     where: {
       deletedAt: null,
       eventDate: {
-        gte: new Date()
-      }
+        gte: new Date(),
+      },
     },
     orderBy: {
-      availableSlot: 'asc' // makin sedikit makin trend
+      availableSlot: "asc", // makin sedikit makin trend
     },
-    take: 5
+    take: 5,
   });
 };
 
@@ -195,10 +195,10 @@ export const getTrendingEventsService = async () => {
 export const updateEventService = async (
   eventId: string,
   data: any,
-  userId: string
+  userId: string,
 ) => {
   const existingEvent = await prisma.event.findFirst({
-    where: { eventId, userId }
+    where: { eventId, userId },
   });
 
   const parseDate = (value: any) => {
@@ -219,7 +219,7 @@ export const updateEventService = async (
       ...(data.price && { price: Number(data.price) }),
       ...(data.eventDate && { eventDate: parseDate(data.eventDate) }),
       ...(data.thumbnailUrl && { thumbnailUrl: data.thumbnailUrl }),
-    }
+    },
   });
 };
 
@@ -228,7 +228,7 @@ export const deleteEventService = async (eventId: string, userId: string) => {
   const existingEvent = await prisma.event.findFirst({
     where: {
       eventId,
-     userId,
+      userId,
       deletedAt: null,
     },
   });
@@ -243,4 +243,50 @@ export const deleteEventService = async (eventId: string, userId: string) => {
       deletedAt: new Date(),
     },
   });
+};
+
+export const getAllAttendeesByEvent = async (
+  eventId: string,
+  userId: string,
+  page: number,
+  limit: number,
+) => {
+  const offset = (page - 1) * limit;
+  const attendees = await prisma.ticket.findMany({
+    where: {
+      order: {
+        event: {
+          eventId,
+          userId,
+        },
+      },
+    },
+    select: {
+      ticketCode: true,
+      user: {
+        select: {
+          firstName: true,
+          lastName: true,
+          avatar: true,
+        },
+      },
+    },
+    take: limit,
+    skip: offset,
+  });
+
+  const totalData = await prisma.ticket.count({
+    where: {
+      order: {
+        event: {
+          eventId,
+          userId,
+        },
+      },
+    },
+  });
+
+  const totalPage = Math.ceil(totalData / limit);
+
+  return { totalData, totalPage, attendees };
 };

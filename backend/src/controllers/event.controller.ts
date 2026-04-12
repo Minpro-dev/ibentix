@@ -66,7 +66,7 @@ export const getEventDetail = catchAsync(
     const result = await eventService.getEventDetailService(eventId as string);
 
     if (!result) {
-      throw new AppError(404, "Event not found");
+      throw new AppError(404, "Event is not found");
     }
 
     res.status(200).json({
@@ -221,3 +221,22 @@ export const deleteEvent = catchAsync(async (req: Request, res: Response) => {
     message: "Event deleted successfully",
   });
 });
+
+// get all attendees by event
+export const getAllAttendeesByEventId = catchAsync(
+  async (req: Request, res: Response) => {
+    const userId = req.user?.userId as string;
+    const eventId = req.body.eventId;
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+
+    const { totalData, totalPage, attendees } =
+      await eventService.getAllAttendeesByEvent(eventId, userId, page, limit);
+
+    res.status(200).json({
+      status: "success",
+      message: "Get all attendees successfull",
+      data: { totalData, totalPage, attendees },
+    });
+  },
+);
