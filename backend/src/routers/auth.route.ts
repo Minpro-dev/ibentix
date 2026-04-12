@@ -19,15 +19,18 @@ route.get("/refresh", authController.refresh);
 route.post("/verify-otp", authController.verifyOtp);
 route.get("/resend-otp", authController.resendOtp);
 route.post("/forgot-password", authController.resetPasswordRequest);
+
 route.post(
   "/forgot-password/:token",
   validate(updatePasswordSchema),
   authController.createNewPassword,
 );
 
+route.get("/details", authentication, authController.getUserDetails);
+
 route.patch(
   "/update-details",
-  // authentication,
+  authentication,
   upload.single("avatar"),
   validate(editUserSchema),
   authController.editUserDetails,

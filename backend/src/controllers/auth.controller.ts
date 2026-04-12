@@ -112,7 +112,7 @@ export const authController = {
   //----------- LOGIN
   login: catchAsync(
     async (req: Request<{}, {}, LoginSchema>, res: Response) => {
-      console.log(req.body)
+      console.log(req.body);
       const user = await authService.validateUser(req.body);
 
       const payload = {
@@ -210,7 +210,19 @@ export const authController = {
 
       res.status(200).json({
         status: "success",
+        message: "New password has been set",
       });
     },
   ),
+
+  getUserDetails: catchAsync(async (req: Request, res: Response) => {
+    const userId = req.user?.userId as string;
+    const user = await authService.getUserDetails(userId);
+
+    res.status(200).json({
+      status: "success",
+      message: "Get user details successfull",
+      data: user,
+    });
+  }),
 };
