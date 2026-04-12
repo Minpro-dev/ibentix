@@ -4,7 +4,7 @@ import {
   getAllEvents,
   getEventDetail,
   getEventBySlug,
-//   getEventsByOrganizer,
+  getEventsByOrganizer,
   getTrendingEvents,
   updateEvent,
   deleteEvent,
@@ -43,14 +43,14 @@ route.get('/slug/:slug', getEventBySlug);
 // // ORGANIZER ROUTES
 // // =========================
 
-// // GET my events
-// route.get('/organizer/me', authentication, getEventsByOrganizer);
+// GET my events
+route.get('/organizer/me', authentication, getEventsByOrganizer);
 
 // CREATE event
 route.post(
   '/',
   authentication,
-  // upload.single('thumbnail'),
+  upload.single('thumbnail'),
   // validate(createEventSchema), // optional (Zod)
   createEvent
 );
@@ -66,7 +66,7 @@ route.patch(
 
 // DELETE event
 route.delete(
-  '/:event_id',
+  '/:eventId',
   authentication,
   deleteEvent
 );

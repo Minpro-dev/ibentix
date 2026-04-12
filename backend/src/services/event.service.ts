@@ -161,16 +161,16 @@ export const getEventBySlugService = async (slug: string) => {
   });
 };
 
-// // 5. GET EVENTS BY ORGANIZER
-// export const getEventsByOrganizerService = async (organizerId: string) => {
-//   return await prisma.event.findMany({
-//     where: {
-//       organizerId: organizerId,
-//       deletedAt: null
-//     },
-//     orderBy: { createdAt: 'desc' }
-//   });
-// };
+// 5. GET EVENTS BY ORGANIZER
+export const getEventsByOrganizerService = async (organizerId: string) => {
+  return await prisma.event.findMany({
+    where: {
+      organizerId: organizerId,
+      deletedAt: null
+    },
+    orderBy: { createdAt: 'desc' }
+  });
+};
 
 // 6. TRENDING EVENT
 export const getTrendingEventsService = async () => {
@@ -245,11 +245,11 @@ export const updateEventService = async (
 };
 
 // 7. DELETE EVENT
-export const deleteEventService = async (eventId: string, organizerId: string) => {
+export const deleteEventService = async (eventId: string, userId: string) => {
   const existingEvent = await prisma.event.findFirst({
     where: {
       eventId,
-      organizerId: organizerId,
+     userId,
       deletedAt: null,
     },
   });

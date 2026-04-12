@@ -100,20 +100,20 @@ export const getEventBySlug = catchAsync(async (req: Request, res: Response) => 
 });
 
 
-// // 5. GET EVENTS BY ORGANIZER
-// export const getEventsByOrganizer = catchAsync(async (req: any, res: Response) => {
-//   if (!req.user?.id) {
-//     throw new AppError(401, 'Unauthorized');
-//   }
+// 5. GET EVENTS BY ORGANIZER
+export const getEventsByOrganizer = catchAsync(async (req: Request, res: Response) => {
+  if (!req.user?.userId) {
+    throw new AppError(401, 'Unauthorized');
+  }
 
-//   const organizerId = req.user.id;
-//   const result = await eventService.getEventsByOrganizerService(organizerId);
+  const organizerId = req.user.userId;
+  const result = await eventService.getEventsByOrganizerService(organizerId);
 
-//   res.status(200).json({
-//     status: 'success',
-//     data: result,
-//   });
-// });
+  res.status(200).json({
+    status: 'success',
+    data: result,
+  });
+});
 
 
 // 6. GET TRENDING EVENTS
@@ -201,21 +201,21 @@ export const updateEvent = catchAsync(async (req: Request, res: Response) => {
 // });
 
 
-// 8. DELETE EVENT (SOFT DELETE)
-export const deleteEvent = catchAsync(async (req: any, res: Response) => {
-  const { eventId } = req.params;
+// 7. DELETE EVENT (SOFT DELETE)
+export const deleteEvent = catchAsync(async (req: Request, res: Response) => {
+  const eventId = req.params.eventId as string;
 
   if (!eventId) {
-    throw new AppError(400, 'event_id is required');
+    throw new AppError(400, 'eventId is required');
   }
 
   if (!req.user?.userId) {
     throw new AppError(401, 'Unauthorized');
   }
 
-  const organizerId = req.user.userId;
+  const userId = req.user.userId;
 
-  await eventService.deleteEventService(eventId, organizerId);
+  await eventService.deleteEventService(eventId, userId);
 
   res.status(200).json({
     status: 'success',
