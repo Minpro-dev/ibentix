@@ -7,7 +7,7 @@ import {
 //   getEventsByOrganizer,
   getTrendingEvents,
   updateEvent,
-//   deleteEvent,
+  deleteEvent,
 } from '../controllers/event.controller';
 
 import { authentication } from '../middleware/auth.middleware';
@@ -64,11 +64,11 @@ route.patch(
   updateEvent
 );
 
-// // DELETE event
-// route.delete(
-//   '/:event_id',
-//   authentication,
-//   deleteEvent
-// );
+// DELETE event
+route.delete(
+  '/:event_id',
+  authentication,
+  deleteEvent
+);
 
 export default route;

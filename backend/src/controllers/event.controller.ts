@@ -165,6 +165,7 @@ export const updateEvent = catchAsync(async (req: Request, res: Response) => {
     message:"Update event succesfull",
     data :  updatedEvent
   })
+  });
 //   // validation number
 //   if (req.body.available_slot) {
 //     const slot = parseInt(String(req.body.available_slot));
@@ -200,24 +201,24 @@ export const updateEvent = catchAsync(async (req: Request, res: Response) => {
 // });
 
 
-// // 8. DELETE EVENT (SOFT DELETE)
-// export const deleteEvent = catchAsync(async (req: any, res: Response) => {
-//   const { event_id } = req.params;
+// 8. DELETE EVENT (SOFT DELETE)
+export const deleteEvent = catchAsync(async (req: any, res: Response) => {
+  const { eventId } = req.params;
 
-//   if (!event_id) {
-//     throw new AppError(400, 'event_id is required');
-//   }
+  if (!eventId) {
+    throw new AppError(400, 'event_id is required');
+  }
 
-//   if (!req.user?.userId) {
-//     throw new AppError(401, 'Unauthorized');
-//   }
+  if (!req.user?.userId) {
+    throw new AppError(401, 'Unauthorized');
+  }
 
-//   const organizerId = req.user.userId;
+  const organizerId = req.user.userId;
 
-//   await eventService.deleteEventService(event_id, organizerId);
+  await eventService.deleteEventService(eventId, organizerId);
 
-//   res.status(200).json({
-//     status: 'success',
-//     message: 'Event deleted successfully',
-//   });
+  res.status(200).json({
+    status: 'success',
+    message: 'Event deleted successfully',
+  })
 });

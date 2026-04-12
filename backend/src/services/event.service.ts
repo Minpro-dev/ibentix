@@ -244,24 +244,24 @@ export const updateEventService = async (
   });
 };
 
-// // 7. DELETE EVENT
-// export const deleteEventService = async (eventId: string, organizerId: string) => {
-//   const existingEvent = await prisma.event.findFirst({
-//     where: {
-//       id: eventId,
-//       organizer_id: organizerId,
-//       deleted_at: null,
-//     },
-//   });
+// 7. DELETE EVENT
+export const deleteEventService = async (eventId: string, organizerId: string) => {
+  const existingEvent = await prisma.event.findFirst({
+    where: {
+      eventId,
+      organizerId: organizerId,
+      deletedAt: null,
+    },
+  });
 
-//   if (!existingEvent) {
-//     throw new Error("Event not found or you don't have permission");
-//   }
+  if (!existingEvent) {
+    throw new Error("Event not found or you don't have permission");
+  }
 
-//   return await prisma.event.update({
-//     where: { id: eventId },
-//     data: {
-//       deleted_at: new Date(),
-//     },
-//   });
-// };
+  return await prisma.event.update({
+    where: { eventId },
+    data: {
+      deletedAt: new Date(),
+    },
+  });
+};
