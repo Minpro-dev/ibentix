@@ -1,10 +1,9 @@
-import { Request, Response } from 'express';
-import * as eventService from '../services/event.service';
-import { catchAsync } from '../utils/catchAsync';
-import { uploadCloudinary } from '../utils/uploadCloudinary';
-import { AppError } from '../utils/AppError';
-import { uploadSingle } from '../utils/cloudinaryUploader';
-
+import { Request, Response } from "express";
+import * as eventService from "../services/event.service";
+import { catchAsync } from "../utils/catchAsync";
+import { uploadCloudinary } from "../utils/uploadCloudinary";
+import { AppError } from "../utils/AppError";
+import { uploadSingle } from "../utils/cloudinaryUploader";
 
 // 1. CREATE EVENT
 export const createEvent = catchAsync(async (req: any, res: Response) => {
@@ -13,7 +12,7 @@ export const createEvent = catchAsync(async (req: any, res: Response) => {
   // }
 
   const userId = req.user.userId;
-  console.log(userId)
+  console.log(userId);
   // let thumbnailUrl = '';
 
   // if (req.file?.buffer) {
@@ -25,146 +24,144 @@ export const createEvent = catchAsync(async (req: any, res: Response) => {
   // }
 
   if (!req.body.title) {
-    throw new AppError(400, 'Event title is required');
+    throw new AppError(400, "Event title is required");
   }
-
 
   const payload = {
     ...req.body,
     // thumbnailUrl: thumbnailUrl,
 
-    isFree: String(req.body.isFree) === 'true',
+    isFree: String(req.body.isFree) === "true",
   };
 
   const result = await eventService.createEventService(payload, userId);
 
   res.status(201).json({
-    status: 'success',
-    message: 'Event created successfully',
+    status: "success",
+    message: "Event created successfully",
     data: result,
   });
 });
-
 
 // 2. GET ALL EVENTS (WITH FILTER )
 export const getAllEvents = catchAsync(async (req: Request, res: Response) => {
   const result = await eventService.getAllEventsService(req.query);
 
   res.status(200).json({
-    status: 'success',
-    message: 'Events retrieved successfully',
+    status: "success",
+    message: "Events retrieved successfully",
     data: result,
   });
 });
-
 
 // 3. GET EVENT DETAIL (by ID)
-export const getEventDetail = catchAsync(async (req: Request, res: Response) => {
-  const { eventId } = req.params;
+export const getEventDetail = catchAsync(
+  async (req: Request, res: Response) => {
+    const { eventId } = req.params;
 
-  if (!eventId) {
-    throw new AppError(400, 'eventId is required');
-  }
+    if (!eventId) {
+      throw new AppError(400, "eventId is required");
+    }
 
-  const result = await eventService.getEventDetailService(eventId as string);
+    const result = await eventService.getEventDetailService(eventId as string);
 
-  if (!result) {
-    throw new AppError(404, 'Event not found');
-  }
+    if (!result) {
+      throw new AppError(404, "Event not found");
+    }
 
-  res.status(200).json({
-    status: 'success',
-    data: result,
-  });
-});
-
+    res.status(200).json({
+      status: "success",
+      data: result,
+    });
+  },
+);
 
 // 4. GET EVENT BY SLUG
-export const getEventBySlug = catchAsync(async (req: Request, res: Response) => {
-  const { slug } = req.params;
+export const getEventBySlug = catchAsync(
+  async (req: Request, res: Response) => {
+    const { slug } = req.params;
 
-  if (!slug) {
-    throw new AppError(400, 'slug is required');
-  }
+    if (!slug) {
+      throw new AppError(400, "slug is required");
+    }
 
-  const result = await eventService.getEventBySlugService(slug as string);
+    const result = await eventService.getEventBySlugService(slug as string);
 
-  if (!result) {
-    throw new AppError(404, 'Event not found');
-  }
+    if (!result) {
+      throw new AppError(404, "Event not found");
+    }
 
-  res.status(200).json({
-    status: 'success',
-    data: result,
-  });
-});
-
+    res.status(200).json({
+      status: "success",
+      data: result,
+    });
+  },
+);
 
 // 5. GET EVENTS BY ORGANIZER
-export const getEventsByOrganizer = catchAsync(async (req: Request, res: Response) => {
+export const getEventsByOrganizer = catchAsync(
+  async (req: Request, res: Response) => {
+    const userId = req.user?.userId as string;
+    console.log(userId);
+    const result = await eventService.getEventsByOrganizerService(userId);
 
-
-  const userId = req.user?.userId as string;
-  console.log(userId)
-  const result = await eventService.getEventsByOrganizerService(userId);
-
-  res.status(200).json({
-    status: 'success',
-    data: result,
-  });
-});
-
+    res.status(200).json({
+      status: "success",
+      data: result,
+    });
+  },
+);
 
 // 6. GET TRENDING EVENTS
-export const getTrendingEvents = catchAsync(async (_req: Request, res: Response) => {
-  const result = await eventService.getTrendingEventsService();
+export const getTrendingEvents = catchAsync(
+  async (_req: Request, res: Response) => {
+    const result = await eventService.getTrendingEventsService();
 
-  res.status(200).json({
-    status: 'success',
-    message: 'Trending events retrieved',
-    data: result,
-  });
-});
-
+    res.status(200).json({
+      status: "success",
+      message: "Trending events retrieved",
+      data: result,
+    });
+  },
+);
 
 // 7. UPDATE EVENT
 export const updateEvent = catchAsync(async (req: Request, res: Response) => {
   const eventId = req.params.eventId as string;
 
-
   if (!eventId) {
-    throw new AppError(400, 'eventId is required');
+    throw new AppError(400, "eventId is required");
   }
 
   if (!req.user?.userId) {
-    throw new AppError(401, 'Unauthorized');
+    throw new AppError(401, "Unauthorized");
   }
 
   const userId = req.user.userId;
   let updateData: any = { ...req.body };
 
-
-   console.log("file",req.file)
+  console.log("file", req.file);
   // upload thumbnail
   if (req.file) {
     try {
-
-      updateData.thumbnailUrl = await uploadSingle(req.file, 'events');
-      
+      updateData.thumbnailUrl = await uploadSingle(req.file, "events");
     } catch {
-      throw new AppError(400, 'Failed to upload thumbnail');
+      throw new AppError(400, "Failed to upload thumbnail");
     }
   }
 
-
-  const updatedEvent = await eventService.updateEventService(eventId, updateData,userId)
+  const updatedEvent = await eventService.updateEventService(
+    eventId,
+    updateData,
+    userId,
+  );
 
   res.status(201).json({
-    status:"success",
-    message:"Update event succesfull",
-    data :  updatedEvent
-  })
+    status: "success",
+    message: "Update event succesfull",
+    data: updatedEvent,
   });
+});
 //   // validation number
 //   if (req.body.available_slot) {
 //     const slot = parseInt(String(req.body.available_slot));
@@ -199,17 +196,20 @@ export const updateEvent = catchAsync(async (req: Request, res: Response) => {
 //   });
 // });
 
+// // 8. DELETE EVENT (SOFT DELETE)
+// export const deleteEvent = catchAsync(async (req: any, res: Response) => {
+//   const { event_id } = req.params;
 
 // 7. DELETE EVENT (SOFT DELETE)
 export const deleteEvent = catchAsync(async (req: Request, res: Response) => {
   const eventId = req.params.eventId as string;
 
   if (!eventId) {
-    throw new AppError(400, 'eventId is required');
+    throw new AppError(400, "eventId is required");
   }
 
   if (!req.user?.userId) {
-    throw new AppError(401, 'Unauthorized');
+    throw new AppError(401, "Unauthorized");
   }
 
   const userId = req.user.userId;
@@ -217,7 +217,7 @@ export const deleteEvent = catchAsync(async (req: Request, res: Response) => {
   await eventService.deleteEventService(eventId, userId);
 
   res.status(200).json({
-    status: 'success',
-    message: 'Event deleted successfully',
-  })
+    status: "success",
+    message: "Event deleted successfully",
+  });
 });

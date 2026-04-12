@@ -23,7 +23,6 @@ const SALT_ROUNDS = 10;
 
 export const authService = {
   //--------------------- SIGNUP
-
   registerUser: async (data: any) => {
     console.log("data", data);
     try {
@@ -304,7 +303,6 @@ export const authService = {
     email: string;
     password: string;
   }) => {
-  
     try {
       const user = await prisma.user.findUnique({
         where: { email, deletedAt: null },
