@@ -162,14 +162,16 @@ export const getEventBySlugService = async (slug: string) => {
 };
 
 // 5. GET EVENTS BY ORGANIZER
-export const getEventsByOrganizerService = async (organizerId: string) => {
+export const getEventsByOrganizerService = async (userId: string) => {
+
   return await prisma.event.findMany({
     where: {
-      organizerId: organizerId,
+     userId,
       deletedAt: null
     },
-    orderBy: { createdAt: 'desc' }
+    // orderBy: { createdAt: 'desc' }
   });
+
 };
 
 // 6. TRENDING EVENT
@@ -189,30 +191,7 @@ export const getTrendingEventsService = async () => {
 };
 
 // 7. UPDATE EVENT
-// export const updateEventService = async (eventId: string, data: any, organizerId: string) => {
-//   const existingEvent = await prisma.event.findFirst({
-//     where: { eventId: eventId, organizerId: organizerId }
-//   });
-// const parseDate = (value: any) => {
-//   const date = new Date(value);
-//   return isNaN(date.getTime()) ? null : date;
-// };
-//   if (!existingEvent) {
-//     throw new Error("Event not found or you don't have permission");
-//   }
 
-//   return await prisma.event.update({
-//     where: {eventId},
-//     data: {
-//   title: data.title,
-//   description: data.description,
-//   // categoryId: data.categoryId,
-//   availableSlot: data.availableSlot ? Number(data.availableSlot) : undefined,
-//   price: data.price ? Number(data.price) : undefined,
-//   eventDdate: data.eventDate ? new Date(data.eventDate) : undefined,
-// }
-//   });
-// };
 export const updateEventService = async (
   eventId: string,
   data: any,

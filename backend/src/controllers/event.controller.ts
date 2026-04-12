@@ -102,12 +102,11 @@ export const getEventBySlug = catchAsync(async (req: Request, res: Response) => 
 
 // 5. GET EVENTS BY ORGANIZER
 export const getEventsByOrganizer = catchAsync(async (req: Request, res: Response) => {
-  if (!req.user?.userId) {
-    throw new AppError(401, 'Unauthorized');
-  }
 
-  const organizerId = req.user.userId;
-  const result = await eventService.getEventsByOrganizerService(organizerId);
+
+  const userId = req.user?.userId as string;
+  console.log(userId)
+  const result = await eventService.getEventsByOrganizerService(userId);
 
   res.status(200).json({
     status: 'success',
