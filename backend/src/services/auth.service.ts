@@ -454,4 +454,14 @@ export const authService = {
       handlePrismaError(error);
     }
   },
+
+  getUserDetails: async (userId: string) => {
+    const user = await prisma.user.findUnique({
+      where: {
+        userId,
+      },
+    });
+
+    return formatUserResponse(user);
+  },
 };
