@@ -12,10 +12,11 @@ import eventRouter from "./routers/event.route";
 // import organizerRouter from "./routers/organizer.route";
 // import wishlistRouter from "./routers/wishlist.route";
 import paymentRouter from "./routers/payment.route";
+import pointRouter from "./routers/point.route";
 
 const app: Express = express();
 
-const PORT = 8004;
+const PORT = 8000;
 
 // json middleware
 app.use(express.json());
@@ -56,6 +57,9 @@ app.use("/api/order", orderCouponRouter);
 
 // order end point
 app.use("/api/payment", paymentRouter);
+
+// point end point
+app.use("/api/point", pointRouter);
 
 // error middleware
 app.use(globalErrorHandler);
