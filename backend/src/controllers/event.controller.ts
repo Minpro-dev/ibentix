@@ -100,20 +100,20 @@ export const getEventBySlug = catchAsync(async (req: Request, res: Response) => 
 });
 
 
-// // 5. GET EVENTS BY ORGANIZER
-// export const getEventsByOrganizer = catchAsync(async (req: any, res: Response) => {
-//   if (!req.user?.id) {
-//     throw new AppError(401, 'Unauthorized');
-//   }
+// 5. GET EVENTS BY ORGANIZER
+export const getEventsByOrganizer = catchAsync(async (req: any, res: Response) => {
+  if (!req.user?.id) {
+    throw new AppError(401, 'Unauthorized');
+  }
 
-//   const organizerId = req.user.id;
-//   const result = await eventService.getEventsByOrganizerService(organizerId);
+  const organizerId = req.user.id;
+  const result = await eventService.getEventsByOrganizerService(organizerId);
 
-//   res.status(200).json({
-//     status: 'success',
-//     data: result,
-//   });
-// });
+  res.status(200).json({
+    status: 'success',
+    data: result,
+  });
+});
 
 
 // 6. GET TRENDING EVENTS

@@ -4,7 +4,7 @@ import {
   getAllEvents,
   getEventDetail,
   getEventBySlug,
-//   getEventsByOrganizer,
+  getEventsByOrganizer,
   getTrendingEvents,
   updateEvent,
 //   deleteEvent,
@@ -43,8 +43,8 @@ route.get('/slug/:slug', getEventBySlug);
 // // ORGANIZER ROUTES
 // // =========================
 
-// // GET my events
-// route.get('/organizer/me', authentication, getEventsByOrganizer);
+// GET my events
+route.get('/organizer/me', authentication, getEventsByOrganizer);
 
 // CREATE event
 route.post(
