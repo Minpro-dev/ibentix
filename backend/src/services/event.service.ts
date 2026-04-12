@@ -162,14 +162,16 @@ export const getEventBySlugService = async (slug: string) => {
 };
 
 // 5. GET EVENTS BY ORGANIZER
-export const getEventsByOrganizerService = async (organizerId: string) => {
+export const getEventsByOrganizerService = async (userId: string) => {
+
   return await prisma.event.findMany({
     where: {
-      organizerId: organizerId,
+     userId,
       deletedAt: null
     },
-    orderBy: { createdAt: 'desc' }
+    // orderBy: { createdAt: 'desc' }
   });
+
 };
 
 // 6. TRENDING EVENT

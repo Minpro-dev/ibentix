@@ -4,10 +4,10 @@ import {
   getAllEvents,
   getEventDetail,
   getEventBySlug,
-  getEventsByOrganizer,
   getTrendingEvents,
   updateEvent,
   deleteEvent,
+  getEventsByOrganizer,
 } from '../controllers/event.controller';
 
 import { authentication } from '../middleware/auth.middleware';

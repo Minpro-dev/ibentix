@@ -17,7 +17,7 @@ import referralCouponRouter from "./routers/referralCoupon.route";
 
 const app: Express = express();
 
-const PORT = 8001;
+const PORT = 8003;
 
 // json middleware
 app.use(express.json());
