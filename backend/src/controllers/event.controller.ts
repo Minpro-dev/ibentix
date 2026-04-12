@@ -98,20 +98,19 @@ export const getEventBySlug = catchAsync(
   },
 );
 
-// // 5. GET EVENTS BY ORGANIZER
-// export const getEventsByOrganizer = catchAsync(async (req: any, res: Response) => {
-//   if (!req.user?.id) {
-//     throw new AppError(401, 'Unauthorized');
-//   }
+// 5. GET EVENTS BY ORGANIZER
+export const getEventsByOrganizer = catchAsync(
+  async (req: Request, res: Response) => {
+    const userId = req.user?.userId as string;
+    console.log(userId);
+    const result = await eventService.getEventsByOrganizerService(userId);
 
-//   const organizerId = req.user.id;
-//   const result = await eventService.getEventsByOrganizerService(organizerId);
-
-//   res.status(200).json({
-//     status: 'success',
-//     data: result,
-//   });
-// });
+    res.status(200).json({
+      status: "success",
+      data: result,
+    });
+  },
+);
 
 // 6. GET TRENDING EVENTS
 export const getTrendingEvents = catchAsync(
@@ -162,58 +161,63 @@ export const updateEvent = catchAsync(async (req: Request, res: Response) => {
     message: "Update event succesfull",
     data: updatedEvent,
   });
-  //   // validation number
-  //   if (req.body.available_slot) {
-  //     const slot = parseInt(String(req.body.available_slot));
-  //     if (isNaN(slot)) throw new AppError(400, 'Invalid available_slot');
-  //     updateData.available_slot = slot;
-  //   }
+});
+//   // validation number
+//   if (req.body.available_slot) {
+//     const slot = parseInt(String(req.body.available_slot));
+//     if (isNaN(slot)) throw new AppError(400, 'Invalid available_slot');
+//     updateData.available_slot = slot;
+//   }
 
-  //   if (req.body.price) {
-  //     const price = parseFloat(String(req.body.price));
-  //     if (isNaN(price)) throw new AppError(400, 'Invalid price');
-  //     updateData.price = price;
-  //   }
+//   if (req.body.price) {
+//     const price = parseFloat(String(req.body.price));
+//     if (isNaN(price)) throw new AppError(400, 'Invalid price');
+//     updateData.price = price;
+//   }
 
-  //   if (req.body.event_date) {
-  //     updateData.event_date = new Date(req.body.event_date);
-  //   }
+//   if (req.body.event_date) {
+//     updateData.event_date = new Date(req.body.event_date);
+//   }
 
-  //   if (req.body.isFree !== undefined) {
-  //     updateData.isFree = String(req.body.isFree) === 'true';
-  //   }
+//   if (req.body.isFree !== undefined) {
+//     updateData.isFree = String(req.body.isFree) === 'true';
+//   }
 
-  //   const result = await eventService.updateEventService(
-  //     event_id,
-  //     updateData,
-  //     organizerId
-  //   );
+//   const result = await eventService.updateEventService(
+//     event_id,
+//     updateData,
+//     organizerId
+//   );
 
-  //   res.status(200).json({
-  //     status: 'success',
-  //     message: 'Event updated successfully',
-  //     data: result,
-  //   });
-  // });
+//   res.status(200).json({
+//     status: 'success',
+//     message: 'Event updated successfully',
+//     data: result,
+//   });
+// });
 
-  // // 8. DELETE EVENT (SOFT DELETE)
-  // export const deleteEvent = catchAsync(async (req: any, res: Response) => {
-  //   const { event_id } = req.params;
+// // 8. DELETE EVENT (SOFT DELETE)
+// export const deleteEvent = catchAsync(async (req: any, res: Response) => {
+//   const { event_id } = req.params;
 
-  //   if (!event_id) {
-  //     throw new AppError(400, 'event_id is required');
-  //   }
+// 7. DELETE EVENT (SOFT DELETE)
+export const deleteEvent = catchAsync(async (req: Request, res: Response) => {
+  const eventId = req.params.eventId as string;
 
-  //   if (!req.user?.userId) {
-  //     throw new AppError(401, 'Unauthorized');
-  //   }
+  if (!eventId) {
+    throw new AppError(400, "eventId is required");
+  }
 
-  //   const organizerId = req.user.userId;
+  if (!req.user?.userId) {
+    throw new AppError(401, "Unauthorized");
+  }
 
-  //   await eventService.deleteEventService(event_id, organizerId);
+  const userId = req.user.userId;
 
-  //   res.status(200).json({
-  //     status: 'success',
-  //     message: 'Event deleted successfully',
-  //   });
+  await eventService.deleteEventService(eventId, userId);
+
+  res.status(200).json({
+    status: "success",
+    message: "Event deleted successfully",
+  });
 });
