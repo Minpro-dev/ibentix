@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router } from "express";
 import {
   createEvent,
   getAllEvents,
@@ -8,67 +8,72 @@ import {
   updateEvent,
   deleteEvent,
   getEventsByOrganizer,
-} from '../controllers/event.controller';
+  getAllAttendeesByEventId,
+} from "../controllers/event.controller";
 
-import { authentication } from '../middleware/auth.middleware';
-import { upload } from '../config/multer.config';
+import { authentication, authorization } from "../middleware/auth.middleware";
+import { upload } from "../config/multer.config";
 
 // (pakai Zod)
-import { validate } from '../middleware/validation.middleware';
-import { createEventSchema, updateEventSchema, getEventsQuerySchema } 
-from '../validations/event.validation';
-
+import { validate } from "../middleware/validation.middleware";
+import {
+  createEventSchema,
+  updateEventSchema,
+  getEventsQuerySchema,
+} from "../validations/event.validation";
 
 const route = Router();
-
 
 // =========================
 // ATTENDEE ROUTES
 // =========================
 
 // GET all events (with filter + pagination)
-route.get('/', validate(getEventsQuerySchema), getAllEvents);
+route.get("/", validate(getEventsQuerySchema), getAllEvents);
 
 // GET trending events
-route.get('/trending', getTrendingEvents);
+route.get("/trending", getTrendingEvents);
 
 // GET event detail by ID
-route.get('/:eventId', getEventDetail);
+route.get("/details/:eventId", getEventDetail);
 
 // GET event detail by slug
-route.get('/slug/:slug', getEventBySlug);
-
+route.get("/slug/:slug", getEventBySlug);
 
 // // =========================
 // // ORGANIZER ROUTES
 // // =========================
 
 // GET my events
-route.get('/organizer/me', authentication, getEventsByOrganizer);
+route.get("/organizer/me", authentication, getEventsByOrganizer);
 
 // CREATE event
 route.post(
-  '/',
+  "/",
   authentication,
-  upload.single('thumbnail'),
+  upload.single("thumbnail"),
   // validate(createEventSchema), // optional (Zod)
-  createEvent
+  createEvent,
 );
 
 // UPDATE event
 route.patch(
-  '/:eventId',
+  "/:eventId",
   authentication,
-  upload.single('thumbnail'),
+  upload.single("thumbnail"),
   validate(updateEventSchema), // optional
-  updateEvent
+  updateEvent,
 );
 
 // DELETE event
-route.delete(
-  '/:eventId',
+route.delete("/:eventId", authentication, deleteEvent);
+
+// get all attendees by event
+route.get(
+  "/event-attendees",
   authentication,
-  deleteEvent
+  authorization("ORGANIZER"),
+  getAllAttendeesByEventId,
 );
 
 export default route;
