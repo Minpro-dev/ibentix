@@ -7,10 +7,9 @@ import authRouter from "./routers/auth.route";
 import couponRouter from "./routers/coupon.route";
 import appCouponRouter from "./routers/appCoupon.router";
 import orderCouponRouter from "./routers/order.router";
-// import eventRouter from "./routers/event.route";
 import eventRouter from "./routers/event.route";
 // import organizerRouter from "./routers/organizer.route";
-// import wishlistRouter from "./routers/wishlist.route";
+import wishlistRouter from "./routers/wishlist.route";
 import paymentRouter from "./routers/payment.route";
 import pointRouter from "./routers/point.route";
 import referralCouponRouter from "./routers/referralCoupon.route";
@@ -18,7 +17,7 @@ import reviewRouter from "./routers/review.router";
 
 const app: Express = express();
 
-const PORT = 8000;
+const PORT = 8007;
 
 // json middleware
 app.use(express.json());
@@ -51,8 +50,9 @@ app.use("/api/auth", authRouter);
 // app-coupon
 app.use("/api/app-coupon", appCouponRouter);
 
-// wishlist endpoint
-// app.use("/api/wishlist", wishlistRouter);
+//wishlist endpoint
+app.use("/api/wishlist", wishlistRouter);
+
 
 // order end point
 app.use("/api/order", orderCouponRouter);
