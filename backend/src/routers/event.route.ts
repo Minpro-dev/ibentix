@@ -6,7 +6,7 @@ import {
   getEventBySlug,
 //   getEventsByOrganizer,
   getTrendingEvents,
-  // updateEvent,
+  updateEvent,
 //   deleteEvent,
 } from '../controllers/event.controller';
 
@@ -55,14 +55,14 @@ route.post(
   createEvent
 );
 
-// // UPDATE event
-// route.patch(
-//   '/:event_id',
-//   authentication,
-//   upload.single('thumbnail'),
-//   validate(updateEventSchema), // optional
-//   updateEvent
-// );
+// UPDATE event
+route.patch(
+  '/:eventId',
+  authentication,
+  upload.single('thumbnail'),
+  validate(updateEventSchema), // optional
+  updateEvent
+);
 
 // // DELETE event
 // route.delete(

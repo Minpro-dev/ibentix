@@ -3,6 +3,7 @@ import * as eventService from '../services/event.service';
 import { catchAsync } from '../utils/catchAsync';
 import { uploadCloudinary } from '../utils/uploadCloudinary';
 import { AppError } from '../utils/AppError';
+import { uploadSingle } from '../utils/cloudinaryUploader';
 
 
 // 1. CREATE EVENT
@@ -127,30 +128,43 @@ export const getTrendingEvents = catchAsync(async (_req: Request, res: Response)
 });
 
 
-// // 7. UPDATE EVENT
-// export const updateEvent = catchAsync(async (req: any, res: Response) => {
-//   const { event_id } = req.params;
+// 7. UPDATE EVENT
+export const updateEvent = catchAsync(async (req: Request, res: Response) => {
+  const eventId = req.params.eventId as string;
 
-//   if (!event_id) {
-//     throw new AppError(400, 'event_id is required');
-//   }
 
-//   if (!req.user?.userId) {
-//     throw new AppError(401, 'Unauthorized');
-//   }
+  if (!eventId) {
+    throw new AppError(400, 'eventId is required');
+  }
 
-//   const organizerId = req.user.userId;
-//   let updateData: any = { ...req.body };
+  if (!req.user?.userId) {
+    throw new AppError(401, 'Unauthorized');
+  }
 
-//   // upload thumbnail
-//   if (req.file?.buffer) {
-//     try {
-//       updateData.thumbnail_url = await uploadCloudinary(req.file.buffer, 'events');
-//     } catch {
-//       throw new AppError(500, 'Failed to upload thumbnail');
-//     }
-//   }
+  const userId = req.user.userId;
+  let updateData: any = { ...req.body };
 
+
+   console.log("file",req.file)
+  // upload thumbnail
+  if (req.file) {
+    try {
+
+      updateData.thumbnailUrl = await uploadSingle(req.file, 'events');
+      
+    } catch {
+      throw new AppError(400, 'Failed to upload thumbnail');
+    }
+  }
+
+
+  const updatedEvent = await eventService.updateEventService(eventId, updateData,userId)
+
+  res.status(201).json({
+    status:"success",
+    message:"Update event succesfull",
+    data :  updatedEvent
+  })
 //   // validation number
 //   if (req.body.available_slot) {
 //     const slot = parseInt(String(req.body.available_slot));
@@ -206,4 +220,4 @@ export const getTrendingEvents = catchAsync(async (_req: Request, res: Response)
 //     status: 'success',
 //     message: 'Event deleted successfully',
 //   });
-// });
+});
