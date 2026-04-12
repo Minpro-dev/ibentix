@@ -1,23 +1,25 @@
-// import { Request, Response, NextFunction } from "express";
-// import {
-//   toggleWishlistService,
+import { Request, Response, NextFunction } from "express";
+import {
+  toggleWishlistService,
 //   getWishlistService,
 //   checkWishlistService,
-// } from "../services/wishlist.service";
+} from "../services/wishlist.service";
 
-// // 1. TOGGLE LIKE
-// export const toggleWishlist = async (req: any, res: Response, next: NextFunction) => {
-//   try {
-//     const userId = req.user.id;
-//     const { eventId } = req.params;
+// 1. TOGGLE LIKE
+export const toggleWishlist = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userId = req.user?.userId as string;
+    const eventId = req.body.eventId;
+    //  const eventId = req.params.eventId as string;
 
-//     const data = await toggleWishlistService(userId, eventId);
 
-//     res.json({ success: true, ...data });
-//   } catch (err) {
-//     next(err);
-//   }
-// };
+    const data = await toggleWishlistService(userId, eventId);
+
+    res.json({ success: true, ...data });
+  } catch (err) {
+    next(err);
+  }
+};
 
 // // 2. GET MY WISHLIST
 // export const getWishlist = async (req: any, res: Response, next: NextFunction) => {

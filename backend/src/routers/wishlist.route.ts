@@ -1,15 +1,15 @@
-// import { Router } from "express";
-// import {
-//   toggleWishlist,
+import { Router } from "express";
+import {
+  toggleWishlist,
 //   getWishlist,
 //   checkWishlist,
-// } from "../controllers/wishlist.controller";
-// import { authentication, authorization } from "../middleware/auth.middleware";
+} from "../controllers/wishlist.controller";
+import { authentication, authorization } from "../middleware/auth.middleware";
 
-// const router = Router();
+const router = Router();
 
-// // LIKE / UNLIKE
-// router.post("/:eventId", authentication, toggleWishlist);
+// LIKE / UNLIKE
+router.post("/:eventId", authentication, toggleWishlist);
 
 // // GET MY WISHLIST
 // router.get("/", authentication, getWishlist);

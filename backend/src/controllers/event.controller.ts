@@ -196,9 +196,7 @@ export const updateEvent = catchAsync(async (req: Request, res: Response) => {
 //   });
 // });
 
-// // 8. DELETE EVENT (SOFT DELETE)
-// export const deleteEvent = catchAsync(async (req: any, res: Response) => {
-//   const { event_id } = req.params;
+
 
 // 7. DELETE EVENT (SOFT DELETE)
 export const deleteEvent = catchAsync(async (req: Request, res: Response) => {
