@@ -216,10 +216,10 @@ export const getTrendingEventsService = async () => {
 export const updateEventService = async (
   eventId: string,
   data: any,
-  organizerId: string
+  userId: string
 ) => {
   const existingEvent = await prisma.event.findFirst({
-    where: { eventId, organizerId }
+    where: { eventId, userId }
   });
 
   const parseDate = (value: any) => {
@@ -239,6 +239,7 @@ export const updateEventService = async (
       ...(data.availableSlot && { availableSlot: Number(data.availableSlot) }),
       ...(data.price && { price: Number(data.price) }),
       ...(data.eventDate && { eventDate: parseDate(data.eventDate) }),
+      ...(data.thumbnailUrl && { thumbnailUrl: data.thumbnailUrl }),
     }
   });
 };

@@ -3,6 +3,7 @@ import * as eventService from '../services/event.service';
 import { catchAsync } from '../utils/catchAsync';
 import { uploadCloudinary } from '../utils/uploadCloudinary';
 import { AppError } from '../utils/AppError';
+import { uploadSingle } from '../utils/cloudinaryUploader';
 
 
 // 1. CREATE EVENT
@@ -128,8 +129,8 @@ export const getTrendingEvents = catchAsync(async (_req: Request, res: Response)
 
 
 // 7. UPDATE EVENT
-export const updateEvent = catchAsync(async (req: any, res: Response) => {
-  const { eventId } = req.params;
+export const updateEvent = catchAsync(async (req: Request, res: Response) => {
+  const eventId = req.params.eventId as string;
 
 
   if (!eventId) {
@@ -140,19 +141,30 @@ export const updateEvent = catchAsync(async (req: any, res: Response) => {
     throw new AppError(401, 'Unauthorized');
   }
 
-  const organizerId = req.user.userId;
+  const userId = req.user.userId;
   let updateData: any = { ...req.body };
 
+
+   console.log("file",req.file)
   // upload thumbnail
-  if (req.file?.buffer) {
+  if (req.file) {
     try {
-      updateData.thumbnail_url = await uploadCloudinary(req.file.buffer, 'events');
+
+      updateData.thumbnailUrl = await uploadSingle(req.file, 'events');
+      
     } catch {
-      throw new AppError(500, 'Failed to upload thumbnail');
+      throw new AppError(400, 'Failed to upload thumbnail');
     }
   }
 
 
+  const updatedEvent = await eventService.updateEventService(eventId, updateData,userId)
+
+  res.status(201).json({
+    status:"success",
+    message:"Update event succesfull",
+    data :  updatedEvent
+  })
 //   // validation number
 //   if (req.body.available_slot) {
 //     const slot = parseInt(String(req.body.available_slot));
