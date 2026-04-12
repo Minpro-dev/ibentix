@@ -5,7 +5,7 @@ import {
 //   checkWishlist,
 } from "../controllers/wishlist.controller";
 import { authentication, authorization } from "../middleware/auth.middleware";
-import { verifyAccessToken } from "../utils/token.util";
+
 
 const router = Router();
 
