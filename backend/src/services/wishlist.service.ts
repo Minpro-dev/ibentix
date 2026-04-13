@@ -7,7 +7,6 @@ import { prisma } from "../config/prismaClient.config";
 
 // 1. TOGGLE WISHLIST (LIKE / UNLIKE)
 
-
 export const toggleWishlistService = async (userId: string, eventId: string) => {
   console.log("=== TOGGLE WISHLIST ===");
   console.log("User:", userId);
