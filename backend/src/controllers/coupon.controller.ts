@@ -11,7 +11,6 @@ import { couponService } from "../services/coupon.service";
 export const couponController = {
   createEventCoupon: catchAsync(
     async (req: Request<{}, {}, createEventCouponSchema>, res: Response) => {
-      //   console.log("req-body -->", req.body);
       const userId = req.user?.userId as string;
       const { couponCode, eventId, validFrom, validUntil, discountAmount } =
         req.body;
