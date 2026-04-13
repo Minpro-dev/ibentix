@@ -21,11 +21,40 @@ import {
 //   }
 // };
 
+// export const toggleWishlist = async (req: Request, res: Response, next: NextFunction) => {
+//   try {
+//     const userId = req.user?.userId as string;
+//     const eventId = req.params.eventId as string;
+
+
+//     if (!userId) {
+//       return res.status(401).json({ message: "Unauthorized" });
+//     }
+
+//     if (!eventId) {
+//       return res.status(400).json({ message: "eventId is required" });
+//     }
+
+//     const data = await toggleWishlistService(userId, eventId);
+
+//     res.status(200).json({
+//       success: true,
+//       ...data,
+//     });
+//   } catch (err) {
+//     console.error("ERROR TOGGLE:", err);
+//     next(err);
+//   }
+// };
+
 export const toggleWishlist = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const userId = req.user?.userId as string;
+    const userId = req.user?.userId;
     const eventId = req.params.eventId as string;
 
+    // console.log("=== TOGGLE WISHLIST ===");
+    // console.log("User:", userId);
+    // console.log("Event:", eventId);
 
     if (!userId) {
       return res.status(401).json({ message: "Unauthorized" });
@@ -35,14 +64,16 @@ export const toggleWishlist = async (req: Request, res: Response, next: NextFunc
       return res.status(400).json({ message: "eventId is required" });
     }
 
-    const data = await toggleWishlistService(userId, eventId);
+    const result = await toggleWishlistService(userId, eventId);
 
     res.status(200).json({
-      success: true,
-      ...data,
+      status: "success",
+      liked: result.liked,
+      message: result.message,
     });
+
   } catch (err) {
-    console.error("ERROR TOGGLE:", err);
+    console.error("ERROR TOGGLE WISHLIST:", err);
     next(err);
   }
 };
