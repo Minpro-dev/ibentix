@@ -1,32 +1,206 @@
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import {
+  Search,
+  SlidersHorizontal,
+  Heart,
+  Ticket,
+  LogOut,
+  Settings,
+  Compass,
+  Coins,
+  //   Menu,
+  X,
+} from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
+import Button from "./Button";
+import { useNavigate } from "react-router-dom";
 
-function Navbar() {
-  const user = useAuthStore((state) => state.user);
+const Navbar = () => {
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const navigate = useNavigate();
-  console.log("navbar ->", user);
+  const user = useAuthStore((state) => state.user);
+  const logout = useAuthStore((state) => state.clearAuth);
+
   return (
-    <div>
-      <nav className="h-15 border-b border-zinc-400 flex justify-between items-center px-10 mb-5">
-        <div>
-          <p>Ibentix</p>
-        </div>
-        {user ? (
-          <div>
-            <p>{`${user?.firstName} ${user?.lastName}`}</p>
+    <nav className="sticky top-0 z-50 bg-white border-b border-slate-100 shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16 gap-4">
+          {/* 1) Logo */}
+          <div className="flex items-center gap-2 shrink-0 cursor-pointer">
+            {/* FIXME */}
+            {/* <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
+              <Ticket className="text-white w-5 h-5" />
+            </div> */}
+            <span className="text-xl font-bold text-indigo-600 hidden sm:block tracking-tight">
+              Ibentix
+            </span>
           </div>
-        ) : (
-          <div className="">
+
+          {/* 2) Search Bar & Filter Button */}
+          <div className="flex-1 max-w-xl flex items-center gap-2">
+            <div className="relative w-full">
+              <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Search className="h-4 w-4 text-zinc-400" />
+              </span>
+              <input
+                type="text"
+                className="block w-full pl-10 pr-3 py-2 bg-slate-50 border border-transparent rounded-full text-sm placeholder-zinc-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                placeholder="Search events..."
+              />
+            </div>
             <button
-              onClick={() => navigate(-1)}
-              className="w-full mt-2 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-2xl shadow-xl shadow-indigo-100 transition-all active:scale-95 tracking-wider text-md">
-              Login
+              onClick={() => setIsFilterModalOpen(true)}
+              className="p-2 text-zinc-600 bg-slate-50 border border-slate-100 rounded-full hover:bg-indigo-50 hover:text-indigo-600 transition-colors">
+              <SlidersHorizontal size={18} />
             </button>
           </div>
-        )}
-      </nav>
-    </div>
+
+          {/* Nav Links & Profile */}
+          <div className="flex items-center gap-2 sm:gap-6">
+            {/* 3) Favorites */}
+            <a
+              href="#"
+              className="hidden md:flex flex-col items-center text-zinc-500 hover:text-indigo-600 transition-colors">
+              <Heart size={20} />
+              <span className="text-[10px] font-medium mt-1">Favorites</span>
+            </a>
+
+            {/* 4) Tickets */}
+            <a
+              href="#"
+              className="hidden md:flex flex-col items-center text-zinc-500 hover:text-indigo-600 transition-colors">
+              <Ticket size={20} />
+              <span className="text-[10px] font-medium mt-1">Tickets</span>
+            </a>
+
+            {/* 5) Profile with Hover Popover */}
+            {user ? (
+              <div
+                className="relative py-2"
+                onMouseEnter={() => setIsProfileOpen(true)}
+                onMouseLeave={() => setIsProfileOpen(false)}>
+                <div className="flex items-center gap-3 bg-slate-50 p-1 pr-3 rounded-full border border-slate-100 cursor-pointer hover:border-indigo-200 transition-all">
+                  <img
+                    src={`${user.avatar}`}
+                    alt="Avatar"
+                    className="w-8 h-8 rounded-full border border-white shadow-sm"
+                  />
+                  <div className="hidden lg:block text-left">
+                    <p className="text-xs font-bold text-zinc-900 leading-none">
+                      {user.firstName} {user.lastName}
+                    </p>
+                    <div className="flex items-center gap-1 mt-1">
+                      <Coins size={10} className="text-indigo-600" />
+                      <p className="text-[10px] font-bold text-indigo-600">
+                        IDR 2,000
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Profile Dropdown Menu */}
+                {isProfileOpen && (
+                  <div className="absolute right-0 mt-0 w-56 bg-white border border-slate-100 rounded-xl shadow-xl py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                    <div className="px-4 py-2 border-b border-slate-50 lg:hidden">
+                      <p className="text-sm font-bold text-zinc-900">
+                        {user.firstName} {user.lastName}
+                      </p>
+                      <p className="text-xs text-indigo-600 font-bold">
+                        IDR 2,000
+                      </p>
+                    </div>
+                    <a
+                      href="#"
+                      className="flex items-center gap-3 px-4 py-2 text-sm text-zinc-600 hover:bg-slate-50 hover:text-indigo-600">
+                      <Compass size={16} /> Browse Events
+                    </a>
+                    <a
+                      href="#"
+                      className="flex md:hidden items-center gap-3 px-4 py-2 text-sm text-zinc-600 hover:bg-slate-50">
+                      <Heart size={16} /> Favorites
+                    </a>
+                    <a
+                      href="#"
+                      className="flex md:hidden items-center gap-3 px-4 py-2 text-sm text-zinc-600 hover:bg-slate-50">
+                      <Ticket size={16} /> My Tickets
+                    </a>
+                    <a
+                      href="#"
+                      className="flex items-center gap-3 px-4 py-2 text-sm text-zinc-600 hover:bg-slate-50">
+                      <Settings size={16} /> Account Settings
+                    </a>
+                    <div className="border-t border-slate-50 mt-2 pt-2">
+                      <button className="flex items-center gap-3 px-4 py-2 text-sm text-red-500 hover:bg-red-50 w-full text-left">
+                        <LogOut size={16} /> Logout
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Button
+                variant="primary"
+                onClick={() => {
+                  logout();
+                  navigate("/login");
+                }}>
+                Login
+              </Button>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* --- Filter Modal (Overlay) --- */}
+      {isFilterModalOpen && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-zinc-900/40 backdrop-blur-sm transition-opacity">
+          <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+              <h3 className="text-lg font-bold text-zinc-900">Filter Events</h3>
+              <button
+                onClick={() => setIsFilterModalOpen(false)}
+                className="p-1 text-zinc-400 hover:text-zinc-600">
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-bold text-zinc-700 mb-2">
+                  Category
+                </label>
+                <select className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                  <option>All Categories</option>
+                  <option>Music</option>
+                  <option>Technology</option>
+                  <option>Workshop</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-zinc-700 mb-2">
+                  Location
+                </label>
+                <select className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                  <option>All Locations</option>
+                  <option>Jakarta</option>
+                  <option>Bali</option>
+                  <option>Online</option>
+                </select>
+              </div>
+
+              <button
+                onClick={() => setIsFilterModalOpen(false)}
+                className="w-full bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700 shadow-lg shadow-indigo-100 transition-all active:scale-[0.98] mt-4">
+                Apply Filters
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </nav>
   );
-}
+};
 
 export default Navbar;

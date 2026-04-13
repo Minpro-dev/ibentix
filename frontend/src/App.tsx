@@ -1,15 +1,16 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AppLayout from "./ui/AppLayout";
-import SignupPage from "./features/signup/SingupPage";
-import LoginPage from "./features/login/LoginPage";
-import DashboardPage from "./features/dashboard/DashboardPage";
-import HomePage from "./features/home/HomePage";
+import SignupPage from "./pages/signup/SingupPage";
+import LoginPage from "./pages/login/LoginPage";
+import DashboardPage from "./pages/dashboard/DashboardPage";
+import HomePage from "./pages/home/HomePage";
 import api from "./api/axiosInstance";
 import { useEffect, useRef } from "react";
 import { useAuthStore } from "./store/useAuthStore";
 import Unauthorized from "./ui/Unauthorized";
 import PrivateRoute from "./ui/PrivateRoute";
-import ResetPasswordPage from "./features/resetPassword/ResetPasswordPage";
+import ResetPasswordPage from "./pages/resetPassword/ResetPasswordPage";
+import LandingPage from "./pages/landing/Landing";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
       {
         path: "reset-password",
         element: <ResetPasswordPage />,
+      },
+      {
+        path: "landing",
+        element: <LandingPage />,
       },
     ],
   },

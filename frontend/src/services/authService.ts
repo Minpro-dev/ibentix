@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { LoginFormType } from "../features/login/types/loginTypes";
+import type { LoginFormType } from "../pages/login/types/loginTypes";
 import { api } from "../api/axiosInstance";
 
 // ----- TESTING PURPOSES
