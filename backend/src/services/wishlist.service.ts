@@ -3,12 +3,12 @@
 import { prisma } from "../config/prismaClient.config";
 
 // const prisma = new PrismaClient();
-
-
 // 1. TOGGLE WISHLIST (LIKE / UNLIKE)
 
-
-export const toggleWishlistService = async (userId: string, eventId: string) => {
+export const toggleWishlistService = async (
+  userId: string,
+  eventId: string,
+) => {
   console.log("=== TOGGLE WISHLIST ===");
   console.log("User:", userId);
   console.log("Event:", eventId);
@@ -21,8 +21,6 @@ export const toggleWishlistService = async (userId: string, eventId: string) => 
       },
     },
   });
-
-
 
   // UNLIKE
   if (existing) {
@@ -41,7 +39,6 @@ export const toggleWishlistService = async (userId: string, eventId: string) => 
   }
 
   // LIKE
-
   await prisma.wishlist.create({
     data: {
       userId,
@@ -51,7 +48,6 @@ export const toggleWishlistService = async (userId: string, eventId: string) => 
 
   return { liked: true, message: "Added to wishlist" };
 };
-
 
 // 2. GET MY WISHLIST
 export const getWishlistService = async (userId: string) => {
@@ -74,7 +70,6 @@ export const getWishlistService = async (userId: string) => {
 //       },
 //     },
 //   })
-
 
 //   return { liked: !!data }
 // };
