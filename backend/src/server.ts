@@ -17,7 +17,7 @@ import reviewRouter from "./routers/review.router";
 
 const app: Express = express();
 
-const PORT = 8007;
+const PORT = 8009;
 
 // json middleware
 app.use(express.json());

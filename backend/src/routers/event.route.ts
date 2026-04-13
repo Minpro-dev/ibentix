@@ -20,7 +20,7 @@ import {
   createEventSchema,
   updateEventSchema,
   getEventsQuerySchema,
-} from "../validations/event.validation";
+} from "../schemas/event.validation";
 
 const route = Router();
 
@@ -52,7 +52,7 @@ route.post(
   "/",
   authentication,
   upload.single("thumbnail"),
-  // validate(createEventSchema), // optional (Zod)
+  validate(createEventSchema), // optional (Zod)
   createEvent,
 );
 

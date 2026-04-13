@@ -6,22 +6,22 @@ import { AppError } from "../utils/AppError";
 import { uploadSingle } from "../utils/cloudinaryUploader";
 
 // 1. CREATE EVENT
-export const createEvent = catchAsync(async (req: any, res: Response) => {
-  // if (!req.user?.userId) {
-  //   throw new AppError(401, 'Unauthorized: User not found');
-  // }
+export const createEvent = catchAsync(async (req: Request, res: Response) => {
+  if (!req.user?.userId) {
+    throw new AppError(401, 'Unauthorized: User not found');
+  }
 
   const userId = req.user.userId;
   console.log(userId);
-  // let thumbnailUrl = '';
+  let thumbnailUrl = '';
 
-  // if (req.file?.buffer) {
-  //   try {
-  //     thumbnailUrl = await uploadCloudinary(req.file.buffer, 'events');
-  //   } catch {
-  //     throw new AppError(500, 'Failed to upload thumbnail');
-  //   }
-  // }
+  if (req.file?.buffer) {
+    try {
+      thumbnailUrl = await uploadCloudinary(req.file.buffer, 'events');
+    } catch {
+      throw new AppError(500, 'Failed to upload thumbnail');
+    }
+  }
 
   if (!req.body.title) {
     throw new AppError(400, "Event title is required");
@@ -29,7 +29,7 @@ export const createEvent = catchAsync(async (req: any, res: Response) => {
 
   const payload = {
     ...req.body,
-    // thumbnailUrl: thumbnailUrl,
+    thumbnailUrl: thumbnailUrl,
 
     isFree: String(req.body.isFree) === "true",
   };

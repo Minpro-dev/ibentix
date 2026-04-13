@@ -1,5 +1,6 @@
 import { off } from "cluster";
 import { prisma } from "../config/prismaClient.config";
+import { handlePrismaError } from "../utils/prismaErrorHandler";
 
 // Create Event
 // GET EVENT
@@ -9,24 +10,40 @@ import { prisma } from "../config/prismaClient.config";
 export const createEventService = async (data: any, userId: string) => {
   const slug = data.title.toLowerCase().replace(/ /g, "-") + "-" + Date.now();
 
-  return await prisma.event.create({
-    data: {
-      organizerId: data.organizerId,
-      userId,
-      title: data.title,
-      slug: slug,
-      description: data.description,
-      availableSlot: Number(data.availableSlot),
-      thumbnailUrl: data.thumbnailUrl,
-      locationName: data.locationName,
-      address: data.address,
-      city: data.city,
-      eventDate: new Date(data.eventDate),
-      startSellingDate: new Date(data.startSellingDate),
-      endSellingDate: new Date(data.endSellingDate),
-      isFree: data.isFree === true || data.isFree === "true",
-      price: data.price ? Number(data.price) : 0,
-    },
+  return await prisma.$transaction(async (tx) => {
+    const event = await tx.event.create({
+      data: {
+        organizerId: data.organizerId,
+        userId,
+        title: data.title,
+        slug: slug,
+        description: data.description,
+        availableSlot: Number(data.availableSlot),
+        thumbnailUrl: data.thumbnailUrl,
+        locationName: data.locationName,
+        address: data.address,
+        city: data.city,
+        eventDate: new Date(data.eventDate),
+        startSellingDate: new Date(data.startSellingDate),
+        endSellingDate: new Date(data.endSellingDate),
+        isFree: data.isFree === true || data.isFree === "true",
+        price: data.price ? Number(data.price) : 0,
+      },
+    });
+
+    let allCategories: any = [];
+    for (const category of data.categories) {
+      const insertCategory = await tx.eventCategory.create({
+        data: {
+          eventId: event.eventId,
+          categoryName: category,
+        },
+      });
+
+      allCategories.push(insertCategory);
+    }
+
+    return { event, allCategories };
   });
 };
 
@@ -157,7 +174,6 @@ export const getEventBySlugService = async (slug: string) => {
       deletedAt: null,
     },
     include: {
-      // category: true,
       organizer: true,
     },
   });
