@@ -17,7 +17,7 @@ import reviewRouter from "./routers/review.router";
 
 const app: Express = express();
 
-const PORT = 8009;
+const PORT = 8000;
 
 // json middleware
 app.use(express.json());
@@ -52,7 +52,6 @@ app.use("/api/app-coupon", appCouponRouter);
 
 //wishlist endpoint
 app.use("/api/wishlist", wishlistRouter);
-
 
 // order end point
 app.use("/api/order", orderCouponRouter);
