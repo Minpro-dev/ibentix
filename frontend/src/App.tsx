@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AppLayout from "./ui/AppLayout";
 import SignupPage from "./pages/signup/SingupPage";
 import LoginPage from "./pages/login/LoginPage";
-import DashboardPage from "./pages/dashboard/DashboardPage";
+import DashboardPage from "./pages/organizer/dashboard/DashboardPage";
 import HomePage from "./pages/home/HomePage";
 import api from "./api/axiosInstance";
 import { useEffect, useRef } from "react";
@@ -10,7 +10,8 @@ import { useAuthStore } from "./store/useAuthStore";
 import Unauthorized from "./ui/Unauthorized";
 import PrivateRoute from "./ui/PrivateRoute";
 import ResetPasswordPage from "./pages/resetPassword/ResetPasswordPage";
-import LandingPage from "./pages/landing/Landing";
+import AppLayoutOrganizer from "./ui/AppLayoutOrganizer";
+import EventsOrganizer from "./pages/organizer/events/EventsOrganizer";
 
 const router = createBrowserRouter([
   {
@@ -24,14 +25,6 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: <LoginPage />,
-      },
-      {
-        path: "organizer/dashboard",
-        element: (
-          <PrivateRoute allowedRoles={["ORGANIZER"]}>
-            <DashboardPage />
-          </PrivateRoute>
-        ),
       },
       {
         path: "home",
@@ -49,9 +42,29 @@ const router = createBrowserRouter([
         path: "reset-password",
         element: <ResetPasswordPage />,
       },
+    ],
+  },
+
+  // organizer page
+  {
+    path: "/organizer",
+    element: <AppLayoutOrganizer />,
+    children: [
       {
-        path: "landing",
-        element: <LandingPage />,
+        path: "dashboard",
+        element: (
+          <PrivateRoute allowedRoles={["ORGANIZER"]}>
+            <DashboardPage />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "events",
+        element: (
+          <PrivateRoute allowedRoles={["ORGANIZER"]}>
+            <EventsOrganizer />
+          </PrivateRoute>
+        ),
       },
     ],
   },
