@@ -35,9 +35,9 @@ const router = createBrowserRouter([
       {
         path: "home",
         element: (
-          <PrivateRoute allowedRoles={["ATTENDEE"]}>
+          // <PrivateRoute allowedRoles={["ATTENDEE"]}>
             <HomePage />
-          </PrivateRoute>
+          // </PrivateRoute>
         ),
       },
       {
