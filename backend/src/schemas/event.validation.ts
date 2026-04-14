@@ -5,7 +5,7 @@ import * as z from "zod"
 // ======================
 export const createEventSchema = z.object({ 
   body: z.object ({
-title: z.string().min(3, 'Title minimal 3 karakter'),
+title: z.string().min(3, 'Title minimum 3 characters'),
 
       description: z.string().optional(),
 
@@ -29,7 +29,7 @@ title: z.string().min(3, 'Title minimal 3 karakter'),
 
 
 // ======================
-// UPDATE EVENT
+// UPDATE EVENT - patch
 // ======================
 export const updateEventSchema = createEventSchema.partial();
 
@@ -56,3 +56,47 @@ export const getEventsQuerySchema = z.object({
     .enum(['eventDate', 'price', 'createdAt'])
     .default('eventDate'),
 });
+
+// UPDATE EVENT VALIDATION
+
+// export const updateEventSchema = z.object({
+//   body: z.object({
+//     title: z
+//       .string()
+//       .min(3, "Title minimum 3 characters")
+//       .optional(),
+
+//     description: z.string().optional(),
+
+//     categories: z
+//       .array(z.string())
+//       .min(1, "category is required")
+//       .max(5, "Maximum category is 5")
+//       .optional(),
+
+//     availableSlot: z.coerce
+//       .number()
+//       .min(1, "availableSlot minimum 1")
+//       .optional(),
+
+//     price: z.coerce
+//       .number()
+//       .min(0, "price cannot negatif")
+//       .optional(),
+
+//     city: z.string().min(2, "city is required").optional(),
+
+//     locationName: z.string().optional(),
+
+//     address: z.string().optional(),
+
+//     eventDate: z
+//       .string()
+//       .refine((val) => !isNaN(new Date(val).getTime()), {
+//         message: "Invalid date format",
+//       })
+//       .optional(),
+
+//     thumbnailUrl: z.string().url("Invalid URL").optional(),
+//   }),
+// });
