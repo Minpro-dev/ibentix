@@ -10,7 +10,6 @@ import { useAuthStore } from "./store/useAuthStore";
 import Unauthorized from "./ui/Unauthorized";
 import PrivateRoute from "./ui/PrivateRoute";
 import ResetPasswordPage from "./pages/resetPassword/ResetPasswordPage";
-import LandingPage from "./pages/landing/Landing";
 
 const router = createBrowserRouter([
   {
@@ -48,10 +47,6 @@ const router = createBrowserRouter([
       {
         path: "reset-password",
         element: <ResetPasswordPage />,
-      },
-      {
-        path: "landing",
-        element: <LandingPage />,
       },
     ],
   },
