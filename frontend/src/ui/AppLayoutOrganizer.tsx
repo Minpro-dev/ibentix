@@ -6,7 +6,7 @@ function AppLayoutOrganizer() {
   return (
     <div>
       <div className="grid grid-cols-5 h-dvh">
-        <div className="col-span-1 w-full flex flex-col justify-between px-5 py-5 bg-slate-50 ">
+        <div className="col-span-1 w-full flex flex-col justify-between px-5 py-5 bg-slate-100 ">
           <div>
             <div className="pb-10">
               <h1 className="text-2xl font-bold text-indigo-600 hidden sm:block tracking-tight">

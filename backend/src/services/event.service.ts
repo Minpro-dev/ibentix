@@ -182,7 +182,6 @@ export const getEventBySlugService = async (slug: string) => {
 };
 
 // 5. GET EVENTS BY ORGANIZER
-//FIXME
 export const getEventsByOrganizerService = async (
   userId: string,
   page: number,
@@ -190,6 +189,7 @@ export const getEventsByOrganizerService = async (
   search: string,
   eventDate: string,
   isFree: string,
+  city: string,
 ) => {
   const offset = (page - 1) * limit;
 
@@ -226,10 +226,31 @@ export const getEventsByOrganizerService = async (
     ((where.price = 0), (where.isFree = true));
   }
 
-  return await prisma.event.findMany({
+  if (city) {
+    where.OR = [
+      {
+        city: {
+          contains: city,
+          mode: "insensitive",
+        },
+      },
+    ];
+  }
+
+  const events = await prisma.event.findMany({
     where,
-    // orderBy: { createdAt: 'desc' }
+    orderBy: { createdAt: "desc" },
+    take: limit,
+    skip: offset,
   });
+
+  const totalData = await prisma.event.count({
+    where,
+  });
+
+  const totalPage = Math.ceil(totalData / limit);
+
+  return { events, totalData, totalPage };
 };
 
 // 6. TRENDING EVENT

@@ -12,6 +12,7 @@ import PrivateRoute from "./ui/PrivateRoute";
 import ResetPasswordPage from "./pages/resetPassword/ResetPasswordPage";
 import AppLayoutOrganizer from "./ui/AppLayoutOrganizer";
 import EventsOrganizer from "./pages/organizer/events/EventsOrganizer";
+import CreateEvent from "./pages/organizer/createEvent/CreateEvent";
 
 const router = createBrowserRouter([
   {
@@ -63,6 +64,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute allowedRoles={["ORGANIZER"]}>
             <EventsOrganizer />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "event/new",
+        element: (
+          <PrivateRoute allowedRoles={["ORGANIZER"]}>
+            <CreateEvent />
           </PrivateRoute>
         ),
       },

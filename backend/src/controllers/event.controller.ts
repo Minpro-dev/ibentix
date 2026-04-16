@@ -98,7 +98,7 @@ export const getEventBySlug = catchAsync(
   },
 );
 
-// 5. GET EVENTS BY ORGANIZER //FIXME
+// 5. GET EVENTS BY ORGANIZER
 export const getEventsByOrganizer = catchAsync(
   async (req: Request, res: Response) => {
     const userId = req.user?.userId as string;
@@ -108,13 +108,22 @@ export const getEventsByOrganizer = catchAsync(
     const search = req.query.search as string;
     const eventDate = req.query.eventDate as string;
     const isFree = req.query.isFree as string;
+    const city = req.query.city as string;
 
-    console.log(userId);
-    const result = await eventService.getEventsByOrganizerService(userId);
+    const { events, totalData, totalPage } =
+      await eventService.getEventsByOrganizerService(
+        userId,
+        page,
+        limit,
+        search,
+        eventDate,
+        isFree,
+        city,
+      );
 
     res.status(200).json({
       status: "success",
-      data: result,
+      data: { totalData, totalPage, events },
     });
   },
 );
