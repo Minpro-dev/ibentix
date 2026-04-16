@@ -1,6 +1,8 @@
 import { off } from "cluster";
 import { prisma } from "../config/prismaClient.config";
 import { handlePrismaError } from "../utils/prismaErrorHandler";
+import { EventWhereInput } from "../../generated/prisma/models";
+import { endOfDay, startOfDay } from "date-fns";
 
 // Create Event
 // GET EVENT
@@ -180,12 +182,52 @@ export const getEventBySlugService = async (slug: string) => {
 };
 
 // 5. GET EVENTS BY ORGANIZER
-export const getEventsByOrganizerService = async (userId: string) => {
+//FIXME
+export const getEventsByOrganizerService = async (
+  userId: string,
+  page: number,
+  limit: number,
+  search: string,
+  eventDate: string,
+  isFree: string,
+) => {
+  const offset = (page - 1) * limit;
+
+  const where: EventWhereInput = {
+    userId,
+    deletedAt: null,
+  };
+
+  if (search) {
+    where.OR = [
+      {
+        title: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+      {
+        description: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+    ];
+  }
+
+  if (eventDate) {
+    where.eventDate = {
+      lte: endOfDay(new Date(eventDate)),
+      gte: startOfDay(new Date(eventDate)),
+    };
+  }
+
+  if (isFree === "true") {
+    ((where.price = 0), (where.isFree = true));
+  }
+
   return await prisma.event.findMany({
-    where: {
-      userId,
-      deletedAt: null,
-    },
+    where,
     // orderBy: { createdAt: 'desc' }
   });
 };
@@ -207,7 +249,6 @@ export const getTrendingEventsService = async () => {
 };
 
 // 7. UPDATE EVENT
-
 export const updateEventService = async (
   eventId: string,
   data: any,
