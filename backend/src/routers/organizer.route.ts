@@ -13,4 +13,11 @@ route.post(
   organizerController.createOrganizerProfile,
 );
 
+route.get(
+  "/",
+  authentication,
+  authorization("ORGANIZER"),
+  organizerController.getAllOrganizerProfiles,
+);
+
 export default route;

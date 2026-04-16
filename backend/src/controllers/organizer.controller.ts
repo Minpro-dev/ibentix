@@ -19,10 +19,16 @@ export const organizerController = {
     });
   },
 
-  getAllOrganizerProfiles: (req: Request, res: Response) => {
+  getAllOrganizerProfiles: async (req: Request, res: Response) => {
+    const userId = req.user?.userId as string;
+
+    const organizerProfiles =
+      await organizerService.getAllOrganizerProfiles(userId);
+
     res.status(200).json({
       status: "successfull",
       message: "Get all orginizer successfull",
+      data: organizerProfiles,
     });
   },
 };
