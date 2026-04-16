@@ -10,6 +10,7 @@ import { useAuthStore } from "./store/useAuthStore";
 import Unauthorized from "./ui/Unauthorized";
 import PrivateRoute from "./ui/PrivateRoute";
 import ResetPasswordPage from "./pages/resetPassword/ResetPasswordPage";
+import Profile from "./pages/attendee/profile/page";
 
 const router = createBrowserRouter([
   {
@@ -36,10 +37,19 @@ const router = createBrowserRouter([
         path: "home",
         element: (
           // <PrivateRoute allowedRoles={["ATTENDEE"]}>
-            <HomePage />
+          <HomePage />
           // </PrivateRoute>
         ),
       },
+      {
+        path: "details", // ✅ ADD THIS
+        element: (
+          // <PrivateRoute allowedRoles={["ATTENDEE"]}>
+            <Profile />
+          // </PrivateRoute>
+        ),
+      },
+
       {
         path: "unauthorized",
         element: <Unauthorized />,
