@@ -80,6 +80,7 @@ export const paymentService = {
           });
         }
 
+        // RETURNING
         if (status === "CANCELED" || status === "EXPIRED") {
           // return used points
           if (orderDetails.pointsUsed) {

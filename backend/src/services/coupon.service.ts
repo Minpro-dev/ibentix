@@ -35,7 +35,7 @@ export const couponService = {
     }
   },
 
-  // ----- GET COUPON DETAILS
+  // ----- GET COUPON DETAILS (organizer only)
   getCouponDetails: async (eventCouponId: string, userId: string) => {
     const eventCouponDetails = await prisma.eventCoupon.findUnique({
       where: {
@@ -53,6 +53,46 @@ export const couponService = {
     }
 
     return eventCouponDetails;
+  },
+
+  // GET COUPON BY EVENT ID (attendee only)
+  getCouponByEvent: async (eventId: string, userId: string) => {
+    // get the coupon details
+    const cuoponDetails = await prisma.eventCoupon.findUnique({
+      where: {
+        eventId,
+        validFrom: {
+          lte: startOfDay(new Date()),
+        },
+        validUntil: {
+          gte: endOfDay(new Date()),
+        },
+      },
+    });
+
+    console.log("coupon details", cuoponDetails);
+
+    // check the coupon in order
+    const checkOrderDetails = await prisma.order.findMany({
+      where: {
+        userId,
+        eventCouponId: cuoponDetails!.eventCouponId,
+        payment: {
+          paymentStatus: {
+            in: [
+              "DONE",
+              "WAITING_FOR_PAYMENT",
+              "WAITING_FOR_ADMIN_CONFIRMATION",
+            ],
+          },
+        },
+      },
+    });
+
+    console.log("checkOrderDetails", checkOrderDetails);
+
+    // return data
+    return checkOrderDetails.length ? null : cuoponDetails;
   },
 
   // -------- GET ALL COUPONS

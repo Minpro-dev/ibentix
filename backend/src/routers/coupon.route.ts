@@ -37,6 +37,15 @@ route.get(
   couponController.getCouponDetails,
 );
 
+// ------- GET COUPON DETAILS BY EVENT ID
+route.get(
+  "/details/by-event/:eventId",
+  authentication,
+  authorization("ATTENDEE"),
+  // validate(getCouponDetailsSchema),
+  couponController.getCouponByEvent,
+);
+
 // ----------- GET ALL COUPONS
 // filter-query: --> eventId, search, validFrom, validUntil, createdAt
 route.get(

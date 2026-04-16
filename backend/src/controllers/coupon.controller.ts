@@ -49,6 +49,19 @@ export const couponController = {
     },
   ),
 
+  // --------- GET COUPON DETAILS BY EVENT
+  getCouponByEvent: async (req: Request, res: Response) => {
+    const eventId = req.params.eventId as string;
+    const userId = req.user?.userId as string;
+
+    const couponDetails = await couponService.getCouponByEvent(eventId, userId);
+
+    res.status(200).json({
+      status: "success",
+      data: couponDetails,
+    });
+  },
+
   //------- GET ALL COUPONS
   getAllCoupons: catchAsync(
     async (
