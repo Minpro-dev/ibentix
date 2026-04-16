@@ -1,7 +1,33 @@
-// import { prisma } from "../config/prismaClient.config";
+import { prisma } from "../config/prismaClient.config";
+import { uploadSingle } from "../utils/cloudinaryUploader";
+import { handlePrismaError } from "../utils/prismaErrorHandler";
 
-// // 1. GET PROFILE
-// export const getOrganizerProfileService = async (userId: string) => {
+export const organizerService = {
+  createOrganizer: async (
+    userId: string,
+    name: string,
+    file: Express.Multer.File | undefined,
+  ) => {
+    console.log(process.env.API_KEY);
+    try {
+      const image = await uploadSingle(file, "organizer-profile");
+      const organizerProfile = await prisma.organizerProfile.create({
+        data: {
+          userId,
+          name,
+          image,
+        },
+      });
+
+      return organizerProfile;
+    } catch (error) {
+      handlePrismaError(error);
+    }
+  },
+};
+
+// 1. GET PROFILE
+// export const getAllOrginizers = async (userId: string) => {
 //   return await prisma.organizer_profile.findFirst({
 //     where: { user_id: userId },
 //   });
@@ -17,7 +43,6 @@
 //     data,
 //   });
 // };
-
 
 // // 3. GET ORDERS (FILTERABLE)
 // export const getOrdersService = async (organizerId: string, query: any) => {
@@ -63,7 +88,6 @@
 //     },
 //   });
 // };
-
 
 // // 7. DASHBOARD
 // export const getDashboardService = async (organizerId: string) => {

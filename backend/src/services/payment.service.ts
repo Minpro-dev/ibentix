@@ -3,6 +3,7 @@ import { prisma } from "../config/prismaClient.config";
 import { AppError } from "../utils/AppError";
 import { uploadSingle } from "../utils/cloudinaryUploader";
 import { handlePrismaError } from "../utils/prismaErrorHandler";
+import { emailService } from "./email.service";
 
 export const paymentService = {
   updateOrderStatus: async (
@@ -16,8 +17,6 @@ export const paymentService = {
       const isValidPaymentStatus = Object.values(PaymentStatus).includes(
         status as PaymentStatus,
       );
-
-      console.log("is valid --> ", isValidPaymentStatus);
 
       if (!isValidPaymentStatus) {
         throw new AppError(400, "Invalid payment status");
@@ -36,12 +35,18 @@ export const paymentService = {
           },
           include: {
             payment: true,
+            tickets: true,
           },
         });
 
         if (!orderDetails) {
           throw new AppError(404, "Order is not found");
         }
+
+        // get attendee details for emailing
+        const user = await tx.user.findUnique({
+          where: { userId: orderDetails.userId },
+        });
 
         if (
           orderDetails.payment?.paymentStatus === "CANCELED" ||
@@ -51,9 +56,6 @@ export const paymentService = {
         }
 
         if (status === "DONE") {
-          // FIXME --> only certain status can be changed by certain role (only handling done ATM)
-
-          // - waiting confirmation
           // only organizer can confirmed the payment
           if (userRole !== "ORGANIZER") {
             throw new AppError(401, "Unauthorized access");
@@ -145,7 +147,7 @@ export const paymentService = {
           },
         });
 
-        return updatedOrderDetails;
+        return { updatedOrderDetails, email: user?.email };
       });
 
       return updatedOrderStatus;
