@@ -6,7 +6,7 @@ function AppLayoutOrganizer() {
   return (
     <div>
       <div className="grid grid-cols-5 h-dvh">
-        <div className="col-span-1 w-full flex flex-col justify-between px-5 py-5 bg-slate-100 ">
+        <div className="col-span-1 h-dvh w-full flex flex-col justify-between px-5 py-5 bg-slate-100 ">
           <div>
             <div className="pb-10">
               <h1 className="text-2xl font-bold text-indigo-600 hidden sm:block tracking-tight">
@@ -71,8 +71,8 @@ function AppLayoutOrganizer() {
         <div className="col-span-4 col-start-2 w-full ">
           <section>
             {/* BREADCRUMBS */}
-            <div className="flex items-center justify-between border-b px-10 border-stone-200 ">
-              <div className="flex gap-3 h-15 text-sm italic text-stone-600 bg-white items-center ">
+            <div className="flex fixed z-2 w-full items-center justify-between border-b px-10 border-stone-200 shadow-xs bg-white">
+              <div className="flex gap-3 h-15 text-sm italic text-stone-600  items-center ">
                 <NavLink to="/">Beranda</NavLink> /
                 <NavLink to="/">Organizer Management</NavLink>
               </div>
@@ -83,7 +83,7 @@ function AppLayoutOrganizer() {
               </div>
             </div>
 
-            <div className="px-10 py-10">
+            <div className="h-dvh overflow-y-scroll px-10 pb-10 pt-20">
               <Outlet />
             </div>
           </section>

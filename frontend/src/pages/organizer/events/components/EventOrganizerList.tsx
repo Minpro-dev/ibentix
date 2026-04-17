@@ -7,8 +7,10 @@ import {
   Users,
 } from "lucide-react";
 import Button from "../../../../ui/Button";
+import type { Event } from "../../../../types/eventType";
+import { formatDate } from "../../../../helper/dateFormatter";
 
-function EventOrganizerList() {
+function EventOrganizerList({ event }: { event: Event }) {
   return (
     <div>
       <div className="group bg-white border border-slate-200 rounded-2xl p-4 hover:shadow-md transition-all duration-200">
@@ -16,16 +18,21 @@ function EventOrganizerList() {
           {/* 1. Thumbnail Area */}
           <div className="relative w-full lg:w-58 h-42 shrink-0">
             <img
-              src="https://media.nbclosangeles.com/2025/04/GettyImages-2210019547.jpg?quality=85&strip=all&resize=1200%2C675"
+              src={
+                event.thumbnailUrl ||
+                "https://media.nbclosangeles.com/2025/04/GettyImages-2210019547.jpg?quality=85&strip=all&resize=1200%2C675"
+              }
               alt="demo"
               className="w-full h-full object-cover rounded-xl border border-slate-100"
             />
             <div className="absolute top-2 left-2">
-              <span
-                className={`px-2 py-1 rounded-md text-[10px] font-bold uppercase bg-indigo-100 text-indigo-700"
+              {Number(event.price) === 0 ? (
+                <span
+                  className={`px-2 py-1 rounded-md text-[10px] font-bold uppercase bg-indigo-100 text-indigo-700"
                 `}>
-                Free
-              </span>
+                  Free
+                </span>
+              ) : null}
             </div>
           </div>
 
@@ -34,19 +41,16 @@ function EventOrganizerList() {
             <div className="block md:flex gap-10 justify-between items-start md:pb-10 pb-0">
               <div className="w-[80%]">
                 <h3 className="text-lg font-semibold text-zinc-900 truncate group-hover:text-indigo-600 transition-colors">
-                  Purwadhika BSD Open House
+                  {event.title}
                 </h3>
                 <p className="text-sm text-zinc-500 line-clamp-2 mt-1">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Molestiae error vel blanditiis earum magnam non saepe alias ex
-                  consequuntur illo, a hic nisi quisquam, et enim ab
-                  perspiciatis sed suscipit?
+                  {event.description}
                 </p>
               </div>
               <div className="w-full md:py-0 py-5">
                 <p className="text-xs text-zinc-400 font-medium pb-2">Price</p>
                 <p className="text-md font-semibold text-zinc-900">
-                  Rp. 300,000
+                  Rp. {Number(event.price).toLocaleString("id-ID")}
                 </p>
               </div>
             </div>
@@ -59,7 +63,9 @@ function EventOrganizerList() {
                   <span className="text-[10px] text-zinc-400 uppercase font-bold">
                     Date
                   </span>
-                  <span className="text-xs font-semibold">15 March 2026</span>
+                  <span className="text-xs font-semibold">
+                    {formatDate(event.eventDate)}
+                  </span>
                 </div>
               </div>
 
@@ -70,7 +76,7 @@ function EventOrganizerList() {
                     Location
                   </span>
                   <span className="text-xs font-semibold truncate">
-                    Tanggerang
+                    {event.city}
                   </span>
                 </div>
               </div>
@@ -79,9 +85,11 @@ function EventOrganizerList() {
                 <Users size={16} className="text-indigo-500" />
                 <div className="flex flex-col">
                   <span className="text-[10px] text-zinc-400 uppercase font-bold">
-                    Sisa Slot
+                    Slot available
                   </span>
-                  <span className="text-xs font-semibold">10 Seat</span>
+                  <span className="text-xs font-semibold">
+                    {event.availableSlot} Seats
+                  </span>
                 </div>
               </div>
             </div>
@@ -119,17 +127,3 @@ function EventOrganizerList() {
 }
 
 export default EventOrganizerList;
-
-// title: string;
-// slug: string;
-// description: string | null;
-// availableSlot: number;
-// thumbnailUrl: string | null;
-// locationName: string;
-// address: string;
-// city: string;
-// eventDate: Date;
-// startSellingDate: Date;
-// endSellingDate: Date;
-// isFree: boolean;
-// price: Decimal;

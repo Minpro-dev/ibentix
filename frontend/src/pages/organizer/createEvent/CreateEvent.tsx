@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 function CreateEvent() {
   return (
     <main>
@@ -36,6 +38,37 @@ function CreateEvent() {
             />
           </div>
         </div>
+
+        {/* Organizer profile */}
+        <fieldset className="fieldset">
+          <legend className="fieldset-legend text-zinc-600 font-normal text-base">
+            Organizer Profile
+          </legend>
+          <select
+            defaultValue="Pick a browser"
+            className="select border-zinc-400 bg-white text-zinc-600 focus:outline-none focus:ring focus:ring-indigo-400">
+            <option disabled={true}>Select a profile</option>
+            <option>Purwadhika</option>
+            <option>BSD Event</option>
+          </select>
+          <span className="label text-zinc-600 hover:underline">
+            <Link to="/">
+              If you don't have any organizer profile, click here to create
+            </Link>
+          </span>
+        </fieldset>
+
+        {/* UPLOAD FILE */}
+        <fieldset className="fieldset">
+          <legend className="fieldset-legend">Pick a picture</legend>
+          <input
+            type="file"
+            className="file-input border-zinc-400 bg-white text-zinc-600 focus:outline-none focus:ring focus:ring-indigo-400"
+          />
+          <label className="label text-zinc-600">
+            Accepted format: jpg, png, jpeg only
+          </label>
+        </fieldset>
       </form>
     </main>
   );

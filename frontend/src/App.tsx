@@ -13,6 +13,7 @@ import ResetPasswordPage from "./pages/resetPassword/ResetPasswordPage";
 import AppLayoutOrganizer from "./ui/AppLayoutOrganizer";
 import EventsOrganizer from "./pages/organizer/events/EventsOrganizer";
 import CreateEvent from "./pages/organizer/createEvent/CreateEvent";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const router = createBrowserRouter([
   {
@@ -83,6 +84,7 @@ function App() {
   const setAuth = useAuthStore((state) => state.setAuth);
   const setInitializing = useAuthStore((state) => state.setInitializing);
   const isInistialized = useRef(false);
+  const queryClient = new QueryClient();
 
   useEffect(() => {
     const initializeAuth = async () => {
@@ -104,7 +106,9 @@ function App() {
 
   return (
     <>
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </>
   );
 }
