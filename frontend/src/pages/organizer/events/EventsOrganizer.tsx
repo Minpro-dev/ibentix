@@ -11,7 +11,6 @@ function EventsOrganizer() {
   const [search, setSearch] = useState("");
   const [isFree, setIsFree] = useState("");
   const [page, setPage] = useState(1);
-
   const [searchValue] = useDebounce(search, 800);
 
   const { data, isLoading } = useQuery({

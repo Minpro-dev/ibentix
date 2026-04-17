@@ -1,7 +1,8 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
 
 function AppLayoutOrganizer() {
+  const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
   return (
     <div>
@@ -71,13 +72,15 @@ function AppLayoutOrganizer() {
         <div className="col-span-4 col-start-2 w-full ">
           <section>
             {/* BREADCRUMBS */}
-            <div className="flex fixed z-2 w-full items-center justify-between border-b px-10 border-stone-200 shadow-xs bg-white">
+            <div className="flex fixed z-2 w-[80%] items-center justify-between border-b px-10 border-stone-200 shadow-xs bg-white">
               <div className="flex gap-3 h-15 text-sm italic text-stone-600  items-center ">
                 <NavLink to="/">Beranda</NavLink> /
                 <NavLink to="/">Organizer Management</NavLink>
               </div>
               <div>
-                <button className="cursor-pointer px-4 py-2 bg-zinc-100 border-slate-200 border rounded-full text-sm text-zinc-600">
+                <button
+                  onClick={() => navigate("event/new")}
+                  className="cursor-pointer px-4 py-2 bg-zinc-100 border-slate-200 border rounded-full text-sm text-zinc-600">
                   Create event
                 </button>
               </div>
