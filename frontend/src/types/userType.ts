@@ -35,3 +35,70 @@ export interface Coupon {
   expiry: string;
   color: "primary" | "tertiary";
 }
+export type TicketStatus = 'DONE' | 'PAYMENT_PENDING' | 'REJECTED' | 'EXPIRED';
+
+export interface Ticket {
+  id: string;
+  title: string;
+  price: number;
+  date: string;
+  location: string;
+  imageUrl: string;
+  status: TicketStatus;
+  seat?: string;
+  points?: number;
+  expiresIn?: string; // For PAYMENT_PENDING
+  reason?: string;    // For REJECTED
+  note?: string;      // For EXPIRED
+  priority?: 'Standard' | 'Silver' | 'Platinum';
+  gate?: string;
+}
+
+export interface User {
+  name: string;
+  avatar: string;
+}
+
+export interface Event {
+  id: string;
+  title: string;
+  category: "Music" | "Workshops" | "Seminars" | "Sports" | "Festivals";
+  date: string;
+  location: string;
+  price: number;
+  priceType: "Starting from" | "Fee" | "Admission" | "Early Bird";
+  imageUrl: string;
+}
+export interface EventDetails {
+  id: string;
+  title: string;
+  date: string;
+  image: string;
+  venue: string;
+}
+
+export interface TicketItem {
+  type: string;
+  seat: string;
+  price: number;
+}
+
+export interface OrderSummary {
+  event: EventDetails;
+  ticket: TicketItem;
+  serviceFee: number;
+}
+
+export interface UserProfile {
+  name: string;
+  role: string;
+  points: number;
+  avatar: string;
+}
+
+export enum TransactionStatus {
+  WAITING = 'Waiting for Payment',
+  PENDING = 'Verifying Payment',
+  SUCCESS = 'Payment Success',
+  EXPIRED = 'Expired'
+}

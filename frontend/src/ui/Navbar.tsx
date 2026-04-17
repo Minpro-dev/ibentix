@@ -289,7 +289,7 @@ const Navbar = () => {
 
             {/* 5) Tickets */}
             <button
-              onClick={() => navigate("/my-tickets")}
+              onClick={() => navigate("/myticket")}
               className="hidden md:flex flex-col items-center text-zinc-500 hover:text-indigo-600 transition-colors"
             >
               <Ticket size={20} />
@@ -343,13 +343,13 @@ const Navbar = () => {
                     </button>
 
                     <button
-                      onClick={() => navigate("/browse")}
+                      onClick={() => navigate("/event")}
                       className="flex items-center gap-3 px-4 py-2 text-sm text-zinc-600 hover:bg-slate-50 hover:text-indigo-600 w-full text-left"
                     >
                       <Compass size={16} /> Browse Events
                     </button>
                     <button
-                      onClick={() => navigate("/settings")}
+                      onClick={() => navigate("/details")}
                       className="flex items-center gap-3 px-4 py-2 text-sm text-zinc-600 hover:bg-slate-50 w-full text-left"
                     >
                       <Settings size={16} /> Account Settings

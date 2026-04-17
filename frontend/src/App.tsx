@@ -11,6 +11,9 @@ import Unauthorized from "./ui/Unauthorized";
 import PrivateRoute from "./ui/PrivateRoute";
 import ResetPasswordPage from "./pages/resetPassword/ResetPasswordPage";
 import Profile from "./pages/attendee/profile/page";
+import Ticket from "./pages/attendee/ticket/ticket";
+import Event from "./pages/event/page";
+import Payment from "./pages/payment/page"
 
 const router = createBrowserRouter([
   {
@@ -45,11 +48,34 @@ const router = createBrowserRouter([
         path: "details", // ✅ ADD THIS
         element: (
           // <PrivateRoute allowedRoles={["ATTENDEE"]}>
-            <Profile />
+          <Profile />
           // </PrivateRoute>
         ),
       },
-
+      {
+        path: "myticket", // Tambahkan di sini
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <Ticket />
+          //</PrivateRoute>
+        ),
+      },
+      {
+        path: "event", // Tambahkan di sini
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <Event />
+          //</PrivateRoute>
+        ),
+      },
+      {
+        path: "payment", // Tambahkan di sini
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <Payment />
+          //</PrivateRoute>
+        ),
+      },
       {
         path: "unauthorized",
         element: <Unauthorized />,
