@@ -1,23 +1,31 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../ui/Button";
-// import api from "../../../api/axiosInstance";
 import { Field, Form, Formik } from "formik";
 import { createEventSchema } from "./schema/createEventSchema";
+import { useQuery } from "@tanstack/react-query";
+import api from "../../../api/axiosInstance";
+import type { OrganizerProfile } from "../../../types/organizerProfileType";
+import { EventCategory } from "../../../types/eventCategory";
+import { formatEnum } from "../../../helper/EventEnumFormatter";
+import { handleCreateEvent } from "../../../services/eventService";
+import { useState } from "react";
+import { toast } from "sonner";
 
-// const handleCreateEvent = async () => {
-//   try {
-//     await api.post("");
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
 function CreateEvent() {
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const { data } = useQuery({
+    queryKey: ["organizer-profile"],
+    queryFn: async () => {
+      return await api.get("/organizer-profile");
+    },
+  });
+
+  const organizerProfiles = data?.data.data;
+
   const inputClass =
     "w-full border border-zinc-300 rounded-xl px-4 py-2 text-zinc-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all bg-white";
   const labelClass = "block text-sm font-semibold text-zinc-700 mb-2";
-
-  // 2. FORMIK INITIALIZATION
-  // const formik = useFormik({});
 
   return (
     <main className="max-w-4xl mx-auto py-10 px-6">
@@ -32,22 +40,57 @@ function CreateEvent() {
         initialValues={{
           title: "",
           description: "",
-          availableSlot: "",
+          availableSlot: 0,
           organizerId: "",
           locationName: "",
           address: "",
           city: "",
+          category: "",
           eventDate: "",
           startSellingDate: "",
           endSellingDate: "",
           isFree: false,
-          price: "",
+          price: 0,
           thumbnail: null,
         }}
         validationSchema={createEventSchema}
-        onSubmit={(values) => {
-          console.log("Form Submitted:", values);
-          // Logic hit API
+        onSubmit={async (values) => {
+          const formData = new FormData();
+
+          // console.log("Form Submitted:", values);
+
+          formData.append("title", values.title);
+          formData.append("description", values.description);
+          formData.append("availableSlot", values.availableSlot.toString());
+          formData.append("organizerId", values.organizerId);
+          formData.append("locationName", values.locationName);
+          formData.append("address", values.address);
+          formData.append("city", values.city);
+          formData.append("eventDate", values.eventDate);
+          formData.append("startSellingDate", values.startSellingDate);
+          formData.append("endSellingDate", values.endSellingDate);
+          formData.append("isFree", values.isFree.toString());
+          formData.append("price", values.price.toString());
+
+          if (values.thumbnail !== null) {
+            formData.append("thumbnail", values.thumbnail);
+          }
+
+          try {
+            setIsLoading(true);
+            const response = await handleCreateEvent(formData);
+            // console.log("response", response);
+            setIsLoading(false);
+            if (response.status === 201) {
+              navigate("/organizer/events");
+            }
+
+            toast.success("Your event is now live");
+          } catch (error) {
+            setIsLoading(false);
+
+            console.log(error);
+          }
         }}>
         {({ values, errors, touched, setFieldValue }) => (
           <Form className="space-y-8">
@@ -82,6 +125,29 @@ function CreateEvent() {
                   </p>
                 )}
               </div>
+
+              {/* Event category */}
+              <div>
+                <label className={labelClass}>Event Category</label>
+                <Field
+                  name="category"
+                  as="select"
+                  className={`${inputClass} appearance-none`}>
+                  <option value="" disabled>
+                    Select event category
+                  </option>
+                  {Object.values(EventCategory).map((cat) => (
+                    <option key={cat} value={cat}>
+                      {formatEnum(cat)}
+                    </option>
+                  ))}
+                </Field>
+                {errors.category && touched.category && (
+                  <p className="text-red-500 text-[10px] mt-1">
+                    {errors.category}
+                  </p>
+                )}
+              </div>
             </section>
 
             {/* SECTION 2: LOGISTICS */}
@@ -108,11 +174,16 @@ function CreateEvent() {
                   name="organizerId"
                   as="select"
                   className={`${inputClass} appearance-none`}>
-                  <option disabled selected>
+                  <option value="" disabled>
                     Select a profile
                   </option>
-                  <option>Purwadhika</option>
-                  <option>BSD Event</option>
+                  {organizerProfiles?.map((profile: OrganizerProfile) => (
+                    <option
+                      key={profile.organizerId}
+                      value={profile.organizerId}>
+                      {profile.name}
+                    </option>
+                  ))}
                 </Field>
                 <Link
                   to="/"
@@ -247,11 +318,10 @@ function CreateEvent() {
                     type="checkbox"
                     id="isFree"
                     className="w-5 h-5 rounded text-indigo-600 focus:ring-indigo-500 border-zinc-300"
-                    onChange={(e) => {
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                       const checked = e.target.checked;
                       setFieldValue("isFree", checked);
 
-                      // PENGKONDISIAN: Jika checked, paksa price jadi 0
                       if (checked) {
                         setFieldValue("price", 0);
                       }
@@ -295,9 +365,10 @@ function CreateEvent() {
             {/* SUBMIT BUTTON */}
             <div className="pt-10">
               <Button
+                disabled={isLoading}
                 type="submit"
                 className="w-full py-4 text-base font-bold shadow-lg shadow-indigo-200">
-                Create Event Now
+                {isLoading ? "Loading..." : "Create Event Now"}
               </Button>
             </div>
             {/* </form> */}

@@ -14,7 +14,7 @@ function EventsOrganizer() {
   const [searchValue] = useDebounce(search, 800);
 
   const { data, isLoading } = useQuery({
-    queryKey: ["event", searchValue, date, isFree, page],
+    queryKey: ["events", searchValue, date, isFree, page],
     queryFn: async () => {
       return await api.get("/events/organizer/me", {
         params: {

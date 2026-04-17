@@ -9,8 +9,18 @@ import {
 import Button from "../../../../ui/Button";
 import type { Event } from "../../../../types/eventType";
 import { formatDate } from "../../../../helper/dateFormatter";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import api from "../../../../api/axiosInstance";
 
 function EventOrganizerList({ event }: { event: Event }) {
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: async (eventId: string) =>
+      await api.delete(`/events/${eventId}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["events"] });
+    },
+  });
   return (
     <div>
       <div className="group bg-white border border-slate-200 rounded-2xl p-4 hover:shadow-md transition-all duration-200">
@@ -110,9 +120,7 @@ function EventOrganizerList({ event }: { event: Event }) {
               variant="danger"
               size="sm"
               className="w-full lg:w-32 border-red-200 text-red-600 bg-white hover:bg-red-50 cursor-pointer"
-
-              //   onClick={() => onDelete(event.slug)}
-            >
+              onClick={() => mutation.mutate(event.eventId)}>
               <Trash2 size={14} />
               Delete
             </Button>

@@ -1,4 +1,5 @@
 import * as Yup from "yup";
+import { EventCategory } from "../../../../types/eventCategory";
 
 export const createEventSchema = Yup.object().shape({
   title: Yup.string()
@@ -42,6 +43,11 @@ export const createEventSchema = Yup.object().shape({
       "fileFormat",
       "Unsupported format",
       (value: any) =>
-        !value || (value && ["image/jpg", "image/png"].includes(value.type)),
+        !value ||
+        (value &&
+          ["image/jpg", "image/png", "image/jpeg"].includes(value.type)),
     ),
+  category: Yup.string()
+    .oneOf(Object.values(EventCategory), "Invalid category selected")
+    .required("Category is required"),
 });
