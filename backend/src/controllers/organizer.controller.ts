@@ -1,85 +1,34 @@
-// import { Request, Response } from 'express';
-// import * as organizerService from '../services/organizer.service';
-// import { catchAsync } from '../utils/catchAsync';
-// import { AppError } from '../utils/AppError';
+import { Request, Response } from "express";
+import { organizerService } from "../services/organizer.service";
 
-// // 1. GET PROFILE
-// export const getProfile = catchAsync(async (req: any, res: Response) => {
-//   if (!req.user?.id) throw new AppError(401, 'Unauthorized');
+export const organizerController = {
+  createOrganizerProfile: async (req: Request, res: Response) => {
+    const userId = req.user?.userId as string;
+    const name = req.body.name;
 
-//   const result = await organizerService.getOrganizerProfileService(req.user.id);
+    const organizerProfile = await organizerService.createOrganizer(
+      userId,
+      name,
+      req.file,
+    );
 
-//   res.status(200).json({
-//     status: 'success',
-//     data: result,
-//   });
-// });
+    res.status(201).json({
+      status: "successfull",
+      message: "Organizer profile created successfull",
+      data: organizerProfile,
+    });
+  },
 
-// // 2. UPDATE PROFILE
-// export const updateProfile = catchAsync(async (req: any, res: Response) => {
-//   if (!req.user?.id) throw new AppError(401, 'Unauthorized');
+  getAllOrganizerProfiles: async (req: Request, res: Response) => {
+    const userId = req.user?.userId as string;
 
-//   const result = await organizerService.updateOrganizerProfileService(
-//     req.user.id,
-//     req.body
-//   );
+    const organizerProfiles =
+      await organizerService.getAllOrganizerProfiles(userId);
 
-//   res.status(200).json({
-//     status: 'success',
-//     message: 'Profile updated',
-//     data: result,
-//   });
-// });
-
-
-
-// // 3. GET ORDERS
-// export const getOrders = catchAsync(async (req: any, res: Response) => {
-//   const result = await organizerService.getOrdersService(
-//     req.user.id,
-//     req.query
-//   );
-
-//   res.status(200).json({
-//     status: 'success',
-//     data: result,
-//   });
-// });
-
-// // 5. UPDATE ORDER STATUS
-// export const updateOrderStatus = catchAsync(async (req: Request, res: Response) => {
-//   const { order_id } = req.params;
-//   const { status } = req.body;
-
-//   if (!status) throw new AppError(400, 'status is required');
-
-//   const result = await organizerService.updateOrderStatusService(order_id as string, status);
-
-//   res.status(200).json({
-//     status: 'success',
-//     message: 'Order updated',
-//     data: result,
-//   });
-// });
-
-// // 6. GET ATTENDEES
-// export const getAttendees = catchAsync(async (req: Request, res: Response) => {
-//   const { event_id } = req.params;
-
-//   const result = await organizerService.getAttendeesService(event_id as string);
-
-//   res.status(200).json({
-//     status: 'success',
-//     data: result,
-//   });
-// });
-
-// // 7. DASHBOARD
-// export const getDashboard = catchAsync(async (req: any, res: Response) => {
-//   const result = await organizerService.getDashboardService(req.user.id);
-
-//   res.status(200).json({
-//     status: 'success',
-//     data: result,
-//   });
-// });
+    res.status(200).json({
+      status: "successfull",
+      message: "Get all orginizer successfull",
+      data: organizerProfiles,
+    });
+  },
+};

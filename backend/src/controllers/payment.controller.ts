@@ -3,6 +3,8 @@ import { catchAsync } from "../utils/catchAsync";
 import { paymentService } from "../services/payment.service";
 import { Role } from "../../generated/prisma/enums";
 import { UpdatePaymentStatusSchema } from "../schemas/payment.schema";
+import { emailService } from "../services/email.service";
+import { Ticket } from "../../generated/prisma/browser";
 
 export const paymentController = {
   // UPDATE ORDER/PAYMENT STATUS
@@ -12,17 +14,31 @@ export const paymentController = {
       const userRole = req.user?.role as Role;
       const { orderId, paymentStatus } = req.body;
 
-      const updatedOrderDetails = await paymentService.updateOrderStatus(
+      const order = await paymentService.updateOrderStatus(
         userId,
         userRole,
         orderId,
         paymentStatus,
       );
 
+      if (paymentStatus === "DONE" && order) {
+        await emailService.sendPaymentDoneConfirmation(
+          order?.email as string,
+          order?.updatedOrderDetails?.tickets as Ticket[],
+        );
+      }
+
+      if (paymentStatus === "REJECTED" && order) {
+        await emailService.sendPaymentRejectedConfirmation(
+          order.updatedOrderDetails?.orderId as string,
+          order.email as string,
+        );
+      }
+
       res.status(201).json({
         status: "success",
         message: "Update order/payment status successfull",
-        data: updatedOrderDetails,
+        data: order,
       });
     },
   ),

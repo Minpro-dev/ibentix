@@ -1,6 +1,8 @@
 import { off } from "cluster";
 import { prisma } from "../config/prismaClient.config";
 import { handlePrismaError } from "../utils/prismaErrorHandler";
+import { EventWhereInput } from "../../generated/prisma/models";
+import { endOfDay, startOfDay } from "date-fns";
 
 // Create Event
 // GET EVENT
@@ -180,14 +182,75 @@ export const getEventBySlugService = async (slug: string) => {
 };
 
 // 5. GET EVENTS BY ORGANIZER
-export const getEventsByOrganizerService = async (userId: string) => {
-  return await prisma.event.findMany({
-    where: {
-      userId,
-      deletedAt: null,
-    },
-    // orderBy: { createdAt: 'desc' }
+export const getEventsByOrganizerService = async (
+  userId: string,
+  page: number,
+  limit: number,
+  search: string,
+  eventDate: string,
+  isFree: string,
+  city: string,
+) => {
+  const offset = (page - 1) * limit;
+
+  const where: EventWhereInput = {
+    userId,
+    deletedAt: null,
+  };
+
+  if (search) {
+    where.OR = [
+      {
+        title: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+      {
+        description: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+    ];
+  }
+
+  if (eventDate) {
+    where.eventDate = {
+      lte: endOfDay(new Date(eventDate)),
+      gte: startOfDay(new Date(eventDate)),
+    };
+  }
+
+  if (isFree === "true") {
+    ((where.price = 0), (where.isFree = true));
+  }
+
+  if (city) {
+    where.OR = [
+      {
+        city: {
+          contains: city,
+          mode: "insensitive",
+        },
+      },
+    ];
+  }
+
+  const events = await prisma.event.findMany({
+    where,
+    orderBy: { createdAt: "desc" },
+    take: limit,
+    skip: offset,
   });
+
+  const totalData = await prisma.event.count({
+    where,
+  });
+
+  const totalPage = Math.ceil(totalData / limit);
+
+  return { events, totalData, totalPage };
 };
 
 // 6. TRENDING EVENT
@@ -207,7 +270,6 @@ export const getTrendingEventsService = async () => {
 };
 
 // 7. UPDATE EVENT
-
 export const updateEventService = async (
   eventId: string,
   data: any,

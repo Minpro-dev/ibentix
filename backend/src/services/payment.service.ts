@@ -3,6 +3,7 @@ import { prisma } from "../config/prismaClient.config";
 import { AppError } from "../utils/AppError";
 import { uploadSingle } from "../utils/cloudinaryUploader";
 import { handlePrismaError } from "../utils/prismaErrorHandler";
+import { emailService } from "./email.service";
 
 export const paymentService = {
   updateOrderStatus: async (
@@ -17,69 +18,139 @@ export const paymentService = {
         status as PaymentStatus,
       );
 
-      console.log("is valid --> ", isValidPaymentStatus);
-
       if (!isValidPaymentStatus) {
         throw new AppError(400, "Invalid payment status");
       }
 
-      const orderDetails = await prisma.order.findUnique({
-        where: {
-          // attendee can update during upload
-          userId: userRole === "ATTENDEE" ? userId : undefined,
-          event: {
-            // organizer can update thru dashboard
-            userId: userRole === "ORGANIZER" ? userId : undefined,
+      const updatedOrderStatus = await prisma.$transaction(async (tx) => {
+        const orderDetails = await tx.order.findUnique({
+          where: {
+            // attendee can update during upload
+            userId: userRole === "ATTENDEE" ? userId : undefined,
+            event: {
+              // organizer can update thru dashboard
+              userId: userRole === "ORGANIZER" ? userId : undefined,
+            },
+            orderId,
           },
-          orderId,
-        },
-      });
+          include: {
+            payment: true,
+            tickets: true,
+          },
+        });
 
-      if (!orderDetails) {
-        throw new AppError(404, "Order is not found");
-      }
-
-      // FIXME --> only certain status can be changed by certain role (only handling done ATM)
-
-      // - waiting confirmation
-      if (status === "DONE") {
-        // only organizer can confirmed the payment
-        if (userRole !== "ORGANIZER") {
-          throw new AppError(401, "Unauthorized access");
+        if (!orderDetails) {
+          throw new AppError(404, "Order is not found");
         }
 
-        await prisma.payment.update({
-          where: {
-            paymentId: orderDetails!.paymentId,
-          },
-          data: {
-            paymentStatus: status,
-          },
+        // get attendee details for emailing
+        const user = await tx.user.findUnique({
+          where: { userId: orderDetails.userId },
         });
-      } else {
-        await prisma.payment.update({
-          where: {
-            paymentId: orderDetails!.paymentId,
-          },
-          data: {
-            paymentStatus: status as PaymentStatus,
-            paymentAt:
-              status === "WAITING_FOR_ADMIN_CONFIRMATION" ? new Date() : null,
-          },
-        });
-      }
 
-      const updatedOrderDetails = await prisma.order.findUnique({
-        where: {
-          orderId,
-        },
-        include: {
-          tickets: true,
-          payment: true,
-        },
+        if (
+          orderDetails.payment?.paymentStatus === "CANCELED" ||
+          orderDetails.payment?.paymentStatus === "EXPIRED"
+        ) {
+          throw new AppError(403, "Final status cannot be modified");
+        }
+
+        if (status === "DONE") {
+          // only organizer can confirmed the payment
+          if (userRole !== "ORGANIZER") {
+            throw new AppError(401, "Unauthorized access");
+          }
+
+          await tx.payment.update({
+            where: {
+              paymentId: orderDetails!.paymentId,
+            },
+            data: {
+              paymentStatus: status,
+            },
+          });
+        } else {
+          await tx.payment.update({
+            where: {
+              paymentId: orderDetails!.paymentId,
+            },
+            data: {
+              paymentStatus: status as PaymentStatus,
+              paymentAt:
+                status === "WAITING_FOR_ADMIN_CONFIRMATION" ? new Date() : null,
+            },
+          });
+        }
+
+        // RETURNING
+        if (status === "CANCELED" || status === "EXPIRED") {
+          // return used points
+          if (orderDetails.pointsUsed) {
+            await tx.point.updateMany({
+              where: {
+                orderId,
+              },
+              data: {
+                orderId: null,
+              },
+            });
+          }
+
+          // return used referral coupon
+          if (orderDetails.referralCouponId) {
+            await tx.referralCoupon.update({
+              where: {
+                referralCouponId: orderDetails.referralCouponId,
+              },
+              data: {
+                usedAt: null,
+              },
+            });
+          }
+
+          // return used event coupon
+          if (orderDetails.eventCouponId) {
+            await tx.order.update({
+              where: {
+                orderId,
+              },
+              data: {
+                eventCouponId: null,
+              },
+            });
+          }
+
+          // return available seat
+          const totalReturnedSeats = await tx.ticket.count({
+            where: {
+              orderId,
+            },
+          });
+
+          await tx.event.update({
+            where: {
+              eventId: orderDetails.eventId,
+            },
+            data: {
+              availableSlot: { increment: totalReturnedSeats },
+            },
+          });
+        }
+
+        const updatedOrderDetails = await tx.order.findUnique({
+          where: {
+            orderId,
+          },
+          include: {
+            tickets: true,
+            payment: true,
+          },
+        });
+
+        return { updatedOrderDetails, email: user?.email };
       });
 
-      return updatedOrderDetails;
+      return updatedOrderStatus;
     } catch (error) {
       handlePrismaError(error);
     }

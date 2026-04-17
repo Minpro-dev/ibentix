@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AppLayout from "./ui/AppLayout";
 import SignupPage from "./pages/signup/SingupPage";
 import LoginPage from "./pages/login/LoginPage";
-import DashboardPage from "./pages/dashboard/DashboardPage";
+import DashboardPage from "./pages/organizer/dashboard/DashboardPage";
 import HomePage from "./pages/home/HomePage";
 import api from "./api/axiosInstance";
 import { useEffect, useRef } from "react";
@@ -10,6 +10,10 @@ import { useAuthStore } from "./store/useAuthStore";
 import Unauthorized from "./ui/Unauthorized";
 import PrivateRoute from "./ui/PrivateRoute";
 import ResetPasswordPage from "./pages/resetPassword/ResetPasswordPage";
+import AppLayoutOrganizer from "./ui/AppLayoutOrganizer";
+import EventsOrganizer from "./pages/organizer/events/EventsOrganizer";
+import CreateEvent from "./pages/organizer/createEvent/CreateEvent";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const router = createBrowserRouter([
   {
@@ -23,14 +27,6 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: <LoginPage />,
-      },
-      {
-        path: "organizer/dashboard",
-        element: (
-          <PrivateRoute allowedRoles={["ORGANIZER"]}>
-            <DashboardPage />
-          </PrivateRoute>
-        ),
       },
       {
         path: "home",
@@ -50,12 +46,45 @@ const router = createBrowserRouter([
       },
     ],
   },
+
+  // organizer page
+  {
+    path: "/organizer",
+    element: <AppLayoutOrganizer />,
+    children: [
+      {
+        path: "dashboard",
+        element: (
+          <PrivateRoute allowedRoles={["ORGANIZER"]}>
+            <DashboardPage />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "events",
+        element: (
+          <PrivateRoute allowedRoles={["ORGANIZER"]}>
+            <EventsOrganizer />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "event/new",
+        element: (
+          <PrivateRoute allowedRoles={["ORGANIZER"]}>
+            <CreateEvent />
+          </PrivateRoute>
+        ),
+      },
+    ],
+  },
 ]);
 
 function App() {
   const setAuth = useAuthStore((state) => state.setAuth);
   const setInitializing = useAuthStore((state) => state.setInitializing);
   const isInistialized = useRef(false);
+  const queryClient = new QueryClient();
 
   useEffect(() => {
     const initializeAuth = async () => {
@@ -77,7 +106,9 @@ function App() {
 
   return (
     <>
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </>
   );
 }
