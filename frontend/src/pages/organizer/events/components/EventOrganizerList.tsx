@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import Button from "../../../../ui/Button";
 import type { Event } from "../../../../types/eventType";
-import { formatDate } from "../../../../helper/dateFormatter";
+import { formatDate } from "../../../../utils/dateFormatter";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "../../../../api/axiosInstance";
 

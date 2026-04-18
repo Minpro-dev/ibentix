@@ -6,10 +6,11 @@ import { useQuery } from "@tanstack/react-query";
 import api from "../../../api/axiosInstance";
 import type { OrganizerProfile } from "../../../types/organizerProfileType";
 import { EventCategory } from "../../../types/eventCategory";
-import { formatEnum } from "../../../helper/EventEnumFormatter";
 import { handleCreateEvent } from "../../../services/eventService";
 import { useState } from "react";
 import { toast } from "sonner";
+import { formatEnum } from "../../../utils/eventEnumFormatter";
+import { inputClass, labelClass } from "../../../utils/InputStylingConstant";
 
 function CreateEvent() {
   const navigate = useNavigate();
@@ -22,10 +23,6 @@ function CreateEvent() {
   });
 
   const organizerProfiles = data?.data.data;
-
-  const inputClass =
-    "w-full border border-zinc-300 rounded-xl px-4 py-2 text-zinc-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all bg-white";
-  const labelClass = "block text-sm font-semibold text-zinc-700 mb-2";
 
   return (
     <main className="max-w-4xl mx-auto py-10 px-6">
