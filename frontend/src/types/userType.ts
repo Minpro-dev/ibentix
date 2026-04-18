@@ -35,7 +35,7 @@ export interface Coupon {
   expiry: string;
   color: "primary" | "tertiary";
 }
-export type TicketStatus = 'DONE' | 'PAYMENT_PENDING' | 'REJECTED' | 'EXPIRED';
+export type TicketStatus = 'DONE' | 'PENDING_APPROVAL' | 'PAYMENT_PENDING' | 'REJECTED' | 'EXPIRED' | 'SUCCESS';
 
 export interface Ticket {
   id: string;

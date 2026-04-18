@@ -10,18 +10,18 @@ import { useAuthStore } from "./store/useAuthStore";
 import Unauthorized from "./ui/Unauthorized";
 import PrivateRoute from "./ui/PrivateRoute";
 import ResetPasswordPage from "./pages/resetPassword/ResetPasswordPage";
-<<<<<<< HEAD
 import Profile from "./pages/attendee/profile/page";
 import Ticket from "./pages/attendee/ticket/ticket";
 import Event from "./pages/event/page";
 import Payment from "./pages/payment/page"
 import Review from "./pages/attendee/review/page"
-=======
 import AppLayoutOrganizer from "./ui/AppLayoutOrganizer";
 import EventsOrganizer from "./pages/organizer/events/EventsOrganizer";
 import CreateEvent from "./pages/organizer/createEvent/CreateEvent";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
->>>>>>> origin/main
+import AllReview from "./pages/attendee/review/my-review/page";
+import EventDetail from "./pages/event/details/page";
+import Wishlist from "./pages/attendee/wishlist/page";
 
 const router = createBrowserRouter([
   {
@@ -81,6 +81,30 @@ const router = createBrowserRouter([
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
           <Review />
+          //</PrivateRoute>
+        ),
+      },
+       {
+        path: "myreview", // Tambahkan di sini
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <AllReview />
+          //</PrivateRoute>
+        ),
+      },
+      {
+        path: "event/detail", // Tambahkan di sini
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <EventDetail />
+          //</PrivateRoute>
+        ),
+      },
+      {
+        path: "wishlist", // Tambahkan di sini
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <Wishlist />
           //</PrivateRoute>
         ),
       },

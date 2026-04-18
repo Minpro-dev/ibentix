@@ -2,7 +2,7 @@ import axios from "axios";
 import { useAuthStore } from "../store/useAuthStore";
 
 export const api = axios.create({
-  baseURL: "http://localhost:8005/api",
+  baseURL: "http://localhost:8000/api",
   withCredentials: true,
 });
 
@@ -37,7 +37,7 @@ api.interceptors.response.use(
 
       try {
         const { data } = await axios.get(
-          "http://localhost:8005/api/auth/refresh",
+          "http://localhost:8000/api/auth/refresh",
           { withCredentials: true },
         );
         // console.log("data interceptors", data);
