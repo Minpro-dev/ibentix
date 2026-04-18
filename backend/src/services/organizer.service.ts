@@ -29,6 +29,9 @@ export const organizerService = {
       where: {
         userId,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
 
     return organizerProfiles;

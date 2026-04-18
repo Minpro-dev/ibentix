@@ -51,7 +51,7 @@ function CreateEvent() {
           thumbnail: null,
         }}
         validationSchema={createEventSchema}
-        onSubmit={async (values) => {
+        onSubmit={async (values, { resetForm }) => {
           const formData = new FormData();
 
           // console.log("Form Submitted:", values);
@@ -88,6 +88,8 @@ function CreateEvent() {
 
             console.log(error);
           }
+
+          resetForm();
         }}>
         {({ values, errors, touched, setFieldValue }) => (
           <Form className="space-y-8">

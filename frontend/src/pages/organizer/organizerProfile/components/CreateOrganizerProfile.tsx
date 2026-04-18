@@ -2,16 +2,18 @@ import { Field, Form, Formik } from "formik";
 import { inputClass, labelClass } from "../../../../utils/InputStylingConstant";
 import { createOrganizerProfileShema } from "../schema/createOrganizerProfileSchema";
 import Button from "../../../../ui/Button";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { handleCreateOrganizerProfile } from "../../../../services/organizerProfileService";
 import { toast } from "sonner";
 
 function CreateOrganizerProfile() {
+  const queryClient = useQueryClient();
   // organizer mutation
   const { mutate, isPending } = useMutation({
     mutationFn: (data: FormData) => handleCreateOrganizerProfile(data),
 
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["organizer-profiles"] });
       toast.success(`Organizer profile created`);
     },
 
@@ -33,7 +35,7 @@ function CreateOrganizerProfile() {
           image: null,
         }}
         validationSchema={createOrganizerProfileShema}
-        onSubmit={(values) => {
+        onSubmit={(values, { resetForm }) => {
           const formData = new FormData();
 
           formData.append("name", values.name);
@@ -43,6 +45,7 @@ function CreateOrganizerProfile() {
 
           //   console.log(values);
           mutate(formData);
+          resetForm();
         }}>
         {({ errors, touched, setFieldValue }) => (
           <Form>
