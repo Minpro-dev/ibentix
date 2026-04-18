@@ -20,7 +20,7 @@ function EventPromotionList({
   const [searchValue] = useDebounce(search, 800);
 
   const { data } = useQuery({
-    queryKey: ["event-promotion"],
+    queryKey: ["event-promotion", searchValue],
     queryFn: () => handleGetAllEvent(searchValue),
   });
   const events = data?.data.data.events;
@@ -41,6 +41,8 @@ function EventPromotionList({
             eventId={event.eventId}
             title={event.title}
             city={event.city}
+            startSellingDate={event.startSellingDate}
+            endSellingDate={event.endSellingDate}
             onSelectEvent={onSelectEvent}
             selectedEvent={selectedEvent}
           />

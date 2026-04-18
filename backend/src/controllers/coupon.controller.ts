@@ -12,6 +12,7 @@ export const couponController = {
   createEventCoupon: catchAsync(
     async (req: Request<{}, {}, createEventCouponSchema>, res: Response) => {
       const userId = req.user?.userId as string;
+
       const { couponCode, eventId, validFrom, validUntil, discountAmount } =
         req.body;
 

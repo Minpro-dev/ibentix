@@ -33,7 +33,7 @@ function CreatePromotion() {
         </div>
         <div className="md:w-[50%] w-full">
           <SelectedEventCard selectedEvent={selectedEvent} />
-          <PromotionForm />
+          <PromotionForm selectedEvent={selectedEvent} />
         </div>
       </div>
     </div>

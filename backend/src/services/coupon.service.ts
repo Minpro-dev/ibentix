@@ -17,6 +17,30 @@ export const couponService = {
         },
       });
 
+      const event = await prisma.event.findUnique({
+        where: {
+          eventId: data.eventId,
+        },
+      });
+
+      if (
+        startOfDay(new Date(data.validFrom)) <
+          startOfDay(new Date(event!.startSellingDate)) ||
+        endOfDay(new Date(data.validFrom)) >
+          endOfDay(new Date(event!.endSellingDate))
+      ) {
+        throw new AppError(400, "Valid from must be during selling date");
+      }
+
+      if (
+        startOfDay(new Date(data.validUntil)) <
+          startOfDay(new Date(event!.startSellingDate)) ||
+        endOfDay(new Date(data.validUntil)) >
+          endOfDay(new Date(event!.endSellingDate))
+      ) {
+        throw new AppError(400, "Valid until must be during selling date");
+      }
+
       if (onGoingCoupon) {
         throw new AppError(403, "You already have one active coupon");
       }
@@ -24,6 +48,7 @@ export const couponService = {
       const eventCoupon = await prisma.eventCoupon.create({
         data: {
           ...data,
+          discountAmount: Number(data.discountAmount),
           validFrom: startOfDay(data.validFrom),
           validUntil: endOfDay(data.validUntil),
         },

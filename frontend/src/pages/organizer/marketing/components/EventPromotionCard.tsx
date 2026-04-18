@@ -1,5 +1,6 @@
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import type { SelectedEventType } from "../types/selectedEventType";
+import { formatDate } from "../../../../utils/dateFormatter";
 
 interface EventPromotionCardProps {
   eventId: string;
@@ -7,6 +8,8 @@ interface EventPromotionCardProps {
   city: string;
   onSelectEvent: (eventId: string, title: string, location: string) => void;
   selectedEvent: SelectedEventType;
+  startSellingDate: string;
+  endSellingDate: string;
 }
 
 function EventPromotionCard({
@@ -15,6 +18,8 @@ function EventPromotionCard({
   city,
   onSelectEvent,
   selectedEvent,
+  startSellingDate,
+  endSellingDate,
 }: EventPromotionCardProps) {
   return (
     <div onClick={() => onSelectEvent(eventId, title, city)}>
@@ -22,7 +27,17 @@ function EventPromotionCard({
         <div className="flex gap-4 items-center">
           {/* Name */}
           <div>
-            <h4 className="text-base text-zinc-600">{title}</h4>
+            <div>
+              <h4 className="text-base text-zinc-600">{title}</h4>
+            </div>
+            <div className="flex gap-3">
+              <div>
+                <p>{formatDate(startSellingDate)} /</p>
+              </div>
+              <div>
+                <p>{formatDate(endSellingDate)}</p>
+              </div>
+            </div>
             <p className="text-base text-zinc-600">{city}</p>
           </div>
         </div>

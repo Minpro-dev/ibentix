@@ -2,8 +2,37 @@ import { Field, Form, Formik } from "formik";
 import { inputClass, labelClass } from "../../../../utils/InputStylingConstant";
 import { promotionSchema } from "../schema/promotionSchema";
 import Button from "../../../../ui/Button";
+import type { SelectedEventType } from "../types/selectedEventType";
+import { useMutation } from "@tanstack/react-query";
+import { handleCreateEventCoupon } from "../../../../services/eventCouponService";
+import { toast } from "sonner";
+import type { CreateEventCouponType } from "../types/createEventCoupontype";
+import { useNavigate } from "react-router-dom";
 
-function PromotionForm() {
+interface PromotionFormProps {
+  selectedEvent: SelectedEventType;
+}
+
+function PromotionForm({ selectedEvent }: PromotionFormProps) {
+  const eventId = selectedEvent.eventId;
+  const navigate = useNavigate();
+
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["event-coupon"],
+    mutationFn: (data: CreateEventCouponType) => handleCreateEventCoupon(data),
+
+    onSuccess: () => {
+      toast.success("Event coupon has been created");
+      navigate("/organizer/marketing");
+    },
+    onError: (error: any) => {
+      console.log(error);
+      const errorMessage =
+        error.response?.data?.message || "Something went wrong";
+
+      toast.error(errorMessage);
+    },
+  });
   return (
     <div>
       <Formik
@@ -14,14 +43,16 @@ function PromotionForm() {
           validUntil: "",
         }}
         validationSchema={promotionSchema}
-        onSubmit={(values) => {
+        onSubmit={(values, { resetForm }) => {
           console.log(values);
+          mutate({ ...values, eventId });
+          resetForm();
         }}>
         {({ errors, touched }) => (
           <Form>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 py-4">
               <div>
-                <label className={labelClass}>Address</label>
+                <label className={labelClass}>Coupon Code</label>
                 <Field
                   name="couponCode"
                   type="text"
@@ -35,7 +66,7 @@ function PromotionForm() {
                 )}
               </div>
               <div>
-                <label className={labelClass}>City</label>
+                <label className={labelClass}>Discount</label>
                 <Field
                   name="discountAmount"
                   type="number"
@@ -72,7 +103,9 @@ function PromotionForm() {
               </div>
             </div>
             <div className="py-4">
-              <Button type="submit">Create Promotion</Button>
+              <Button disabled={isPending} type="submit">
+                {isPending ? "Hold on..." : "Create Promotion"}
+              </Button>
             </div>
           </Form>
         )}

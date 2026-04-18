@@ -1,4 +1,6 @@
 import * as Yup from "yup";
+const today = new Date();
+today.setHours(0, 0, 0, 0);
 
 export const promotionSchema = Yup.object().shape({
   couponCode: Yup.string()
@@ -15,7 +17,7 @@ export const promotionSchema = Yup.object().shape({
   validFrom: Yup.date()
     .required("Start date is required")
     .typeError("Invalid date format")
-    .min(new Date(), "Start date cannot be in the past"),
+    .min(today, "Start date cannot be in the past"),
 
   validUntil: Yup.date()
     .required("End date is required")
