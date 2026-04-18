@@ -33,6 +33,18 @@ enum PaymentStatus {
   CANCELED
 }
 
+enum EventCategory {
+  MUSIC
+  NIGHTLIFE
+  WORKSHOP
+  CONFERENCE
+  EXHIBITION
+  SPORTS
+  FESTIVAL
+  COMMUNITY
+  OTHER
+}
+
 model RefreshToken {
   refreshTokenId String    @id @default(uuid())
   token          String    @unique @db.Text
@@ -93,7 +105,7 @@ model User {
   eventCoupons     EventCoupon[]
   events           Event[]
 
-  referralCoupons ReferralCoupon? @relation("CouponReceiver")
+  referralCoupons ReferralCoupon?  @relation("CouponReceiver")
   referredCoupons ReferralCoupon[] @relation("CouponGiver")
 
   @@map("users")
@@ -131,14 +143,14 @@ model Point {
 }
 
 model Ticket {
-  ticketId      String       @id @default(uuid())
-  ticketCode    String       @unique
+  ticketId      String    @id @default(uuid())
+  ticketCode    String    @unique
   orderId       String
   userId        String
   attendeeName  String
   attendeeEmail String
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
   deletedAt     DateTime?
 
   user  User  @relation(fields: [userId], references: [userId])
@@ -163,8 +175,8 @@ model Order {
   appCouponId      String?
   referralCouponId String?
 
-  paymentId String   @unique
-  expiresAt  DateTime
+  paymentId String    @unique
+  expiresAt DateTime
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
@@ -184,10 +196,10 @@ model Order {
 }
 
 model Payment {
-  paymentId String @id @default(uuid())
+  paymentId     String        @id @default(uuid())
   paymentProof  String?
   paymentStatus PaymentStatus @default(WAITING_FOR_PAYMENT)
-  paymentAt DateTime?
+  paymentAt     DateTime?
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -213,6 +225,7 @@ model Event {
   locationName String
   address      String
   city         String
+  category     EventCategory @default(OTHER)
 
   eventDate        DateTime
   startSellingDate DateTime
@@ -228,11 +241,11 @@ model Event {
   organizer OrganizerProfile @relation(fields: [organizerId], references: [organizerId])
   user      User             @relation(fields: [userId], references: [userId])
 
-  orders     Order[]
-  reviews    Review[]
-  wishlists  Wishlist[]
-  coupons    EventCoupon?
-  categories EventCategory[]
+  orders    Order[]
+  reviews   Review[]
+  wishlists Wishlist[]
+  coupons   EventCoupon?
+  // categories EventCategory[]
 
   @@map("events")
 }
@@ -260,19 +273,19 @@ model EventCoupon {
   @@map("eventCoupons")
 }
 
-model EventCategory {
-  categoryId   String @id @default(uuid())
-  eventId      String
-  categoryName String
+// model EventCategory {
+//   categoryId   String @id @default(uuid())
+//   eventId      String
+//   categoryName String
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime  @updatedAt
+//   deletedAt DateTime?
 
-  event Event @relation(fields: [eventId], references: [eventId])
+//   event Event @relation(fields: [eventId], references: [eventId])
 
-  @@map("eventCategories")
-}
+//   @@map("eventCategories")
+// }
 
 model Review {
   reviewId    String    @id @default(uuid())
@@ -311,7 +324,7 @@ model ReferralCoupon {
   updatedAt DateTime @updatedAt
 
   orders     Order[]
-  user       User   @relation("CouponReceiver", fields: [userId], references: [userId])
+  user       User    @relation("CouponReceiver", fields: [userId], references: [userId])
   referredBy User    @relation("CouponGiver", fields: [referralCodeBy], references: [userId])
 
   @@map("referralCoupons")
@@ -319,15 +332,15 @@ model ReferralCoupon {
 
 model AppCoupon {
   appCouponId          String @id @default(uuid())
-  couponCode           String  @unique
+  couponCode           String @unique
   totalCouponAvailable Int?
   usedCount            Int    @default(0)
 
   validFrom      DateTime
   validUntil     DateTime
   discountAmount Decimal
-  isActive    Boolean @default(false)
-  deletedAt DateTime?
+  isActive       Boolean   @default(false)
+  deletedAt      DateTime?
 
   orders Order[]
 

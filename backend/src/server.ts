@@ -8,7 +8,7 @@ import couponRouter from "./routers/coupon.route";
 import appCouponRouter from "./routers/appCoupon.router";
 import orderCouponRouter from "./routers/order.router";
 import eventRouter from "./routers/event.route";
-// import organizerRouter from "./routers/organizer.route";
+import organizerProfileRouter from "./routers/organizer.route";
 import wishlistRouter from "./routers/wishlist.route";
 import paymentRouter from "./routers/payment.route";
 import pointRouter from "./routers/point.route";
@@ -42,8 +42,8 @@ app.use("/api/event-coupon", couponRouter);
 // event endpoint
 app.use("/api/events", eventRouter);
 
-// organizer endpoint
-// app.use('/api/organizer', organizerRouter);
+// organizer profile endpoint
+app.use("/api/organizer-profile", organizerProfileRouter);
 
 // auth endpoint
 app.use("/api/auth", authRouter);
