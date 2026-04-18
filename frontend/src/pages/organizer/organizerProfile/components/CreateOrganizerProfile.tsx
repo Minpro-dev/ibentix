@@ -17,9 +17,12 @@ function CreateOrganizerProfile() {
       toast.success(`Organizer profile created`);
     },
 
-    onError: (error) => {
-      toast.error(error.message);
+    onError: (error: any) => {
       console.log(error);
+      const errorMessage =
+        error.response?.data?.message || "Something went wrong";
+
+      toast.error(errorMessage);
     },
   });
 

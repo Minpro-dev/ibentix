@@ -4,6 +4,7 @@ import { EventCouponType, GetAllEventCoupon } from "../types/eventCoupon.type";
 import { AppError } from "../utils/AppError";
 import { handlePrismaError } from "../utils/prismaErrorHandler";
 import { EventCouponWhereInput } from "../../generated/prisma/models";
+import { includes } from "zod";
 
 export const couponService = {
   createEventCoupon: async (data: EventCouponType) => {
@@ -17,6 +18,30 @@ export const couponService = {
         },
       });
 
+      const event = await prisma.event.findUnique({
+        where: {
+          eventId: data.eventId,
+        },
+      });
+
+      if (
+        startOfDay(new Date(data.validFrom)) <
+          startOfDay(new Date(event!.startSellingDate)) ||
+        endOfDay(new Date(data.validFrom)) >
+          endOfDay(new Date(event!.endSellingDate))
+      ) {
+        throw new AppError(400, "Valid from must be during selling date");
+      }
+
+      if (
+        startOfDay(new Date(data.validUntil)) <
+          startOfDay(new Date(event!.startSellingDate)) ||
+        endOfDay(new Date(data.validUntil)) >
+          endOfDay(new Date(event!.endSellingDate))
+      ) {
+        throw new AppError(400, "Valid until must be during selling date");
+      }
+
       if (onGoingCoupon) {
         throw new AppError(403, "You already have one active coupon");
       }
@@ -24,6 +49,7 @@ export const couponService = {
       const eventCoupon = await prisma.eventCoupon.create({
         data: {
           ...data,
+          discountAmount: Number(data.discountAmount),
           validFrom: startOfDay(data.validFrom),
           validUntil: endOfDay(data.validUntil),
         },
@@ -96,7 +122,9 @@ export const couponService = {
   },
 
   // -------- GET ALL COUPONS
-  getAllCoupons: (data: GetAllEventCoupon, userId: string) => {
+  getAllCoupons: async (data: GetAllEventCoupon, userId: string) => {
+    const offset = (data.page - 1) * data.limit;
+
     const where: EventCouponWhereInput = {
       userId,
       deletedAt: null,
@@ -131,12 +159,29 @@ export const couponService = {
     if (data.search) {
       where.OR = [
         { couponCode: { contains: data.search, mode: "insensitive" } },
+        {
+          event: {
+            title: { contains: data.search, mode: "insensitive" },
+          },
+        },
       ];
     }
 
-    const coupons = prisma.eventCoupon.findMany({ where });
+    const coupons = await prisma.eventCoupon.findMany({
+      where,
+      include: {
+        event: true,
+      },
+      take: data.limit,
+      skip: offset,
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
 
-    return coupons;
+    const totalData = await prisma.eventCoupon.count({ where });
+
+    return { totalData, totalPage: Math.ceil(totalData / data.limit), coupons };
   },
 
   // -------- EDIT COUPON
@@ -181,22 +226,10 @@ export const couponService = {
     }
   },
 
-  deleteCoupon: async (userId: string, eventId: string) => {
+  deleteCoupon: async (eventCouponId: string) => {
     try {
-      const coupon = await prisma.eventCoupon.findUnique({
-        where: { eventId },
-      });
-
-      if (!coupon) {
-        throw new AppError(404, "No coupon found");
-      }
-
-      if (coupon.userId !== userId) {
-        throw new AppError(401, "Only owner can delete coupon");
-      }
-
       await prisma.eventCoupon.update({
-        where: { eventId },
+        where: { eventCouponId },
         data: { deletedAt: new Date() },
       });
     } catch (error) {

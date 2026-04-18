@@ -110,9 +110,7 @@ function EventOrganizerList({ event }: { event: Event }) {
             <Button
               variant="secondary"
               size="sm"
-              className="w-full lg:w-32 cursor-pointer"
-              //   onClick={() => onEdit(event.slug)}
-            >
+              className="w-full lg:w-32 cursor-pointer">
               <Edit3 size={14} />
               Edit
             </Button>

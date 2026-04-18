@@ -2,20 +2,20 @@ export interface Event {
   address: string;
   availableSlot: number;
   city: string;
-  createdAt: Date;
-  deletedAt?: Date;
+  createdAt: string;
+  deletedAt?: string;
   description: string;
-  endSellingDate: Date;
-  eventDate: Date;
+  endSellingDate: string;
+  eventDate: string;
   eventId: string;
   isFree: boolean;
   locationName: string;
   organizerId: string;
   price: number;
   slug: string;
-  startSellingDate: Date;
+  startSellingDate: string;
   thumbnailUrl?: string;
   title: string;
-  updatedAt: Date;
+  updatedAt: string;
   userId: string;
 }
