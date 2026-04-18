@@ -37,6 +37,10 @@ function AppLayoutOrganizer() {
               <div className="py-3">
                 <NavLink to="">Marketing</NavLink>
               </div>
+
+              <div className="py-3">
+                <NavLink to="organizer-profile">Organizer Profile</NavLink>
+              </div>
             </nav>
           </div>
 

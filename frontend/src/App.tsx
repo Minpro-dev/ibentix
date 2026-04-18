@@ -14,6 +14,7 @@ import AppLayoutOrganizer from "./ui/AppLayoutOrganizer";
 import EventsOrganizer from "./pages/organizer/events/EventsOrganizer";
 import CreateEvent from "./pages/organizer/createEvent/CreateEvent";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import OrganizerProfile from "./pages/organizer/organizerProfile/OrganizerProfile";
 
 const router = createBrowserRouter([
   {
@@ -73,6 +74,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute allowedRoles={["ORGANIZER"]}>
             <CreateEvent />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "organizer-profile",
+        element: (
+          <PrivateRoute allowedRoles={["ORGANIZER"]}>
+            <OrganizerProfile />
           </PrivateRoute>
         ),
       },
