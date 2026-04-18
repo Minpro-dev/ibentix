@@ -21,3 +21,24 @@ export const handleDeleteEvent = async (eventId: string) => {
     console.log(error);
   }
 };
+
+export const handleGetAllEvent = async (
+  search: string,
+  eventDate?: Date,
+  isFree?: string,
+  page?: number,
+) => {
+  try {
+    const res = await api.get("/events/organizer/me", {
+      params: {
+        search,
+        eventDate,
+        isFree,
+        page,
+      },
+    });
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
