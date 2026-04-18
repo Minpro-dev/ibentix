@@ -20,4 +20,11 @@ route.get(
   organizerController.getAllOrganizerProfiles,
 );
 
+route.delete(
+  "/:id",
+  authentication,
+  authorization("ORGANIZER"),
+  organizerController.deleteOrganizerProfile,
+);
+
 export default route;

@@ -28,6 +28,7 @@ export const organizerService = {
     const organizerProfiles = await prisma.organizerProfile.findMany({
       where: {
         userId,
+        deletedAt: null,
       },
       orderBy: {
         createdAt: "desc",
@@ -35,5 +36,20 @@ export const organizerService = {
     });
 
     return organizerProfiles;
+  },
+
+  deleteOrganizerProfile: async (organizerProfileId: string) => {
+    try {
+      await prisma.organizerProfile.update({
+        where: {
+          organizerId: organizerProfileId,
+        },
+        data: {
+          deletedAt: new Date(),
+        },
+      });
+    } catch (error) {
+      handlePrismaError(error);
+    }
   },
 };
