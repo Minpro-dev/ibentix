@@ -2,8 +2,25 @@ import { Field, Form, Formik } from "formik";
 import { inputClass, labelClass } from "../../../../utils/InputStylingConstant";
 import { createOrganizerProfileShema } from "../schema/createOrganizerProfileSchema";
 import Button from "../../../../ui/Button";
+import { useMutation } from "@tanstack/react-query";
+import { handleCreateOrganizerProfile } from "../../../../services/organizerProfileService";
+import { toast } from "sonner";
 
 function CreateOrganizerProfile() {
+  // organizer mutation
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: FormData) => handleCreateOrganizerProfile(data),
+
+    onSuccess: () => {
+      toast.success(`Organizer profile created`);
+    },
+
+    onError: (error) => {
+      toast.error(error.message);
+      console.log(error);
+    },
+  });
+
   return (
     <div>
       <div className="py-5">
@@ -17,7 +34,15 @@ function CreateOrganizerProfile() {
         }}
         validationSchema={createOrganizerProfileShema}
         onSubmit={(values) => {
-          console.log(values);
+          const formData = new FormData();
+
+          formData.append("name", values.name);
+          if (values.image) {
+            formData.append("image", values.image);
+          }
+
+          //   console.log(values);
+          mutate(formData);
         }}>
         {({ errors, touched, setFieldValue }) => (
           <Form>
@@ -54,7 +79,9 @@ function CreateOrganizerProfile() {
                 <p className="text-red-500 text-[10px] mt-1">{errors.image}</p>
               )}
             </div>
-            <Button>Create Profile</Button>
+            <Button disabled={isPending}>
+              {isPending ? "Hold on..." : "Create Profile"}
+            </Button>
           </Form>
         )}
       </Formik>
