@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useDebounce } from "use-debounce";
 import type { Event } from "../../../../types/eventType";
 import type { SelectedEventType } from "../types/selectedEventType";
+import EventSelectorSkeleton from "./EventSelectorSkeleton";
 
 interface EventPromotionListProps {
   onSelectEvent: (eventId: string, title: string, location: string) => void;
@@ -19,7 +20,7 @@ function EventPromotionList({
   const [search, setSearch] = useState("");
   const [searchValue] = useDebounce(search, 800);
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["event-promotion", searchValue],
     queryFn: () => handleGetAllEvent(searchValue),
   });
@@ -35,18 +36,22 @@ function EventPromotionList({
       </div>
 
       <div className="border py-2 border-slate-200 h-75 md:h-80 overflow-y-auto rounded-xl">
-        {events?.map((event: Event) => (
-          <EventPromotionCard
-            key={event.eventId}
-            eventId={event.eventId}
-            title={event.title}
-            city={event.city}
-            startSellingDate={event.startSellingDate}
-            endSellingDate={event.endSellingDate}
-            onSelectEvent={onSelectEvent}
-            selectedEvent={selectedEvent}
-          />
-        ))}
+        {isLoading
+          ? Array.from({ length: 5 }).map((_, i) => (
+              <EventSelectorSkeleton key={i} />
+            ))
+          : events?.map((event: Event) => (
+              <EventPromotionCard
+                key={event.eventId}
+                eventId={event.eventId}
+                title={event.title}
+                city={event.city}
+                startSellingDate={event.startSellingDate}
+                endSellingDate={event.endSellingDate}
+                onSelectEvent={onSelectEvent}
+                selectedEvent={selectedEvent}
+              />
+            ))}
       </div>
     </div>
   );

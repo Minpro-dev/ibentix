@@ -6,6 +6,7 @@ import type { EventCouponResponse } from "../types/eventCouponType";
 import SearchInput from "../../../../ui/SearchInput";
 import { useDebounce } from "use-debounce";
 import PaginationButton from "../../../../ui/PaginationButton";
+import PromotionCardSkeleton from "./PromotionCardSkeleton";
 
 function Promotions() {
   const [search, setSearch] = useState("");
@@ -35,15 +36,19 @@ function Promotions() {
         />
       </div>
       <div className="space-y-4">
-        {eventCoupons?.map((coupon: EventCouponResponse) => (
-          <PromotionCard
-            couponCode={coupon.couponCode}
-            eventName={coupon.event.title}
-            validFrom={coupon.validFrom}
-            validUntil={coupon.validUntil}
-            discountAmount={coupon.discountAmount}
-          />
-        ))}
+        {isLoading
+          ? Array.from({ length: 5 }).map((_, i) => (
+              <PromotionCardSkeleton key={i} />
+            ))
+          : eventCoupons?.map((coupon: EventCouponResponse) => (
+              <PromotionCard
+                couponCode={coupon.couponCode}
+                eventName={coupon.event.title}
+                validFrom={coupon.validFrom}
+                validUntil={coupon.validUntil}
+                discountAmount={coupon.discountAmount}
+              />
+            ))}
       </div>
       <div className="pt-8 flex justify-center items-center">
         <PaginationButton

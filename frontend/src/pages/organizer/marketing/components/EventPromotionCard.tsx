@@ -22,31 +22,49 @@ function EventPromotionCard({
   endSellingDate,
 }: EventPromotionCardProps) {
   return (
-    <div onClick={() => onSelectEvent(eventId, title, city)}>
-      <div className="flex justify-between items-center py-3 px-5 border-b border-slate-200 hover:bg-slate-100 transition-all duration-300">
+    <div
+      onClick={() => onSelectEvent(eventId, title, city)}
+      className="group cursor-pointer border-b border-slate-100 last:border-0">
+      <div
+        className={`flex justify-between items-center py-4 px-6 transition-all duration-300 ${
+          selectedEvent.eventId === eventId
+            ? "bg-indigo-50/30"
+            : "hover:bg-slate-50"
+        }`}>
         <div className="flex gap-4 items-center">
-          {/* Name */}
-          <div>
-            <div>
-              <h4 className="text-base text-zinc-600">{title}</h4>
-            </div>
-            <div className="flex gap-3">
-              <div>
-                <p>{formatDate(startSellingDate)} /</p>
+          <div className="space-y-1">
+            {/* Title */}
+            <h4
+              className={`text-sm transition-colors ${
+                selectedEvent.eventId === eventId
+                  ? "text-indigo-600"
+                  : "text-zinc-700"
+              }`}>
+              {title}
+            </h4>
+
+            {/* Info Row: Date & City */}
+            <div className="flex flex-col gap-0.5">
+              <div className="flex items-center gap-1.5 text-[12px] font-medium text-zinc-400">
+                <span>{formatDate(startSellingDate)}</span>
+                <span className="text-zinc-200">—</span>
+                <span>{formatDate(endSellingDate)}</span>
               </div>
-              <div>
-                <p>{formatDate(endSellingDate)}</p>
-              </div>
+              <p className="text-xs text-indigo-400/80 tracking-wide uppercase">
+                {city}
+              </p>
             </div>
-            <p className="text-base text-zinc-600">{city}</p>
           </div>
         </div>
 
-        {selectedEvent.eventId === eventId && (
-          <div>
-            <IoMdCheckmarkCircleOutline className="text-2xl text-indigo-500 cursor-pointer" />
-          </div>
-        )}
+        {/* Selection Indicator */}
+        <div className="flex items-center">
+          {selectedEvent.eventId === eventId ? (
+            <IoMdCheckmarkCircleOutline className="text-2xl text-indigo-500 animate-in zoom-in duration-300" />
+          ) : (
+            <div className="w-5 h-5 border-2 border-slate-200 rounded-full group-hover:border-indigo-200 transition-colors" />
+          )}
+        </div>
       </div>
     </div>
   );
