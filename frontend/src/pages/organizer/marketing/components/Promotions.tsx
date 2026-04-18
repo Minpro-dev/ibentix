@@ -50,10 +50,10 @@ function Promotions() {
       text: "You won't be able to revert this promotion!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#4f46e5", // Warna Indigo-600 kamu
+      confirmButtonColor: "#4f46e5",
       cancelButtonColor: "#f44336",
       confirmButtonText: "Yes, delete it!",
-      // Styling agar lebih minimalis (optional)
+
       customClass: {
         popup: "rounded-2xl",
         confirmButton: "rounded-xl px-5 py-2.5",
@@ -61,7 +61,6 @@ function Promotions() {
       },
     }).then((result) => {
       if (result.isConfirmed) {
-        // Panggil fungsi delete/mutation kamu di sini
         mutate(eventCouponId);
       }
     });
