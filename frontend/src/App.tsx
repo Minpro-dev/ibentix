@@ -14,6 +14,7 @@ import Profile from "./pages/attendee/profile/page";
 import Ticket from "./pages/attendee/ticket/ticket";
 import Event from "./pages/event/page";
 import Payment from "./pages/payment/page"
+import Review from "./pages/attendee/review/page"
 
 const router = createBrowserRouter([
   {
@@ -73,6 +74,14 @@ const router = createBrowserRouter([
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
           <Payment />
+          //</PrivateRoute>
+        ),
+      },
+      {
+        path: "review", // Tambahkan di sini
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <Review />
           //</PrivateRoute>
         ),
       },

@@ -97,8 +97,25 @@ export interface UserProfile {
 }
 
 export enum TransactionStatus {
-  WAITING = 'Waiting for Payment',
+  WAITING_PAYMENT = 'Waiting for Payment',
+  WAITING_ADMIN = 'Waiting for Admin to Approve',
   PENDING = 'Verifying Payment',
   SUCCESS = 'Payment Success',
-  EXPIRED = 'Expired'
+  EXPIRED = 'Expired',
+  REJECTED = 'Transaction Has Been Reject'
+}
+export interface EventSummary {
+  id: string;
+  title: string;
+  date: string;
+  price: number;
+  currency: string;
+  imageUrl: string;
+}
+
+export interface ReviewSubmission {
+  eventId: string;
+  rating: number;
+  comment: string;
+  photos: string[];
 }
