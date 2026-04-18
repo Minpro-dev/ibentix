@@ -6,6 +6,7 @@ import type { Event } from "../../../types/eventType";
 import { useDebounce } from "use-debounce";
 import EventOrganizerListSkeleton from "./components/EventOrganizerListSkeleton";
 import SearchInput from "../../../ui/SearchInput";
+import PaginationButton from "../../../ui/PaginationButton";
 
 function EventsOrganizer() {
   const [date, setDate] = useState("");
@@ -91,15 +92,11 @@ function EventsOrganizer() {
 
       {/* PAGINATION BUTTON */}
       <div className="pt-8 flex justify-center items-center">
-        <div className="flex gap-4">
-          {Array.from({ length: eventData?.totalPage }, (_, i) => (
-            <button
-              onClick={() => handlePagination(i + 1)}
-              className={`btn ${page !== i + 1 ? "text-zinc-100 bg-indigo-500 border-indigo-500" : "text-white border-indigo-600 bg-indigo-600"}`}>
-              {i + 1}
-            </button>
-          ))}
-        </div>
+        <PaginationButton
+          page={page}
+          onClick={handlePagination}
+          totalPage={eventData?.totalPage}
+        />
       </div>
     </div>
   );

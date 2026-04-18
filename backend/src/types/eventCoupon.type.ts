@@ -13,4 +13,6 @@ export interface GetAllEventCoupon {
   validFrom?: string | undefined;
   validUntil?: string | undefined;
   createdAt?: string | undefined;
+  limit: number;
+  page: number;
 }

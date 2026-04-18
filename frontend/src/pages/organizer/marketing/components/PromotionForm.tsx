@@ -3,10 +3,10 @@ import { inputClass, labelClass } from "../../../../utils/InputStylingConstant";
 import { promotionSchema } from "../schema/promotionSchema";
 import Button from "../../../../ui/Button";
 import type { SelectedEventType } from "../types/selectedEventType";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { handleCreateEventCoupon } from "../../../../services/eventCouponService";
 import { toast } from "sonner";
-import type { CreateEventCouponType } from "../types/createEventCoupontype";
+import type { CreateEventCouponType } from "../types/createEventCouponTypes";
 import { useNavigate } from "react-router-dom";
 
 interface PromotionFormProps {
@@ -16,12 +16,14 @@ interface PromotionFormProps {
 function PromotionForm({ selectedEvent }: PromotionFormProps) {
   const eventId = selectedEvent.eventId;
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
     mutationKey: ["event-coupon"],
     mutationFn: (data: CreateEventCouponType) => handleCreateEventCoupon(data),
 
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["event-coupon"] });
       toast.success("Event coupon has been created");
       navigate("/organizer/marketing");
     },

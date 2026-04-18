@@ -44,6 +44,8 @@ export const getAllEventCouponsSchema = z.object({
     validFrom: z.string().optional(),
     validUntil: z.string().optional(),
     createdAt: z.string().optional(),
+    page: z.string().optional(),
+    limit: z.string().optional(),
   }),
 });
 

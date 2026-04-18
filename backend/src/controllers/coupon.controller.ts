@@ -72,9 +72,10 @@ export const couponController = {
       // get all (by userId)
       // filter: --> eventId, search, validFrom, validUntil, createdAt
       const userId = req.user?.userId as string;
-      console.log("user Id", userId);
       const { eventId, search, validFrom, validUntil, createdAt } = req.query;
 
+      const limit = Number(req.query.limit) || 10;
+      const page = Number(req.query.page) || 1;
       const coupons = await couponService.getAllCoupons(
         {
           eventId,
@@ -82,6 +83,8 @@ export const couponController = {
           validFrom,
           validUntil,
           createdAt,
+          limit,
+          page,
         },
         userId,
       );

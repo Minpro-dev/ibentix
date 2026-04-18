@@ -21,11 +21,8 @@ function CreatePromotion() {
 
   return (
     <div>
-      <p>Create Promotion</p>
-
       <div className="block md:flex gap-8">
         <div className="md:w-[50%] w-full">
-          <p>List</p>
           <EventPromotionList
             onSelectEvent={handleSelectEvent}
             selectedEvent={selectedEvent}
