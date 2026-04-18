@@ -226,22 +226,10 @@ export const couponService = {
     }
   },
 
-  deleteCoupon: async (userId: string, eventId: string) => {
+  deleteCoupon: async (eventCouponId: string) => {
     try {
-      const coupon = await prisma.eventCoupon.findUnique({
-        where: { eventId },
-      });
-
-      if (!coupon) {
-        throw new AppError(404, "No coupon found");
-      }
-
-      if (coupon.userId !== userId) {
-        throw new AppError(401, "Only owner can delete coupon");
-      }
-
       await prisma.eventCoupon.update({
-        where: { eventId },
+        where: { eventCouponId },
         data: { deletedAt: new Date() },
       });
     } catch (error) {

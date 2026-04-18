@@ -51,8 +51,8 @@ export const getAllEventCouponsSchema = z.object({
 
 // ------ DELETE
 export const deleteEventCouponSchema = z.object({
-  body: createEventCouponSchema.shape.body.pick({
-    eventId: true,
+  body: z.object({
+    eventCouponId: z.uuid(),
   }),
 });
 

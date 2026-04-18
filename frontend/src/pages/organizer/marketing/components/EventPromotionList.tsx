@@ -24,6 +24,7 @@ function EventPromotionList({
     queryKey: ["event-promotion", searchValue],
     queryFn: () => handleGetAllEvent(searchValue),
   });
+
   const events = data?.data.data.events;
   return (
     <div>

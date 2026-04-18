@@ -19,3 +19,7 @@ export const handleGetEventCoupon = async (search?: string, page?: number) => {
     console.log(error);
   }
 };
+
+export const handleDeleteCoupon = async (eventCouponId: string) => {
+  await api.delete("/event-coupon", { data: { eventCouponId } });
+};

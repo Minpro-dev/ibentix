@@ -2,19 +2,23 @@ import { RiCalendarLine } from "react-icons/ri";
 import { MdDelete } from "react-icons/md";
 
 interface CouponProps {
+  eventCouponId: string;
   couponCode: string;
   eventName: string;
   validFrom: string;
   validUntil: string;
   discountAmount: string;
+  onDeleteFn: (eventCouponId: string) => void;
 }
 
 export default function PromotionCard({
+  eventCouponId,
   couponCode,
   eventName,
   validFrom,
   validUntil,
   discountAmount,
+  onDeleteFn,
 }: CouponProps) {
   return (
     <div className="group flex flex-col md:flex-row md:items-center justify-between p-6 bg-white border border-zinc-100 rounded-2xl hover:border-indigo-100 hover:shadow-sm transition-all duration-300">
@@ -57,7 +61,10 @@ export default function PromotionCard({
         </div>
 
         <div>
-          <MdDelete className="text-3xl text-red-400 cursor-pointer" />
+          <MdDelete
+            onClick={() => onDeleteFn(eventCouponId)}
+            className="text-3xl text-red-400 cursor-pointer"
+          />
         </div>
       </div>
     </div>

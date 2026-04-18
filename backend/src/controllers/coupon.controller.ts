@@ -69,8 +69,6 @@ export const couponController = {
       req: Request<{}, {}, {}, getAllCouponsQuerySchema>,
       res: Response,
     ) => {
-      // get all (by userId)
-      // filter: --> eventId, search, validFrom, validUntil, createdAt
       const userId = req.user?.userId as string;
       const { eventId, search, validFrom, validUntil, createdAt } = req.query;
 
@@ -125,10 +123,10 @@ export const couponController = {
   // -------------- DELETE COUPON
   deleteCoupon: catchAsync(
     async (req: Request<{}, {}, deleteEventCouponSchema>, res: Response) => {
-      const userId = req.user?.userId as string;
-      const { eventId } = req.body;
+      // const userId = req.user?.userId as string;
+      const { eventCouponId } = req.body;
 
-      await couponService.deleteCoupon(userId, eventId);
+      await couponService.deleteCoupon(eventCouponId);
 
       res.status(200).json({
         staus: "success",
