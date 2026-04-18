@@ -1,5 +1,6 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
+import { Toaster } from "sonner";
 
 function AppLayoutOrganizer() {
   const navigate = useNavigate();
@@ -88,6 +89,7 @@ function AppLayoutOrganizer() {
 
             <div className="h-dvh overflow-y-scroll px-10 pb-10 pt-20">
               <Outlet />
+              <Toaster theme="system" />
             </div>
           </section>
         </div>

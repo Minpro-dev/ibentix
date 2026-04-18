@@ -11,7 +11,7 @@ export interface Event {
   isFree: boolean;
   locationName: string;
   organizerId: string;
-  price: string | number;
+  price: number;
   slug: string;
   startSellingDate: Date;
   thumbnailUrl?: string;
