@@ -31,4 +31,15 @@ export const organizerController = {
       data: organizerProfiles,
     });
   },
+
+  deleteOrganizerProfile: async (req: Request, res: Response) => {
+    const organizerProfileId = req.params.id as string;
+
+    await organizerService.deleteOrganizerProfile(organizerProfileId);
+
+    res.status(200).json({
+      status: "successful",
+      message: "Delete orginizer successful",
+    });
+  },
 };
