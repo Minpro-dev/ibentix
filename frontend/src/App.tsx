@@ -3,7 +3,7 @@ import AppLayout from "./ui/AppLayout";
 import SignupPage from "./pages/signup/SingupPage";
 import LoginPage from "./pages/login/LoginPage";
 import DashboardPage from "./pages/organizer/dashboard/DashboardPage";
-import HomePage from "./pages/home/HomePage";
+import HomePage from "./pages/attendee/home/HomePage";
 import api from "./api/axiosInstance";
 import { useEffect, useRef } from "react";
 import { useAuthStore } from "./store/useAuthStore";
@@ -13,8 +13,8 @@ import ResetPasswordPage from "./pages/resetPassword/ResetPasswordPage";
 import Profile from "./pages/attendee/profile/page";
 import Ticket from "./pages/attendee/ticket/ticket";
 import Event from "./pages/event/page";
-import Payment from "./pages/payment/page"
-import Review from "./pages/attendee/review/page"
+import Payment from "./pages/payment/page";
+import Review from "./pages/attendee/review/page";
 import AppLayoutOrganizer from "./ui/AppLayoutOrganizer";
 import EventsOrganizer from "./pages/organizer/events/EventsOrganizer";
 import CreateEvent from "./pages/organizer/createEvent/CreateEvent";
@@ -52,7 +52,6 @@ const router = createBrowserRouter([
         path: "details", // ✅ ADD THIS
         element: (
           // <PrivateRoute allowedRoles={["ATTENDEE"]}>
-<<<<<<< HEAD
           <HomePage />
           // </PrivateRoute>
         ),
@@ -61,8 +60,6 @@ const router = createBrowserRouter([
         path: "details", // ✅ ADD THIS
         element: (
           // <PrivateRoute allowedRoles={["ATTENDEE"]}>
-=======
->>>>>>> 87f56e8e43849c79f182a42cdcd719d24c315c5c
           <Profile />
           // </PrivateRoute>
         ),
@@ -99,7 +96,7 @@ const router = createBrowserRouter([
           //</PrivateRoute>
         ),
       },
-       {
+      {
         path: "myreview", // Tambahkan di sini
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
@@ -108,19 +105,11 @@ const router = createBrowserRouter([
         ),
       },
       {
-<<<<<<< HEAD
-        path: "event/:slug", // Tambahkan di sini
-        element: (
-          
-          <EventDetail />
-          
-=======
         path: "event/detail", // Tambahkan di sini
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
           <EventDetail />
           //</PrivateRoute>
->>>>>>> 87f56e8e43849c79f182a42cdcd719d24c315c5c
         ),
       },
       {

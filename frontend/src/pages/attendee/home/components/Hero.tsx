@@ -1,73 +1,5 @@
-// import React from 'react';
-// import { Swiper, SwiperSlide } from 'swiper/react';
-// import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-
-// const Hero: React.FC = () => {
-//   const banners = [
-//     "https://images.unsplash.com/photo-1507525428034-b723cf961d3e", // Gambar 1
-//     "https://images.unsplash.com/photo-1506929662133-519b1290786a", // Gambar 2
-//     "https://images.unsplash.com/photo-1544735047-e8cc36730415"  // Gambar 3
-//   ];
-
-//   return (
-//     <section className="relative h-[450px] w-full pt-16 overflow-hidden">
-//       <Swiper
-//         modules={[Navigation, Pagination, Autoplay]}
-//         spaceBetween={0}
-//         slidesPerView={1}
-//         navigation
-//         pagination={{ clickable: true }}
-//         autoplay={{ delay: 3000, disableOnInteraction: false }}
-//         className="h-full w-full"
-//       >
-//         {banners.map((url, index) => (
-//           <SwiperSlide key={index}>
-//             <div className="relative h-full w-full">
-//               {/* Background Image */}
-//               <img 
-//                 src={url} 
-//                 className="w-full h-full object-cover brightness-75"
-//                 alt={`Banner ${index + 1}`}
-//               />
-              
-//               {/* Overlay Content (Teks di Tengah) */}
-//               <div className="absolute inset-0 flex flex-col items-center justify-center text-white z-10">
-//                 <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight drop-shadow-lg">
-//                   Things To-Do
-//                 </h1>
-//                 <p className="mt-2 text-lg font-medium opacity-90 drop-shadow-md">
-//                   Temukan pengalaman seru untuk liburanmu
-//                 </p>
-//               </div>
-//             </div>
-//           </SwiperSlide>
-//         ))}
-//       </Swiper>
-      
-//       {/* Custom CSS untuk mempercantik dot pagination Swiper (Opsional) */}
-//       <style>{`
-//         .swiper-pagination-bullet-active {
-//           background: #fff !important;
-//         }
-//         .swiper-button-next, .swiper-button-prev {
-//           color: #fff !important;
-//           transform: scale(0.6);
-//         }
-//       `}</style>
-//     </section>
-//   );
-// };
-
-// export default Hero;
-
-import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-
-// Pastikan kamu sudah mengimpor CSS Swiper di main.tsx atau App.tsx:
-// import 'swiper/css';
-// import 'swiper/css/navigation';
-// import 'swiper/css/pagination';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
 
 const Hero: React.FC = () => {
   // ✅ STATIC DATA: Sesuai dengan konten musik di gambar
@@ -77,15 +9,15 @@ const Hero: React.FC = () => {
       label: "GET INTO IT",
       titleTop: "FROM POP BALLADS",
       titleBottom: "TO EMO ENCORES",
-      btnText: "Get Into Live Music"
+      btnText: "Get Into Live Music",
     },
     {
       image: "https://images.unsplash.com/photo-1544735047-e8cc36730415", // Contoh gambar lain (Konser)
       label: "SPOTLIGHT",
       titleTop: "WEEKEND VIBES",
       titleBottom: "JAZZ NIGHTS",
-      btnText: "Explore Concerts"
-    }
+      btnText: "Explore Concerts",
+    },
   ];
 
   return (
@@ -97,22 +29,19 @@ const Hero: React.FC = () => {
         navigation
         pagination={{ clickable: true }}
         autoplay={{ delay: 5000, disableOnInteraction: false }}
-        className="h-full w-full"
-      >
+        className="h-full w-full">
         {banners.map((slide, index) => (
           <SwiperSlide key={index}>
             <div className="relative h-full w-full group overflow-hidden rounded-[20px] mx-8 my-4 border border-slate-800 shadow-2xl">
-              
               {/* Background Image: Gelap dan hangat */}
-              <img 
-                src={slide.image} 
+              <img
+                src={slide.image}
                 className="w-full h-full object-cover brightness-[0.6] transition-transform duration-[800ms] group-hover:scale-105"
                 alt={`Slide ${index + 1}`}
               />
-              
+
               {/* Konten Konten (Diposisikan di Kiri-Tengah) */}
               <div className="absolute inset-y-0 left-0 flex flex-col items-start justify-center text-white z-10 pl-20 max-w-xl">
-                
                 {/* Lencana "GET INTO IT" dengan background ungu pudar */}
                 <div className="inline-flex items-center gap-1.5 bg-[#4F46E5]/10 text-[#EEF2FF] px-3.5 py-1.5 rounded-xl mb-4 border border-[#E0E7FF]/20 shadow-inner">
                   <span className="text-[11px] font-extrabold uppercase tracking-widest">
@@ -125,13 +54,17 @@ const Hero: React.FC = () => {
                   {/* Teks Atas (Latar Gradient) */}
                   <span className="inline-block relative">
                     <span className="absolute inset-0 bg-gradient-to-r from-blue-500 to-pink-400 opacity-60 rounded-xl" />
-                    <span className="relative z-10 px-6 py-2 block">{slide.titleTop}</span>
+                    <span className="relative z-10 px-6 py-2 block">
+                      {slide.titleTop}
+                    </span>
                   </span>
-                  
+
                   {/* Teks Bawah (Latar Gradient Kebalikan) */}
                   <span className="inline-block relative">
                     <span className="absolute inset-0 bg-gradient-to-r from-pink-400 to-blue-500 opacity-60 rounded-xl" />
-                    <span className="relative z-10 px-6 py-2 block">{slide.titleBottom}</span>
+                    <span className="relative z-10 px-6 py-2 block">
+                      {slide.titleBottom}
+                    </span>
                   </span>
                 </h1>
 
@@ -139,7 +72,6 @@ const Hero: React.FC = () => {
                 <button className="bg-white text-slate-900 font-bold px-8 py-3.5 rounded-xl hover:scale-105 transition-all shadow-xl active:scale-95 text-sm uppercase tracking-wider">
                   {slide.btnText}
                 </button>
-
               </div>
 
               {/* Efek Vignette di sekeliling gambar untuk kedalaman */}
@@ -148,7 +80,7 @@ const Hero: React.FC = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-      
+
       {/* Custom Swiper Pagination Dot Style */}
       <style>{`
         .swiper-pagination-bullet {
