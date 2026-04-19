@@ -97,11 +97,13 @@ function Promotions() {
             ))}
       </div>
       <div className="pt-8 flex justify-center items-center">
-        <PaginationButton
-          page={page}
-          onClick={handlePagination}
-          totalPage={totalPage}
-        />
+        {totalPage > 1 && (
+          <PaginationButton
+            page={page}
+            onClick={handlePagination}
+            totalPage={totalPage}
+          />
+        )}
       </div>
     </div>
   );

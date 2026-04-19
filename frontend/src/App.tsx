@@ -27,6 +27,7 @@ import MarketingLayout from "./pages/organizer/marketing/MarketingLayout";
 import Promotions from "./pages/organizer/marketing/components/Promotions";
 import CreatePromotion from "./pages/organizer/marketing/components/CreatePromotion";
 import CreateOrder from "./pages/attendee/order/create-order/CheckoutPage";
+import OrganizerReviews from "./pages/organizer/review/OrganizerReview";
 
 const router = createBrowserRouter([
   {
@@ -194,6 +195,14 @@ const router = createBrowserRouter([
             ),
           },
         ],
+      },
+      {
+        path: "reviews",
+        element: (
+          <PrivateRoute allowedRoles={["ORGANIZER"]}>
+            <OrganizerReviews />
+          </PrivateRoute>
+        ),
       },
     ],
   },
