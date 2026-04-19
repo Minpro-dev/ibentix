@@ -35,9 +35,73 @@ const router = createBrowserRouter([
       {
         path: "home",
         element: (
-          <PrivateRoute allowedRoles={["ATTENDEE"]}>
-            <HomePage />
-          </PrivateRoute>
+          // <PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <HomePage />
+          // </PrivateRoute>
+        ),
+      },
+      {
+        path: "details", // ✅ ADD THIS
+        element: (
+          // <PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <Profile />
+          // </PrivateRoute>
+        ),
+      },
+      {
+        path: "myticket", // Tambahkan di sini
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <Ticket />
+          //</PrivateRoute>
+        ),
+      },
+      {
+        path: "event", // Tambahkan di sini
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <Event />
+          //</PrivateRoute>
+        ),
+      },
+      {
+        path: "payment", // Tambahkan di sini
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <Payment />
+          //</PrivateRoute>
+        ),
+      },
+      {
+        path: "review", // Tambahkan di sini
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <Review />
+          //</PrivateRoute>
+        ),
+      },
+       {
+        path: "myreview", // Tambahkan di sini
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <AllReview />
+          //</PrivateRoute>
+        ),
+      },
+      {
+        path: "event/:slug", // Tambahkan di sini
+        element: (
+          
+          <EventDetail />
+          
+        ),
+      },
+      {
+        path: "wishlist", // Tambahkan di sini
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <Wishlist />
+          //</PrivateRoute>
         ),
       },
       {
