@@ -52,6 +52,17 @@ const router = createBrowserRouter([
         path: "details", // ✅ ADD THIS
         element: (
           // <PrivateRoute allowedRoles={["ATTENDEE"]}>
+<<<<<<< HEAD
+          <HomePage />
+          // </PrivateRoute>
+        ),
+      },
+      {
+        path: "details", // ✅ ADD THIS
+        element: (
+          // <PrivateRoute allowedRoles={["ATTENDEE"]}>
+=======
+>>>>>>> 87f56e8e43849c79f182a42cdcd719d24c315c5c
           <Profile />
           // </PrivateRoute>
         ),
@@ -97,11 +108,19 @@ const router = createBrowserRouter([
         ),
       },
       {
+<<<<<<< HEAD
+        path: "event/:slug", // Tambahkan di sini
+        element: (
+          
+          <EventDetail />
+          
+=======
         path: "event/detail", // Tambahkan di sini
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
           <EventDetail />
           //</PrivateRoute>
+>>>>>>> 87f56e8e43849c79f182a42cdcd719d24c315c5c
         ),
       },
       {
