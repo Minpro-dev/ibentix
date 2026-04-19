@@ -1,3 +1,4 @@
+import { startOfDay } from "date-fns";
 import * as z from "zod";
 
 // --------- CREATE
@@ -15,7 +16,7 @@ export const createEventCouponSchema = z.object({
         }
         return val;
       },
-      z.date().min(new Date(), "Start date cannot be past time"),
+      z.date().min(startOfDay(new Date()), "Start date cannot be past time"),
     ),
 
     validUntil: z.preprocess((val) => {
@@ -43,13 +44,15 @@ export const getAllEventCouponsSchema = z.object({
     validFrom: z.string().optional(),
     validUntil: z.string().optional(),
     createdAt: z.string().optional(),
+    page: z.string().optional(),
+    limit: z.string().optional(),
   }),
 });
 
 // ------ DELETE
 export const deleteEventCouponSchema = z.object({
-  body: createEventCouponSchema.shape.body.pick({
-    eventId: true,
+  body: z.object({
+    eventCouponId: z.uuid(),
   }),
 });
 

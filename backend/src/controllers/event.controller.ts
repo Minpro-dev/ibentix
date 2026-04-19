@@ -8,18 +8,18 @@ import { uploadSingle } from "../utils/cloudinaryUploader";
 // 1. CREATE EVENT
 export const createEvent = catchAsync(async (req: Request, res: Response) => {
   if (!req.user?.userId) {
-    throw new AppError(401, 'Unauthorized: User not found');
+    throw new AppError(401, "Unauthorized: User not found");
   }
 
   const userId = req.user.userId;
   console.log(userId);
-  let thumbnailUrl = '';
+  let thumbnailUrl = "";
 
   if (req.file?.buffer) {
     try {
-      thumbnailUrl = await uploadCloudinary(req.file.buffer, 'events');
+      thumbnailUrl = await uploadCloudinary(req.file.buffer, "events");
     } catch {
-      throw new AppError(500, 'Failed to upload thumbnail');
+      throw new AppError(500, "Failed to upload thumbnail");
     }
   }
 
@@ -102,12 +102,28 @@ export const getEventBySlug = catchAsync(
 export const getEventsByOrganizer = catchAsync(
   async (req: Request, res: Response) => {
     const userId = req.user?.userId as string;
-    console.log(userId);
-    const result = await eventService.getEventsByOrganizerService(userId);
+
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+    const search = req.query.search as string;
+    const eventDate = req.query.eventDate as string;
+    const isFree = req.query.isFree as string;
+    const city = req.query.city as string;
+
+    const { events, totalData, totalPage } =
+      await eventService.getEventsByOrganizerService(
+        userId,
+        page,
+        limit,
+        search,
+        eventDate,
+        isFree,
+        city,
+      );
 
     res.status(200).json({
       status: "success",
-      data: result,
+      data: { totalData, totalPage, events },
     });
   },
 );
@@ -195,8 +211,6 @@ export const updateEvent = catchAsync(async (req: Request, res: Response) => {
 //     data: result,
 //   });
 // });
-
-
 
 // 7. DELETE EVENT (SOFT DELETE)
 export const deleteEvent = catchAsync(async (req: Request, res: Response) => {

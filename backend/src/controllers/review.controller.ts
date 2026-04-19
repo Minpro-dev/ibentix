@@ -1,30 +1,33 @@
 import { Request, Response } from "express";
 import { reviewService } from "../services/review.service";
 import { catchAsync } from "../utils/catchAsync";
+import { ReviewSchema } from "../schemas/review.schema";
 
 export const reviewController = {
   // CREATE REVIEW
-  createReview: catchAsync(async (req: Request, res: Response) => {
-    const userId = req.user?.userId;
-    const { orderId, eventId, rating, title, description, isAnonymous } =
-      req.body;
+  createReview: catchAsync(
+    async (req: Request<{}, {}, ReviewSchema>, res: Response) => {
+      const userId = req.user?.userId;
+      const { orderId, eventId, rating, title, description, isAnonymous } =
+        req.body;
 
-    const createdReview = await reviewService.createReview({
-      userId,
-      orderId,
-      eventId,
-      rating,
-      title,
-      description,
-      isAnonymous,
-    });
+      const createdReview = await reviewService.createReview({
+        userId,
+        orderId,
+        eventId,
+        rating,
+        title,
+        description,
+        isAnonymous,
+      });
 
-    res.status(201).json({
-      status: "success",
-      message: "Create review successfull",
-      data: createdReview,
-    });
-  }),
+      res.status(201).json({
+        status: "success",
+        message: "Create review successfull",
+        data: createdReview,
+      });
+    },
+  ),
 
   // GET REVIEW DETAILS BY ORDER ID
   getReviewDetails: catchAsync(async (req: Request, res: Response) => {

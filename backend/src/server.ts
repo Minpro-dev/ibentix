@@ -8,12 +8,13 @@ import couponRouter from "./routers/coupon.route";
 import appCouponRouter from "./routers/appCoupon.router";
 import orderCouponRouter from "./routers/order.router";
 import eventRouter from "./routers/event.route";
-// import organizerRouter from "./routers/organizer.route";
+import organizerProfileRouter from "./routers/organizer.route";
 import wishlistRouter from "./routers/wishlist.route";
 import paymentRouter from "./routers/payment.route";
 import pointRouter from "./routers/point.route";
 import referralCouponRouter from "./routers/referralCoupon.route";
 import reviewRouter from "./routers/review.router";
+
 
 const app: Express = express();
 
@@ -41,8 +42,8 @@ app.use("/api/event-coupon", couponRouter);
 // event endpoint
 app.use("/api/events", eventRouter);
 
-// organizer endpoint
-// app.use('/api/organizer', organizerRouter);
+// organizer profile endpoint
+app.use("/api/organizer-profile", organizerProfileRouter);
 
 // auth endpoint
 app.use("/api/auth", authRouter);
@@ -53,7 +54,6 @@ app.use("/api/app-coupon", appCouponRouter);
 //wishlist endpoint
 app.use("/api/wishlist", wishlistRouter);
 
-
 // order end point
 app.use("/api/order", orderCouponRouter);
 
@@ -62,6 +62,7 @@ app.use("/api/payment", paymentRouter);
 
 // point end point
 app.use("/api/point", pointRouter);
+
 
 // referralCoupon end point
 app.use("/api/referral-coupon", referralCouponRouter);

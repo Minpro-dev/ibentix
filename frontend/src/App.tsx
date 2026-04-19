@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AppLayout from "./ui/AppLayout";
 import SignupPage from "./pages/signup/SingupPage";
 import LoginPage from "./pages/login/LoginPage";
-import DashboardPage from "./pages/dashboard/DashboardPage";
+import DashboardPage from "./pages/organizer/dashboard/DashboardPage";
 import HomePage from "./pages/home/HomePage";
 import api from "./api/axiosInstance";
 import { useEffect, useRef } from "react";
@@ -10,6 +10,22 @@ import { useAuthStore } from "./store/useAuthStore";
 import Unauthorized from "./ui/Unauthorized";
 import PrivateRoute from "./ui/PrivateRoute";
 import ResetPasswordPage from "./pages/resetPassword/ResetPasswordPage";
+import Profile from "./pages/attendee/profile/page";
+import Ticket from "./pages/attendee/ticket/ticket";
+import Event from "./pages/event/page";
+import Payment from "./pages/payment/page"
+import Review from "./pages/attendee/review/page"
+import AppLayoutOrganizer from "./ui/AppLayoutOrganizer";
+import EventsOrganizer from "./pages/organizer/events/EventsOrganizer";
+import CreateEvent from "./pages/organizer/createEvent/CreateEvent";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import AllReview from "./pages/attendee/review/my-review/page";
+import EventDetail from "./pages/event/details/page";
+import Wishlist from "./pages/attendee/wishlist/page";
+import OrganizerProfile from "./pages/organizer/organizerProfile/OrganizerProfile";
+import MarketingLayout from "./pages/organizer/marketing/MarketingLayout";
+import Promotions from "./pages/organizer/marketing/components/Promotions";
+import CreatePromotion from "./pages/organizer/marketing/components/CreatePromotion";
 
 const router = createBrowserRouter([
   {
@@ -25,14 +41,6 @@ const router = createBrowserRouter([
         element: <LoginPage />,
       },
       {
-        path: "organizer/dashboard",
-        element: (
-          <PrivateRoute allowedRoles={["ORGANIZER"]}>
-            <DashboardPage />
-          </PrivateRoute>
-        ),
-      },
-      {
         path: "home",
         element: (
           // <PrivateRoute allowedRoles={["ATTENDEE"]}>
@@ -44,6 +52,17 @@ const router = createBrowserRouter([
         path: "details", // ✅ ADD THIS
         element: (
           // <PrivateRoute allowedRoles={["ATTENDEE"]}>
+<<<<<<< HEAD
+          <HomePage />
+          // </PrivateRoute>
+        ),
+      },
+      {
+        path: "details", // ✅ ADD THIS
+        element: (
+          // <PrivateRoute allowedRoles={["ATTENDEE"]}>
+=======
+>>>>>>> 87f56e8e43849c79f182a42cdcd719d24c315c5c
           <Profile />
           // </PrivateRoute>
         ),
@@ -89,11 +108,19 @@ const router = createBrowserRouter([
         ),
       },
       {
+<<<<<<< HEAD
         path: "event/:slug", // Tambahkan di sini
         element: (
           
           <EventDetail />
           
+=======
+        path: "event/detail", // Tambahkan di sini
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <EventDetail />
+          //</PrivateRoute>
+>>>>>>> 87f56e8e43849c79f182a42cdcd719d24c315c5c
         ),
       },
       {
@@ -114,12 +141,79 @@ const router = createBrowserRouter([
       },
     ],
   },
+
+  // organizer page
+  {
+    path: "/organizer",
+    element: <AppLayoutOrganizer />,
+    children: [
+      {
+        path: "dashboard",
+        element: (
+          <PrivateRoute allowedRoles={["ORGANIZER"]}>
+            <DashboardPage />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "events",
+        element: (
+          <PrivateRoute allowedRoles={["ORGANIZER"]}>
+            <EventsOrganizer />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "event/new",
+        element: (
+          <PrivateRoute allowedRoles={["ORGANIZER"]}>
+            <CreateEvent />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "organizer-profile",
+        element: (
+          <PrivateRoute allowedRoles={["ORGANIZER"]}>
+            <OrganizerProfile />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "marketing",
+        element: (
+          <PrivateRoute allowedRoles={["ORGANIZER"]}>
+            <MarketingLayout />
+          </PrivateRoute>
+        ),
+        children: [
+          {
+            index: true,
+            element: (
+              <PrivateRoute allowedRoles={["ORGANIZER"]}>
+                <Promotions />
+              </PrivateRoute>
+            ),
+          },
+          {
+            path: "new",
+            element: (
+              <PrivateRoute allowedRoles={["ORGANIZER"]}>
+                <CreatePromotion />
+              </PrivateRoute>
+            ),
+          },
+        ],
+      },
+    ],
+  },
 ]);
 
 function App() {
   const setAuth = useAuthStore((state) => state.setAuth);
   const setInitializing = useAuthStore((state) => state.setInitializing);
   const isInistialized = useRef(false);
+  const queryClient = new QueryClient();
 
   useEffect(() => {
     const initializeAuth = async () => {
@@ -141,7 +235,9 @@ function App() {
 
   return (
     <>
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </>
   );
 }

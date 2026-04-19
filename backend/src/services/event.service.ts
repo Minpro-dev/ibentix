@@ -1,6 +1,8 @@
 import { off } from "cluster";
 import { prisma } from "../config/prismaClient.config";
 import { handlePrismaError } from "../utils/prismaErrorHandler";
+import { EventWhereInput } from "../../generated/prisma/models";
+import { endOfDay, startOfDay } from "date-fns";
 
 // Create Event
 // GET EVENT
@@ -10,41 +12,28 @@ import { handlePrismaError } from "../utils/prismaErrorHandler";
 export const createEventService = async (data: any, userId: string) => {
   const slug = data.title.toLowerCase().replace(/ /g, "-") + "-" + Date.now();
 
-  return await prisma.$transaction(async (tx) => {
-    const event = await tx.event.create({
-      data: {
-        organizerId: data.organizerId,
-        userId,
-        title: data.title,
-        slug: slug,
-        description: data.description,
-        availableSlot: Number(data.availableSlot),
-        thumbnailUrl: data.thumbnailUrl,
-        locationName: data.locationName,
-        address: data.address,
-        city: data.city,
-        eventDate: new Date(data.eventDate),
-        startSellingDate: new Date(data.startSellingDate),
-        endSellingDate: new Date(data.endSellingDate),
-        isFree: data.isFree === true || data.isFree === "true",
-        price: data.price ? Number(data.price) : 0,
-      },
-    });
-
-    let allCategories: any = [];
-    for (const category of data.categories) {
-      const insertCategory = await tx.eventCategory.create({
-        data: {
-          eventId: event.eventId,
-          categoryName: category,
-        },
-      });
-
-      allCategories.push(insertCategory);
-    }
-
-    return { event, allCategories };
+  const event = await prisma.event.create({
+    data: {
+      organizerId: data.organizerId,
+      userId,
+      title: data.title,
+      slug: slug,
+      description: data.description,
+      availableSlot: Number(data.availableSlot),
+      thumbnailUrl: data.thumbnailUrl,
+      locationName: data.locationName,
+      address: data.address,
+      city: data.city,
+      category: data.category,
+      eventDate: new Date(data.eventDate),
+      startSellingDate: new Date(data.startSellingDate),
+      endSellingDate: new Date(data.endSellingDate),
+      isFree: data.isFree === true || data.isFree === "true",
+      price: Number(data.price),
+    },
   });
+
+  return event;
 };
 
 // 2. GET ALL EVENTS (Untuk Attendee)
@@ -52,7 +41,7 @@ export const getAllEventsService = async (query: any) => {
   const {
     search,
     city,
-    categoryId,
+    category,
     date,
     isFree,
     page = 1,
@@ -84,8 +73,8 @@ export const getAllEventsService = async (query: any) => {
   }
 
   // CATEGORY
-  if (categoryId) {
-    whereClause.categoryId = categoryId;
+  if (category) {
+    whereClause.category = category;
   }
 
   // FREE / PAID
@@ -180,14 +169,75 @@ export const getEventBySlugService = async (slug: string) => {
 };
 
 // 5. GET EVENTS BY ORGANIZER
-export const getEventsByOrganizerService = async (userId: string) => {
-  return await prisma.event.findMany({
-    where: {
-      userId,
-      deletedAt: null,
-    },
-    // orderBy: { createdAt: 'desc' }
+export const getEventsByOrganizerService = async (
+  userId: string,
+  page: number,
+  limit: number,
+  search: string,
+  eventDate: string,
+  isFree: string,
+  city: string,
+) => {
+  const offset = (page - 1) * limit;
+
+  const where: EventWhereInput = {
+    userId,
+    deletedAt: null,
+  };
+
+  if (search) {
+    where.OR = [
+      {
+        title: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+      {
+        description: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
+    ];
+  }
+
+  if (eventDate) {
+    where.eventDate = {
+      lte: endOfDay(new Date(eventDate)),
+      gte: startOfDay(new Date(eventDate)),
+    };
+  }
+
+  if (isFree === "true") {
+    ((where.price = 0), (where.isFree = true));
+  }
+
+  if (city) {
+    where.OR = [
+      {
+        city: {
+          contains: city,
+          mode: "insensitive",
+        },
+      },
+    ];
+  }
+
+  const events = await prisma.event.findMany({
+    where,
+    orderBy: { createdAt: "desc" },
+    take: limit,
+    skip: offset,
   });
+
+  const totalData = await prisma.event.count({
+    where,
+  });
+
+  const totalPage = Math.ceil(totalData / limit);
+
+  return { events, totalData, totalPage };
 };
 
 // 6. TRENDING EVENT
@@ -207,7 +257,6 @@ export const getTrendingEventsService = async () => {
 };
 
 // 7. UPDATE EVENT
-
 export const updateEventService = async (
   eventId: string,
   data: any,

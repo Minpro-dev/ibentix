@@ -20,7 +20,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   // 1. Base Styles
   const baseStyles =
-    "inline-flex items-center justify-center font-bold transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed gap-2";
+    "inline-flex items-center justify-center transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed gap-2";
 
   // 2. Variant Styles
   const variants: Record<ButtonVariant, string> = {
