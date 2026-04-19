@@ -27,3 +27,9 @@ export const handleSubmitLogin = async (values: LoginFormType) => {
     console.log(error);
   }
 };
+
+// --HANDLE SUBMIT CREATE ORDER
+export const getUserProfile = async () => {
+  const { data } = await api.get('/details');
+  return data;
+};
