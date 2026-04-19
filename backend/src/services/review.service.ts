@@ -14,6 +14,7 @@ export const reviewService = {
 
       const eventDate = eventDetails?.eventDate;
 
+      //FIXME
       if (new Date() <= addDays(eventDate!, 1)) {
         throw new AppError(
           403,
@@ -108,6 +109,16 @@ export const reviewService = {
 
       select: {
         reviewId: true,
+        createdAt: true,
+        order: {
+          include: {
+            event: {
+              select: {
+                title: true,
+              },
+            },
+          },
+        },
         orderId: true,
         rating: true,
         title: true,
@@ -142,6 +153,20 @@ export const reviewService = {
       },
     });
 
+    const ratingDistribution = await prisma.review.groupBy({
+      by: ["rating"],
+      where: {
+        order: {
+          event: {
+            userId,
+          },
+        },
+      },
+      _count: {
+        rating: true,
+      },
+    });
+
     const totalPage = Math.ceil(totalData / limit);
 
     return {
@@ -149,6 +174,7 @@ export const reviewService = {
       totalData,
       totalPage,
       reviews,
+      ratingDistribution,
     };
   },
 };

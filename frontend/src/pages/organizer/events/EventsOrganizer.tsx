@@ -92,11 +92,13 @@ function EventsOrganizer() {
 
       {/* PAGINATION BUTTON */}
       <div className="pt-8 flex justify-center items-center">
-        <PaginationButton
-          page={page}
-          onClick={handlePagination}
-          totalPage={eventData?.totalPage}
-        />
+        {eventData?.totalPage > 1 && (
+          <PaginationButton
+            page={page}
+            onClick={handlePagination}
+            totalPage={eventData?.totalPage}
+          />
+        )}
       </div>
     </div>
   );
