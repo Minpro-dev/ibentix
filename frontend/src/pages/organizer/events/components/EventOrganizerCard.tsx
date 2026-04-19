@@ -174,7 +174,7 @@ function EventOrganizerList({ event }: { event: Event }) {
             <EditEventSheet
               isOpen={isEditOpen}
               onClose={() => setIsEditOpen(false)}
-              eventData={selectedEvent}
+              eventData={selectedEvent!}
             />
           </div>
         </div>

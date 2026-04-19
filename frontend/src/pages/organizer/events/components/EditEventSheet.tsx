@@ -9,7 +9,7 @@ import Swal from "sweetalert2";
 interface EditEventSheetProps {
   isOpen: boolean;
   onClose: () => void;
-  eventData: Event | null;
+  eventData: Event;
 }
 
 export default function EditEventSheet({
@@ -17,7 +17,7 @@ export default function EditEventSheet({
   onClose,
   eventData,
 }: EditEventSheetProps) {
-  const { mutateAsync, isPending } = useEditEventData(eventData!.eventId);
+  const { mutateAsync, isPending } = useEditEventData(eventData?.eventId);
 
   const handleDelete = (data: FormData) => {
     Swal.fire({
