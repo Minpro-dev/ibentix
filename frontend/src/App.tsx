@@ -12,7 +12,7 @@ import PrivateRoute from "./ui/PrivateRoute";
 import ResetPasswordPage from "./pages/resetPassword/ResetPasswordPage";
 import Profile from "./pages/attendee/profile/page";
 import Ticket from "./pages/attendee/ticket/ticket";
-import Event from "./pages/event/page";
+import Events from "./pages/attendee/events/Events";
 import Payment from "./pages/payment/page";
 import Review from "./pages/attendee/review/page";
 import AppLayoutOrganizer from "./ui/AppLayoutOrganizer";
@@ -20,7 +20,7 @@ import EventsOrganizer from "./pages/organizer/events/EventsOrganizer";
 import CreateEvent from "./pages/organizer/createEvent/CreateEvent";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AllReview from "./pages/attendee/review/my-review/page";
-import EventDetail from "./pages/event/details/page";
+import EventDetail from "./pages/attendee/details/page";
 import Wishlist from "./pages/attendee/wishlist/page";
 import OrganizerProfile from "./pages/organizer/organizerProfile/OrganizerProfile";
 import MarketingLayout from "./pages/organizer/marketing/MarketingLayout";
@@ -41,21 +41,21 @@ const router = createBrowserRouter([
         element: <LoginPage />,
       },
       {
-        path: "home",
+        index: true,
         element: (
           // <PrivateRoute allowedRoles={["ATTENDEE"]}>
           <HomePage />
           // </PrivateRoute>
         ),
       },
-      {
-        path: "details", // ✅ ADD THIS
-        element: (
-          // <PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <HomePage />
-          // </PrivateRoute>
-        ),
-      },
+      // {
+      //   path: "details", // ✅ ADD THIS
+      //   element: (
+      //     // <PrivateRoute allowedRoles={["ATTENDEE"]}>
+      //     <HomePage />
+      //     // </PrivateRoute>
+      //   ),
+      // },
       {
         path: "details", // ✅ ADD THIS
         element: (
@@ -73,10 +73,10 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "event", // Tambahkan di sini
+        path: "events", // Tambahkan di sini
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <Event />
+          <Events />
           //</PrivateRoute>
         ),
       },

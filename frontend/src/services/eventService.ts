@@ -56,3 +56,16 @@ export const handleGetTrendingEvent = async () => {
     console.log(error);
   }
 };
+
+//get all events (ATTENDEE)
+export const handleGetAllActiveEvents = async (search: string) => {
+  try {
+    return await api.get("/events", {
+      params: {
+        search,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};

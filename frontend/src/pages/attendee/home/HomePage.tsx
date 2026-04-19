@@ -1,20 +1,12 @@
 import Hero from "./components/Hero";
-import EventCardRecommendation from "./components/EventCardRecommendation";
+
 import { useQuery } from "@tanstack/react-query";
 import { handleGetTrendingEvent } from "../../../services/eventService";
 import type { Event } from "../../../types/eventType";
 import { RiArrowRightLine } from "react-icons/ri";
+import { CATEGORIES } from "../../../static/categoriesList";
+import EventCard from "../../../ui/EventCard";
 
-const CATEGORIES = [
-  { id: 1, label: "Music", icon: "🎵" },
-  { id: 2, label: "Nightlife", icon: "🌙" },
-  { id: 3, label: "Performing & Visual Arts", icon: "🎭" },
-  { id: 4, label: "Holidays", icon: "🎉" },
-  { id: 5, label: "Dating", icon: "💝" },
-  { id: 6, label: "Hobbies", icon: "🎮" },
-  { id: 7, label: "Business", icon: "💼" },
-  { id: 8, label: "Food & Drink", icon: "🍴" },
-];
 export function HomePage() {
   const { data } = useQuery({
     queryKey: ["events"],
@@ -53,20 +45,18 @@ export function HomePage() {
         <section className="mb-12">
           <div className="flex justify-between items-end p-6">
             <div>
-              <h2 className="text-xl font-bold">Rekomendasi event!</h2>
-              <p className="text-gray-500 text-sm">
-                Event-event populer buat kamu
-              </p>
+              <h2 className="text-xl font-bold">Event recommendation!</h2>
+              <p className="text-gray-500 text-sm">Popular events for you</p>
             </div>
             <button className="text-blue-500 font-bold text-sm">
-              Lihat Semua
+              Explore more
             </button>
           </div>
 
           {/* Wrapper Slider */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
             {trendingEvents?.map((event: Event) => (
-              <EventCardRecommendation event={event} />
+              <EventCard event={event} />
             ))}
           </div>
         </section>

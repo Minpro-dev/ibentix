@@ -6,16 +6,16 @@ import {
   RiHeartLine,
   RiHeartFill,
 } from "react-icons/ri";
-import type { Event } from "../../../../types/eventType";
-import { formatCurrency } from "../../../../lib/utils";
-import { formatDate } from "../../../../utils/dateFormatter";
-import eventThumbnailImage from "../../../../assets/static/EventThumnailImage.jpg";
+import type { Event } from "../types/eventType";
+import { formatCurrency } from "../lib/utils";
+import { formatDate } from "../utils/dateFormatter";
+import eventThumbnailImage from "./../assets/static/EventThumnailImage.jpg";
 
-interface EventCardRecommendationProps {
+interface EventCardProps {
   event: Event;
 }
 
-const EventCardRecommendation = ({ event }: EventCardRecommendationProps) => {
+const EventCard = ({ event }: EventCardProps) => {
   const [isWishlisted, setIsWishlisted] = useState(false);
 
   return (
@@ -93,4 +93,4 @@ const EventCardRecommendation = ({ event }: EventCardRecommendationProps) => {
   );
 };
 
-export default EventCardRecommendation;
+export default EventCard;
