@@ -75,7 +75,7 @@ function CreateEvent() {
 
           try {
             setIsLoading(true);
-            const response = await handleCreateEvent(formData);
+            const response: any = await handleCreateEvent(formData);
             // console.log("response", response);
             setIsLoading(false);
             if (response.status === 201) {
