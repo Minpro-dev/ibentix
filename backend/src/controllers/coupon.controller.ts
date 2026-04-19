@@ -12,6 +12,7 @@ export const couponController = {
   createEventCoupon: catchAsync(
     async (req: Request<{}, {}, createEventCouponSchema>, res: Response) => {
       const userId = req.user?.userId as string;
+
       const { couponCode, eventId, validFrom, validUntil, discountAmount } =
         req.body;
 
@@ -68,12 +69,11 @@ export const couponController = {
       req: Request<{}, {}, {}, getAllCouponsQuerySchema>,
       res: Response,
     ) => {
-      // get all (by userId)
-      // filter: --> eventId, search, validFrom, validUntil, createdAt
       const userId = req.user?.userId as string;
-      console.log("user Id", userId);
       const { eventId, search, validFrom, validUntil, createdAt } = req.query;
 
+      const limit = Number(req.query.limit) || 10;
+      const page = Number(req.query.page) || 1;
       const coupons = await couponService.getAllCoupons(
         {
           eventId,
@@ -81,6 +81,8 @@ export const couponController = {
           validFrom,
           validUntil,
           createdAt,
+          limit,
+          page,
         },
         userId,
       );
@@ -121,10 +123,10 @@ export const couponController = {
   // -------------- DELETE COUPON
   deleteCoupon: catchAsync(
     async (req: Request<{}, {}, deleteEventCouponSchema>, res: Response) => {
-      const userId = req.user?.userId as string;
-      const { eventId } = req.body;
+      // const userId = req.user?.userId as string;
+      const { eventCouponId } = req.body;
 
-      await couponService.deleteCoupon(userId, eventId);
+      await couponService.deleteCoupon(eventCouponId);
 
       res.status(200).json({
         staus: "success",

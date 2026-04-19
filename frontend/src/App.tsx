@@ -22,6 +22,10 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AllReview from "./pages/attendee/review/my-review/page";
 import EventDetail from "./pages/event/details/page";
 import Wishlist from "./pages/attendee/wishlist/page";
+import OrganizerProfile from "./pages/organizer/organizerProfile/OrganizerProfile";
+import MarketingLayout from "./pages/organizer/marketing/MarketingLayout";
+import Promotions from "./pages/organizer/marketing/components/Promotions";
+import CreatePromotion from "./pages/organizer/marketing/components/CreatePromotion";
 
 const router = createBrowserRouter([
   {
@@ -147,6 +151,40 @@ const router = createBrowserRouter([
             <CreateEvent />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "organizer-profile",
+        element: (
+          <PrivateRoute allowedRoles={["ORGANIZER"]}>
+            <OrganizerProfile />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "marketing",
+        element: (
+          <PrivateRoute allowedRoles={["ORGANIZER"]}>
+            <MarketingLayout />
+          </PrivateRoute>
+        ),
+        children: [
+          {
+            index: true,
+            element: (
+              <PrivateRoute allowedRoles={["ORGANIZER"]}>
+                <Promotions />
+              </PrivateRoute>
+            ),
+          },
+          {
+            path: "new",
+            element: (
+              <PrivateRoute allowedRoles={["ORGANIZER"]}>
+                <CreatePromotion />
+              </PrivateRoute>
+            ),
+          },
+        ],
       },
     ],
   },

@@ -4,7 +4,7 @@ export interface EventCouponType {
   eventId: string;
   validFrom: Date;
   validUntil: Date;
-  discountAmount: number;
+  discountAmount: string | number;
 }
 
 export interface GetAllEventCoupon {
@@ -13,4 +13,6 @@ export interface GetAllEventCoupon {
   validFrom?: string | undefined;
   validUntil?: string | undefined;
   createdAt?: string | undefined;
+  limit: number;
+  page: number;
 }

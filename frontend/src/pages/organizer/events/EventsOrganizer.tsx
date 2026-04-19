@@ -5,6 +5,8 @@ import api from "../../../api/axiosInstance";
 import type { Event } from "../../../types/eventType";
 import { useDebounce } from "use-debounce";
 import EventOrganizerListSkeleton from "./components/EventOrganizerListSkeleton";
+import SearchInput from "../../../ui/SearchInput";
+import PaginationButton from "../../../ui/PaginationButton";
 
 function EventsOrganizer() {
   const [date, setDate] = useState("");
@@ -49,15 +51,11 @@ function EventsOrganizer() {
     <div>
       <div className="pb-8">
         <div className="flex gap-5 items-center">
-          <div className="w-[50%]">
-            <input
-              placeholder="Search title, description, location..."
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full h-10 px-5 text-zinc-600 border placeholder:tracking-wider placeholder:text-sm border-slate-300 rounded-full focus:outline-none focus:ring-1 focus:ring-indigo-300"
-            />
-          </div>
+          <SearchInput
+            onChange={(e) => setSearch(e.target.value)}
+            value={search}
+            placeholder="Search title, description, location..."
+          />
 
           <div>
             <input
@@ -94,15 +92,11 @@ function EventsOrganizer() {
 
       {/* PAGINATION BUTTON */}
       <div className="pt-8 flex justify-center items-center">
-        <div className="flex gap-4">
-          {Array.from({ length: eventData?.totalPage }, (_, i) => (
-            <button
-              onClick={() => handlePagination(i + 1)}
-              className={`btn ${page !== i + 1 ? "text-zinc-100 bg-indigo-500 border-indigo-500" : "text-white border-indigo-600 bg-indigo-600"}`}>
-              {i + 1}
-            </button>
-          ))}
-        </div>
+        <PaginationButton
+          page={page}
+          onClick={handlePagination}
+          totalPage={eventData?.totalPage}
+        />
       </div>
     </div>
   );

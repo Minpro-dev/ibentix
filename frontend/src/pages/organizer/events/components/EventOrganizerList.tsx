@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import Button from "../../../../ui/Button";
 import type { Event } from "../../../../types/eventType";
-import { formatDate } from "../../../../helper/dateFormatter";
+import { formatDate } from "../../../../utils/dateFormatter";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "../../../../api/axiosInstance";
 
@@ -110,9 +110,7 @@ function EventOrganizerList({ event }: { event: Event }) {
             <Button
               variant="secondary"
               size="sm"
-              className="w-full lg:w-32 cursor-pointer"
-              //   onClick={() => onEdit(event.slug)}
-            >
+              className="w-full lg:w-32 cursor-pointer">
               <Edit3 size={14} />
               Edit
             </Button>
