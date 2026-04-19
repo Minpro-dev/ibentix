@@ -15,6 +15,7 @@ import pointRouter from "./routers/point.route";
 import referralCouponRouter from "./routers/referralCoupon.route";
 import reviewRouter from "./routers/review.router";
 
+
 const app: Express = express();
 
 const PORT = 8000;
@@ -61,6 +62,7 @@ app.use("/api/payment", paymentRouter);
 
 // point end point
 app.use("/api/point", pointRouter);
+
 
 // referralCoupon end point
 app.use("/api/referral-coupon", referralCouponRouter);

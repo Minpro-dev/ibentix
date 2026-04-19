@@ -10,10 +10,18 @@ import { useAuthStore } from "./store/useAuthStore";
 import Unauthorized from "./ui/Unauthorized";
 import PrivateRoute from "./ui/PrivateRoute";
 import ResetPasswordPage from "./pages/resetPassword/ResetPasswordPage";
+import Profile from "./pages/attendee/profile/page";
+import Ticket from "./pages/attendee/ticket/ticket";
+import Event from "./pages/event/page";
+import Payment from "./pages/payment/page"
+import Review from "./pages/attendee/review/page"
 import AppLayoutOrganizer from "./ui/AppLayoutOrganizer";
 import EventsOrganizer from "./pages/organizer/events/EventsOrganizer";
 import CreateEvent from "./pages/organizer/createEvent/CreateEvent";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import AllReview from "./pages/attendee/review/my-review/page";
+import EventDetail from "./pages/event/details/page";
+import Wishlist from "./pages/attendee/wishlist/page";
 import OrganizerProfile from "./pages/organizer/organizerProfile/OrganizerProfile";
 import MarketingLayout from "./pages/organizer/marketing/MarketingLayout";
 import Promotions from "./pages/organizer/marketing/components/Promotions";
@@ -35,9 +43,73 @@ const router = createBrowserRouter([
       {
         path: "home",
         element: (
-          <PrivateRoute allowedRoles={["ATTENDEE"]}>
-            <HomePage />
-          </PrivateRoute>
+          // <PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <HomePage />
+          // </PrivateRoute>
+        ),
+      },
+      {
+        path: "details", // ✅ ADD THIS
+        element: (
+          // <PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <Profile />
+          // </PrivateRoute>
+        ),
+      },
+      {
+        path: "myticket", // Tambahkan di sini
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <Ticket />
+          //</PrivateRoute>
+        ),
+      },
+      {
+        path: "event", // Tambahkan di sini
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <Event />
+          //</PrivateRoute>
+        ),
+      },
+      {
+        path: "payment", // Tambahkan di sini
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <Payment />
+          //</PrivateRoute>
+        ),
+      },
+      {
+        path: "review", // Tambahkan di sini
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <Review />
+          //</PrivateRoute>
+        ),
+      },
+       {
+        path: "myreview", // Tambahkan di sini
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <AllReview />
+          //</PrivateRoute>
+        ),
+      },
+      {
+        path: "event/detail", // Tambahkan di sini
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <EventDetail />
+          //</PrivateRoute>
+        ),
+      },
+      {
+        path: "wishlist", // Tambahkan di sini
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <Wishlist />
+          //</PrivateRoute>
         ),
       },
       {
