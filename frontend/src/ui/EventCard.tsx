@@ -10,6 +10,7 @@ import type { Event } from "../types/eventType";
 import { formatCurrency } from "../lib/utils";
 import { formatDate } from "../utils/dateFormatter";
 import eventThumbnailImage from "./../assets/static/EventThumnailImage.jpg";
+import { useNavigate } from "react-router-dom";
 
 interface EventCardProps {
   event: Event;
@@ -17,6 +18,7 @@ interface EventCardProps {
 
 const EventCard = ({ event }: EventCardProps) => {
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="group w-full max-w-70 mx-auto">
@@ -53,7 +55,7 @@ const EventCard = ({ event }: EventCardProps) => {
             Ticket Price
           </span>
           <span className="text-sm font-black text-indigo-700 tracking-tighter">
-            {formatCurrency(event.price)}
+            {formatCurrency(Number(event.price))}
           </span>
         </div>
       </div>
@@ -84,7 +86,9 @@ const EventCard = ({ event }: EventCardProps) => {
         </div>
 
         {/* Action Button  */}
-        <button className="w-full mt-1 py-2.5 bg-zinc-50 text-indigo-700 border border-zinc-100 text-[10px] font-bold uppercase tracking-widest rounded-xl group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
+        <button
+          onClick={() => navigate(`/events/${event.slug}`)}
+          className="w-full mt-1 py-2.5 bg-zinc-50 text-indigo-700 border border-zinc-100 text-[10px] font-bold uppercase tracking-widest rounded-xl group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
           Details
           <RiArrowRightLine className="text-sm" />
         </button>

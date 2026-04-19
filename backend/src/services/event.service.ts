@@ -132,7 +132,7 @@ export const getAllEventsService = async (query: any) => {
   }
 
   // FINAL QUERY
-  return await prisma.event.findMany({
+  const events = await prisma.event.findMany({
     where: whereClause,
     orderBy: {
       [sort]: "asc",
@@ -143,6 +143,13 @@ export const getAllEventsService = async (query: any) => {
       organizer: true,
     },
   });
+
+  const totalData = await prisma.event.count({
+    where: whereClause,
+  });
+
+  const totalPage = Math.ceil(totalData / limit);
+  return { totalData, totalPage, events };
 };
 
 // 3. GET EVENT DETAIL

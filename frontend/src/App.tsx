@@ -20,7 +20,7 @@ import EventsOrganizer from "./pages/organizer/events/EventsOrganizer";
 import CreateEvent from "./pages/organizer/createEvent/CreateEvent";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AllReview from "./pages/attendee/review/my-review/page";
-import EventDetail from "./pages/attendee/details/page";
+import EventDetail from "./pages/attendee/details/EventDetails";
 import Wishlist from "./pages/attendee/wishlist/page";
 import OrganizerProfile from "./pages/organizer/organizerProfile/OrganizerProfile";
 import MarketingLayout from "./pages/organizer/marketing/MarketingLayout";
@@ -105,7 +105,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "event/detail", // Tambahkan di sini
+        path: "events/:slug", // Tambahkan di sini
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
           <EventDetail />

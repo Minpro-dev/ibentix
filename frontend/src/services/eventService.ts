@@ -58,14 +58,25 @@ export const handleGetTrendingEvent = async () => {
 };
 
 //get all events (ATTENDEE)
-export const handleGetAllActiveEvents = async (search: string) => {
+export const handleGetAllActiveEvents = async (
+  search: string,
+  category: string,
+) => {
   try {
     return await api.get("/events", {
       params: {
         search,
+        category,
       },
     });
   } catch (error) {
     console.log(error);
   }
+};
+
+// route.get("/slug/:slug", getEventBySlug);
+
+// get event details by slug
+export const handleGetEventBySlug = async (slug: string) => {
+  return await api.get(`/events/slug/${slug}`);
 };

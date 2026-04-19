@@ -19,13 +19,13 @@ export default function Events() {
 
   const [searchValue] = useDebounce(search, 800);
   const { data } = useQuery({
-    queryKey: ["events", searchValue],
-    queryFn: () => handleGetAllActiveEvents(searchValue),
+    queryKey: ["events", searchValue, selectedCategory],
+    queryFn: () => handleGetAllActiveEvents(searchValue, selectedCategory),
   });
 
-  const allEvents = data?.data.data;
+  const allEvents = data?.data.data.events;
+  const totalEvents = data?.data.data.totalData;
 
-  console.log("data -> ", data?.data.data);
   return (
     <div className="min-h-screen flex flex-col font-sans bg-[#F8FAFC]">
       {/* Header telah dihapus sesuai permintaan */}
@@ -43,7 +43,7 @@ export default function Events() {
             <p className="text-slate-500 text-lg">
               Curated experiences in Indonesia's most vibrant cities.
               <span className="font-bold text-blue-600 ml-1.5">
-                1,248 events available.
+                {totalEvents} events available.
               </span>
             </p>
           </motion.div>

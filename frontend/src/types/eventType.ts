@@ -23,7 +23,7 @@ export interface Event {
   category: EventCategory;
   locationName: string;
   organizerId: string;
-  price: number;
+  price: string;
   slug: string;
   startSellingDate: string;
   thumbnailUrl?: string;
