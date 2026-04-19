@@ -26,6 +26,7 @@ import OrganizerProfile from "./pages/organizer/organizerProfile/OrganizerProfil
 import MarketingLayout from "./pages/organizer/marketing/MarketingLayout";
 import Promotions from "./pages/organizer/marketing/components/Promotions";
 import CreatePromotion from "./pages/organizer/marketing/components/CreatePromotion";
+import CreateOrder from "./pages/attendee/order/create-order/page";
 
 const router = createBrowserRouter([
   {
@@ -52,7 +53,6 @@ const router = createBrowserRouter([
         path: "details", // ✅ ADD THIS
         element: (
           // <PrivateRoute allowedRoles={["ATTENDEE"]}>
-<<<<<<< HEAD
           <HomePage />
           // </PrivateRoute>
         ),
@@ -61,8 +61,6 @@ const router = createBrowserRouter([
         path: "details", // ✅ ADD THIS
         element: (
           // <PrivateRoute allowedRoles={["ATTENDEE"]}>
-=======
->>>>>>> 87f56e8e43849c79f182a42cdcd719d24c315c5c
           <Profile />
           // </PrivateRoute>
         ),
@@ -108,19 +106,11 @@ const router = createBrowserRouter([
         ),
       },
       {
-<<<<<<< HEAD
-        path: "event/:slug", // Tambahkan di sini
-        element: (
-          
-          <EventDetail />
-          
-=======
         path: "event/detail", // Tambahkan di sini
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
           <EventDetail />
           //</PrivateRoute>
->>>>>>> 87f56e8e43849c79f182a42cdcd719d24c315c5c
         ),
       },
       {
@@ -128,6 +118,14 @@ const router = createBrowserRouter([
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
           <Wishlist />
+          //</PrivateRoute>
+        ),
+      },
+      {
+        path: "order", // Tambahkan di sini
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <CreateOrder />
           //</PrivateRoute>
         ),
       },
