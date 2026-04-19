@@ -1,5 +1,5 @@
 import { useState } from "react";
-import EventOrganizerList from "./components/EventOrganizerList";
+import EventOrganizerList from "./components/EventOrganizerCard";
 import { useQuery } from "@tanstack/react-query";
 import api from "../../../api/axiosInstance";
 import type { Event } from "../../../types/eventType";

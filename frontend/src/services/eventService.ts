@@ -74,9 +74,19 @@ export const handleGetAllActiveEvents = async (
   }
 };
 
-// route.get("/slug/:slug", getEventBySlug);
-
 // get event details by slug
 export const handleGetEventBySlug = async (slug: string) => {
   return await api.get(`/events/slug/${slug}`);
+};
+
+// edit event details
+export const handleEditEventDetails = async (
+  data: FormData,
+  eventId: string,
+) => {
+  try {
+    await api.patch(`/events/${eventId}`, data);
+  } catch (error) {
+    console.log(error);
+  }
 };

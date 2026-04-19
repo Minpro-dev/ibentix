@@ -13,8 +13,18 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "../../../../api/axiosInstance";
 import Swal from "sweetalert2";
 import { toast } from "sonner";
+import { useState } from "react";
+import EditEventSheet from "./EditEventSheet";
 
 function EventOrganizerList({ event }: { event: Event }) {
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+
+  const handleEditClick = (event: Event) => {
+    setSelectedEvent(event);
+    setIsEditOpen(true);
+  };
+
   const queryClient = useQueryClient();
   const { mutate } = useMutation({
     mutationFn: async (eventId: string) =>
@@ -142,6 +152,7 @@ function EventOrganizerList({ event }: { event: Event }) {
           {/* 3. Action Buttons */}
           <div className="flex lg:flex-col justify-end items-center gap-2 border-t lg:border-t-0 lg:border-l border-slate-100 pt-4 lg:pt-0 lg:pl-6">
             <Button
+              onClick={() => handleEditClick(event)}
               variant="secondary"
               size="sm"
               className="w-full lg:w-32 cursor-pointer">
@@ -159,6 +170,12 @@ function EventOrganizerList({ event }: { event: Event }) {
             <button className="p-2 text-zinc-400 hover:text-indigo-600 transition-colors">
               <ExternalLink size={18} />
             </button>
+
+            <EditEventSheet
+              isOpen={isEditOpen}
+              onClose={() => setIsEditOpen(false)}
+              eventData={selectedEvent}
+            />
           </div>
         </div>
       </div>

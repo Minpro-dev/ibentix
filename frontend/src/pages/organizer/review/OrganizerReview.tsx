@@ -1,8 +1,4 @@
-import { RiStarFill } from "react-icons/ri";
 import { useFetchReviewData } from "./hooks/useFetchReviewData";
-import { formatRating } from "../../../utils/formatRating";
-import type { RatingDistribution } from "./types/ratingDistributionType";
-
 import { ReviewCard } from "./components/ReviewCard";
 import ReviewSummary from "./components/ReviewSummary";
 import { useState } from "react";
