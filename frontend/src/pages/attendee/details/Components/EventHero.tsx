@@ -1,6 +1,6 @@
 import { Calendar, MapPin } from "lucide-react";
 import { motion } from "motion/react";
-import { formatDate } from "../../../utils/dateFormatter";
+import { formatDate } from "../../../../utils/dateFormatter";
 
 interface HeroProps {
   title: string;

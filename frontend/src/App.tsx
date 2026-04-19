@@ -26,7 +26,7 @@ import OrganizerProfile from "./pages/organizer/organizerProfile/OrganizerProfil
 import MarketingLayout from "./pages/organizer/marketing/MarketingLayout";
 import Promotions from "./pages/organizer/marketing/components/Promotions";
 import CreatePromotion from "./pages/organizer/marketing/components/CreatePromotion";
-import CreateOrder from "./pages/attendee/order/create-order/page";
+import CreateOrder from "./pages/attendee/order/create-order/CheckoutPage";
 
 const router = createBrowserRouter([
   {
@@ -43,22 +43,6 @@ const router = createBrowserRouter([
       },
       {
         index: true,
-        element: (
-          // <PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <HomePage />
-          // </PrivateRoute>
-        ),
-      },
-      // {
-      //   path: "details", // ✅ ADD THIS
-      //   element: (
-      //     // <PrivateRoute allowedRoles={["ATTENDEE"]}>
-      //     <HomePage />
-      //     // </PrivateRoute>
-      //   ),
-      // },
-      {
-        path: "details", // ✅ ADD THIS
         element: (
           // <PrivateRoute allowedRoles={["ATTENDEE"]}>
           <HomePage />
