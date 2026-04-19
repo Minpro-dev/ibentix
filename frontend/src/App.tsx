@@ -3,7 +3,7 @@ import AppLayout from "./ui/AppLayout";
 import SignupPage from "./pages/signup/SingupPage";
 import LoginPage from "./pages/login/LoginPage";
 import DashboardPage from "./pages/organizer/dashboard/DashboardPage";
-import HomePage from "./pages/home/HomePage";
+import HomePage from "./pages/attendee/home/HomePage";
 import api from "./api/axiosInstance";
 import { useEffect, useRef } from "react";
 import { useAuthStore } from "./store/useAuthStore";
@@ -12,21 +12,21 @@ import PrivateRoute from "./ui/PrivateRoute";
 import ResetPasswordPage from "./pages/resetPassword/ResetPasswordPage";
 import Profile from "./pages/attendee/profile/page";
 import Ticket from "./pages/attendee/ticket/ticket";
-import Event from "./pages/event/page";
-import Payment from "./pages/payment/page"
-import Review from "./pages/attendee/review/page"
+import Events from "./pages/attendee/events/Events";
+import Payment from "./pages/payment/page";
+import Review from "./pages/attendee/review/page";
 import AppLayoutOrganizer from "./ui/AppLayoutOrganizer";
 import EventsOrganizer from "./pages/organizer/events/EventsOrganizer";
 import CreateEvent from "./pages/organizer/createEvent/CreateEvent";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AllReview from "./pages/attendee/review/my-review/page";
-import EventDetail from "./pages/event/details/page";
+import EventDetail from "./pages/attendee/details/EventDetails";
 import Wishlist from "./pages/attendee/wishlist/page";
 import OrganizerProfile from "./pages/organizer/organizerProfile/OrganizerProfile";
 import MarketingLayout from "./pages/organizer/marketing/MarketingLayout";
 import Promotions from "./pages/organizer/marketing/components/Promotions";
 import CreatePromotion from "./pages/organizer/marketing/components/CreatePromotion";
-import CreateOrder from "./pages/attendee/order/create-order/page";
+import CreateOrder from "./pages/attendee/order/create-order/CheckoutPage";
 
 const router = createBrowserRouter([
   {
@@ -42,15 +42,7 @@ const router = createBrowserRouter([
         element: <LoginPage />,
       },
       {
-        path: "home",
-        element: (
-          // <PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <HomePage />
-          // </PrivateRoute>
-        ),
-      },
-      {
-        path: "details", // ✅ ADD THIS
+        index: true,
         element: (
           // <PrivateRoute allowedRoles={["ATTENDEE"]}>
           <HomePage />
@@ -74,10 +66,10 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "event", // Tambahkan di sini
+        path: "events", // Tambahkan di sini
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <Event />
+          <Events />
           //</PrivateRoute>
         ),
       },
@@ -97,7 +89,7 @@ const router = createBrowserRouter([
           //</PrivateRoute>
         ),
       },
-       {
+      {
         path: "myreview", // Tambahkan di sini
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
@@ -106,7 +98,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "event/detail", // Tambahkan di sini
+        path: "events/:slug", // Tambahkan di sini
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
           <EventDetail />

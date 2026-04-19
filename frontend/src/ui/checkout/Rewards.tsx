@@ -5,19 +5,19 @@ import { motion } from "framer-motion";
 import { Ticket, Tag, Users, Coins } from "lucide-react";
 
 export const Rewards: React.FC = () => {
-  const {
-    appCoupon,
-    setAppCoupon,
-    eventVoucher,
-    setEventVoucher,
-    referralCode,
-    setReferralCode,
-    pointsToUse,
-    setPointsToUse,
-    availablePoints,
-    isPointsEnabled,
-    togglePoints,
-  } = useOrderStore();
+  // const {
+  //   appCoupon,
+  //   setAppCoupon,
+  //   eventVoucher,
+  //   setEventVoucher,
+  //   referralCode,
+  //   setReferralCode,
+  //   pointsToUse,
+  //   setPointsToUse,
+  //   availablePoints,
+  //   isPointsEnabled,
+  //   togglePoints,
+  // } = useOrderStore();
 
   const [loading, setLoading] = useState<string | null>(null);
 
@@ -50,16 +50,15 @@ export const Rewards: React.FC = () => {
           <div className="relative flex items-center">
             <input
               type="text"
-              value={appCoupon}
-              onChange={(e) => setAppCoupon(e.target.value.toUpperCase())}
+              // value={appCoupon}
+              // onChange={(e) => setAppCoupon(e.target.value.toUpperCase())}
               placeholder="APP-DISCOUNT"
               className="w-full bg-[#F1F5F9] border-none rounded-xl px-4 py-3.5 pr-24 text-sm font-semibold text-slate-700 outline-none focus:ring-2 focus:ring-blue-500/20 transition-all uppercase"
             />
             <button
-              onClick={() => handleApply("app", appCoupon)}
-              disabled={loading === "app" || !appCoupon}
-              className="absolute right-2 px-4 py-1.5 bg-[#0052CC] text-white text-[10px] font-black uppercase rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
-            >
+              // onClick={() => handleApply("app", appCoupon)}
+              // disabled={loading === "app" || !appCoupon}
+              className="absolute right-2 px-4 py-1.5 bg-[#0052CC] text-white text-[10px] font-black uppercase rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50">
               {loading === "app" ? "..." : "Apply"}
             </button>
           </div>
@@ -77,16 +76,15 @@ export const Rewards: React.FC = () => {
           <div className="relative flex items-center">
             <input
               type="text"
-              value={eventVoucher}
-              onChange={(e) => setEventVoucher(e.target.value.toUpperCase())}
+              // value={eventVoucher}
+              // onChange={(e) => setEventVoucher(e.target.value.toUpperCase())}
               placeholder="EVENT-VOUCHER"
               className="w-full bg-[#F1F5F9] border-none rounded-xl px-4 py-3.5 pr-24 text-sm font-semibold text-slate-700 outline-none focus:ring-2 focus:ring-blue-500/20 transition-all uppercase"
             />
             <button
-              onClick={() => handleApply("event", eventVoucher)}
-              disabled={loading === "event" || !eventVoucher}
-              className="absolute right-2 px-4 py-1.5 bg-[#0052CC] text-white text-[10px] font-black uppercase rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
-            >
+              // onClick={() => handleApply("event", eventVoucher)}
+              // disabled={loading === "event" || !eventVoucher}
+              className="absolute right-2 px-4 py-1.5 bg-[#0052CC] text-white text-[10px] font-black uppercase rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50">
               {loading === "event" ? "..." : "Apply"}
             </button>
           </div>
@@ -104,16 +102,15 @@ export const Rewards: React.FC = () => {
           <div className="relative flex items-center">
             <input
               type="text"
-              value={referralCode}
-              onChange={(e) => setReferralCode(e.target.value.toUpperCase())}
+              // value={referralCode}
+              // onChange={(e) => setReferralCode(e.target.value.toUpperCase())}
               placeholder="REF-CODE"
               className="w-full bg-[#F1F5F9] border-none rounded-xl px-4 py-3.5 pr-24 text-sm font-semibold text-slate-700 outline-none focus:ring-2 focus:ring-blue-500/20 transition-all uppercase"
             />
             <button
-              onClick={() => handleApply("ref", referralCode)}
-              disabled={loading === "ref" || !referralCode}
-              className="absolute right-2 px-4 py-1.5 bg-[#0052CC] text-white text-[10px] font-black uppercase rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
-            >
+              // onClick={() => handleApply("ref", referralCode)}
+              // disabled={loading === "ref" || !referralCode}
+              className="absolute right-2 px-4 py-1.5 bg-[#0052CC] text-white text-[10px] font-black uppercase rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50">
               {loading === "ref" ? "..." : "Apply"}
             </button>
           </div>
@@ -142,19 +139,19 @@ export const Rewards: React.FC = () => {
 
             {/* Info Poin & Toggle Switch */}
             <div className="flex flex-col items-end gap-2">
-              <span className="text-[10px] font-black text-[#0052CC] bg-blue-50 px-2 py-0.5 rounded-md uppercase tracking-wider">
+              {/* <span className="text-[10px] font-black text-[#0052CC] bg-blue-50 px-2 py-0.5 rounded-md uppercase tracking-wider">
                 {availablePoints.toLocaleString()} Pts
-              </span>
+              </span> */}
 
               <button
-                onClick={togglePoints}
+                // onClick={togglePoints}
                 type="button"
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none shadow-inner ${
-                  isPointsEnabled ? "bg-[#0052CC]" : "bg-slate-300"
-                }`}
+                // className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none shadow-inner ${
+                //   isPointsEnabled ? "bg-[#0052CC]" : "bg-slate-300"
+                // }`}
               >
                 <motion.span
-                  animate={{ x: isPointsEnabled ? 22 : 3 }}
+                  // animate={{ x: isPointsEnabled ? 22 : 3 }}
                   transition={{ type: "spring", stiffness: 500, damping: 30 }}
                   className="h-4 w-4 rounded-full bg-white shadow-md"
                 />

@@ -132,7 +132,7 @@ export const getAllEventsService = async (query: any) => {
   }
 
   // FINAL QUERY
-  return await prisma.event.findMany({
+  const events = await prisma.event.findMany({
     where: whereClause,
     orderBy: {
       [sort]: "asc",
@@ -143,6 +143,13 @@ export const getAllEventsService = async (query: any) => {
       organizer: true,
     },
   });
+
+  const totalData = await prisma.event.count({
+    where: whereClause,
+  });
+
+  const totalPage = Math.ceil(totalData / limit);
+  return { totalData, totalPage, events };
 };
 
 // 3. GET EVENT DETAIL
@@ -241,6 +248,7 @@ export const getEventsByOrganizerService = async (
 };
 
 // 6. TRENDING EVENT
+// based on event slot
 export const getTrendingEventsService = async () => {
   return await prisma.event.findMany({
     where: {
@@ -252,7 +260,7 @@ export const getTrendingEventsService = async () => {
     orderBy: {
       availableSlot: "asc", // makin sedikit makin trend
     },
-    take: 5,
+    take: 8,
   });
 };
 

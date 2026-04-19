@@ -1,3 +1,14 @@
+export type EventCategory =
+  | "MUSIC"
+  | "NIGHTLIFE"
+  | "WORKSHOP"
+  | "CONFERENCE"
+  | "EXHIBITION"
+  | "SPORTS"
+  | "FESTIVAL"
+  | "COMMUNITY"
+  | "OTHER";
+
 export interface Event {
   address: string;
   availableSlot: number;
@@ -9,9 +20,10 @@ export interface Event {
   eventDate: string;
   eventId: string;
   isFree: boolean;
+  category: EventCategory;
   locationName: string;
   organizerId: string;
-  price: number;
+  price: string;
   slug: string;
   startSellingDate: string;
   thumbnailUrl?: string;
