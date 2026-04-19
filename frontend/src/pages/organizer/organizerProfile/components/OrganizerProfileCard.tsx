@@ -3,6 +3,7 @@ import type { organizerProfileProps } from "../types/organizerProfile";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { handleDeleteOrganizerProfile } from "../../../../services/organizerProfileService";
 import { toast } from "sonner";
+import Swal from "sweetalert2";
 
 function OrganizerProfileCard({ id, name, image }: organizerProfileProps) {
   const queryClient = useQueryClient();
@@ -20,6 +21,28 @@ function OrganizerProfileCard({ id, name, image }: organizerProfileProps) {
       console.log(error);
     },
   });
+
+  const handleDelete = (id: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this Profile!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#4f46e5",
+      cancelButtonColor: "#f44336",
+      confirmButtonText: "Yes, delete it!",
+
+      customClass: {
+        popup: "rounded-2xl",
+        confirmButton: "rounded-xl px-5 py-2.5",
+        cancelButton: "rounded-xl px-5 py-2.5",
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        mutate(id);
+      }
+    });
+  };
   return (
     <div>
       <div className="flex justify-between items-center py-3 px-5 border-b border-slate-200 hover:bg-slate-100 transition-all duration-300">
@@ -54,7 +77,7 @@ function OrganizerProfileCard({ id, name, image }: organizerProfileProps) {
             <span className="loading loading-spinner text-indigo-300 text-2xl"></span>
           ) : (
             <RiDeleteBack2Fill
-              onClick={() => mutate(id)}
+              onClick={() => handleDelete(id)}
               className="text-2xl text-red-500 cursor-pointer"
             />
           )}
