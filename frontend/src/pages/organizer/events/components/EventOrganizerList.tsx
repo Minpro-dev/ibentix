@@ -12,6 +12,7 @@ import { formatDate } from "../../../../utils/dateFormatter";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "../../../../api/axiosInstance";
 import Swal from "sweetalert2";
+import { toast } from "sonner";
 
 function EventOrganizerList({ event }: { event: Event }) {
   const queryClient = useQueryClient();
@@ -20,6 +21,15 @@ function EventOrganizerList({ event }: { event: Event }) {
       await api.delete(`/events/${eventId}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["events"] });
+      toast.success("Event deleted succefully");
+    },
+
+    onError: (error: any) => {
+      console.log(error);
+      const errorMessage =
+        error.response?.data?.message || "Something went wrong";
+
+      toast.error(errorMessage);
     },
   });
 
