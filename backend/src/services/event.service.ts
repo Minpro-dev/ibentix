@@ -241,6 +241,7 @@ export const getEventsByOrganizerService = async (
 };
 
 // 6. TRENDING EVENT
+// based on event slot
 export const getTrendingEventsService = async () => {
   return await prisma.event.findMany({
     where: {
@@ -252,7 +253,7 @@ export const getTrendingEventsService = async () => {
     orderBy: {
       availableSlot: "asc", // makin sedikit makin trend
     },
-    take: 5,
+    take: 8,
   });
 };
 

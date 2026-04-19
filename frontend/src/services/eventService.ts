@@ -3,13 +3,17 @@ import api from "../api/axiosInstance";
 
 // create event
 export const handleCreateEvent = async (data: FormData) => {
-  const res = await api.post("/events", data, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  try {
+    const res = await api.post("/events", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
-  return res;
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // delete event
@@ -22,6 +26,7 @@ export const handleDeleteEvent = async (eventId: string) => {
   }
 };
 
+// get all event by organizer
 export const handleGetAllEvent = async (
   search: string,
   eventDate?: Date,
@@ -38,6 +43,15 @@ export const handleGetAllEvent = async (
       },
     });
     return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// get all event by trending
+export const handleGetTrendingEvent = async () => {
+  try {
+    return await api.get("/events/trending");
   } catch (error) {
     console.log(error);
   }
