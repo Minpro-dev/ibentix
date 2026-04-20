@@ -27,7 +27,7 @@ function AppLayoutOrganizer() {
               </div>
 
               <div className="py-3">
-                <NavLink to="">Orders</NavLink>
+                <NavLink to="orders">Orders</NavLink>
               </div>
 
               <div className="py-3">

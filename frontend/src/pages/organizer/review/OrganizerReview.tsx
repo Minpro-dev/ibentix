@@ -12,8 +12,6 @@ const OrganizerReviews = () => {
   const reviewData = data?.data.data;
   const totalReviewPage = reviewData?.totalPage;
 
-  console.log("review", reviewData);
-
   const handlePagination = (page: number) => setPage(page);
 
   return (

@@ -1,25 +1,25 @@
 import { Outlet } from "react-router-dom";
-
 import OutletNavigation from "../../../ui/OutletNavigation";
+import OrderHeader from "./components/OrderHeader";
 
-const promotionsNavigationData = [
+const orderNavigationData = [
   {
     to: "",
-    title: "My Promotions",
+    title: "New",
   },
   {
-    to: "new",
-    title: "Create Promotion",
+    to: "completed",
+    title: "Completed",
   },
 ];
 
-function MarketingLayout() {
+function OrderOrganizerLayout() {
   return (
     <main>
+      <OrderHeader />
       <div className="flex justify-center items-center">
-        <OutletNavigation menus={promotionsNavigationData} />;
+        <OutletNavigation menus={orderNavigationData} />
       </div>
-
       <div>
         <Outlet />
       </div>
@@ -27,4 +27,4 @@ function MarketingLayout() {
   );
 }
 
-export default MarketingLayout;
+export default OrderOrganizerLayout;
