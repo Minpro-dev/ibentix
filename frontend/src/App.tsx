@@ -31,6 +31,7 @@ import OrganizerReviews from "./pages/organizer/review/OrganizerReview";
 import OrderOrganizerLayout from "./pages/organizer/order/OrderOrganizerLayout";
 import OrderNewOrganizer from "./pages/organizer/order/components/OrderNewOrganizer";
 import CompletedOrderOrganizer from "./pages/organizer/order/components/CompletedOrderOrganizer";
+import ProfileDetails from "./pages/organizer/profile/ProfileDetails";
 
 const router = createBrowserRouter([
   {
@@ -142,7 +143,7 @@ const router = createBrowserRouter([
     element: <AppLayoutOrganizer />,
     children: [
       {
-        path: "dashboard",
+        index: true,
         element: (
           <PrivateRoute allowedRoles={["ORGANIZER"]}>
             <DashboardPage />
@@ -232,6 +233,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute allowedRoles={["ORGANIZER"]}>
             <OrganizerReviews />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "profile",
+        element: (
+          <PrivateRoute allowedRoles={["ORGANIZER"]}>
+            <ProfileDetails />
           </PrivateRoute>
         ),
       },

@@ -19,7 +19,7 @@ function AppLayoutOrganizer() {
             {/* NAVIGATIONS */}
             <nav className="text-zinc-600">
               <div className="py-3">
-                <NavLink to="dashboard">Dashboard</NavLink>
+                <NavLink to="">Dashboard</NavLink>
               </div>
 
               <div className="py-3">
@@ -44,35 +44,35 @@ function AppLayoutOrganizer() {
             </nav>
           </div>
 
-          <div>
-            <div className="flex items-center gap-4 px-2 py-2 border border-stone-300 rounded-full">
-              {/* profile */}
-              <div className="w-15 h-10 overflow-hidden rounded-full ">
-                <div className="w-full h-full bg-indigo-100">
+          <NavLink to="profile" className="block group">
+            <div className="flex items-center gap-3 p-1.5 pr-6 border border-zinc-300 rounded-full hover:border-indigo-400 hover:bg-indigo-50/30 transition-all duration-300">
+              {/* Profile Avatar Container */}
+              <div className="w-10 h-10 rounded-full overflow-hidden border border-zinc-100 bg-indigo-50 shrink-0">
+                {user?.avatar ? (
                   <img
-                    src={`${user?.avatar}`}
-                    alt={`$user-profile-${user?.firstName}-${user?.lastName}`}
+                    src={user.avatar}
+                    alt="user-profile"
+                    className="w-full h-full object-cover"
                   />
-                </div>
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-indigo-600 text-xs font-semibold">
+                    {user?.firstName?.charAt(0)}
+                    {user?.lastName?.charAt(0)}
+                  </div>
+                )}
               </div>
 
-              {/* Name & role */}
-              <div className="flex w-full  items-center">
-                <div>
-                  <p className="text-zinc-700 pb-1  ">
-                    {user?.firstName.at(0)?.toUpperCase()}
-                    {user?.firstName?.slice(1, user?.firstName.length)}{" "}
-                    {user?.lastName.at(0)?.toUpperCase()}
-                    {user?.lastName?.slice(1, user?.lastName.length)}
-                  </p>
-                  <p className="text-zinc-500 text-xs">
-                    {user?.role[0]?.toUpperCase()}
-                    {user?.role.slice(1, user?.role?.length).toLowerCase()}
-                  </p>
-                </div>
+              {/* Name & Role */}
+              <div className="flex flex-col min-w-0">
+                <p className="text-sm font-semibold t- text-zinc-800 capitalize truncate leading-tight">
+                  {user?.firstName} {user?.lastName}
+                </p>
+                <p className="text-[10px] text-zinc-400 capitalize tracking-widest leading-tight mt-0.5">
+                  {user?.role?.toLowerCase()}
+                </p>
               </div>
             </div>
-          </div>
+          </NavLink>
         </div>
         <div className="col-span-4 col-start-2 w-full ">
           <section>
