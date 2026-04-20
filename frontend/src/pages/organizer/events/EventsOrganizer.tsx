@@ -30,6 +30,7 @@ function EventsOrganizer() {
   });
 
   const eventData = data?.data.data;
+  console.log("eventData -->", eventData);
 
   const handlePagination = (page: number) => {
     setPage(page);
