@@ -100,11 +100,13 @@ function EventOrganizerList({ event }: { event: Event }) {
           {/* 2. Content Info */}
           <div className="flex-1 min-w-0">
             <div className="block md:flex gap-10 justify-between items-start md:pb-10 pb-0">
-              <div className="w-[80%]">
-                <h3 className="text-lg font-semibold text-zinc-900 truncate group-hover:text-indigo-600 transition-colors">
+              <div
+                onClick={() => handleDetailsClick(event)}
+                className="w-[80%] cursor-pointer ">
+                <h3 className="text-lg font-semibold text-zinc-900 truncate hover:text-indigo-600 transition-colors">
                   {event.title}
                 </h3>
-                <p className="text-sm text-zinc-500 line-clamp-2 mt-1">
+                <p className="text-sm text-zinc-500 line-clamp-2 mt-1 hover:text-indigo-600 transition-colors">
                   {event.description}
                 </p>
               </div>
@@ -174,9 +176,7 @@ function EventOrganizerList({ event }: { event: Event }) {
               <Trash2 size={14} />
               Delete
             </Button>
-            <button
-              onClick={() => handleDetailsClick(event)}
-              className="p-2 cursor-pointer text-zinc-400 hover:text-indigo-600 transition-colors">
+            <button className="p-2 cursor-pointer text-zinc-400 hover:text-indigo-600 transition-colors">
               <ExternalLink size={18} />
             </button>
 

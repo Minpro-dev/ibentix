@@ -9,3 +9,11 @@ export const BADGE_STYLE: BandgeStyleObj = {
   CANCELED: "error",
   EXPIRED: "error",
 };
+
+export const BADGE_TEXT: BandgeStyleObj = {
+  WAITING_FOR_ADMIN_CONFIRMATION: "Approval",
+  DONE: "Done",
+  REJECTED: "Rejected",
+  CANCELED: "Canceled",
+  EXPIRED: "Expired",
+};
