@@ -15,14 +15,21 @@ import Swal from "sweetalert2";
 import { toast } from "sonner";
 import { useState } from "react";
 import EditEventSheet from "./EditEventSheet";
+import OrganizerEventDetailSheet from "./OrganizerEventDetailSheet";
 
 function EventOrganizerList({ event }: { event: Event }) {
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
 
   const handleEditClick = (event: Event) => {
     setSelectedEvent(event);
     setIsEditOpen(true);
+  };
+
+  const handleDetailsClick = (event: Event) => {
+    setSelectedEvent(event);
+    setIsDetailsOpen(true);
   };
 
   const queryClient = useQueryClient();
@@ -167,7 +174,9 @@ function EventOrganizerList({ event }: { event: Event }) {
               <Trash2 size={14} />
               Delete
             </Button>
-            <button className="p-2 text-zinc-400 hover:text-indigo-600 transition-colors">
+            <button
+              onClick={() => handleDetailsClick(event)}
+              className="p-2 text-zinc-400 hover:text-indigo-600 transition-colors">
               <ExternalLink size={18} />
             </button>
 
@@ -175,6 +184,12 @@ function EventOrganizerList({ event }: { event: Event }) {
               isOpen={isEditOpen}
               onClose={() => setIsEditOpen(false)}
               eventData={selectedEvent!}
+            />
+
+            <OrganizerEventDetailSheet
+              isOpen={isDetailsOpen}
+              onClose={() => setIsDetailsOpen(false)}
+              event={selectedEvent!}
             />
           </div>
         </div>

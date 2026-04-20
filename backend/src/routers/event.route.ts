@@ -70,7 +70,7 @@ route.delete("/:eventId", authentication, deleteEvent);
 
 // get all attendees by event
 route.get(
-  "/event-attendees",
+  "/event-attendees/:eventId",
   authentication,
   authorization("ORGANIZER"),
   getAllAttendeesByEventId,

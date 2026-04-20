@@ -336,10 +336,10 @@ export const getAllAttendeesByEvent = async (
     },
     select: {
       ticketCode: true,
+      attendeeName: true,
+      attendeeEmail: true,
       user: {
         select: {
-          firstName: true,
-          lastName: true,
           avatar: true,
         },
       },
