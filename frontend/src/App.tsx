@@ -28,6 +28,9 @@ import Promotions from "./pages/organizer/marketing/components/Promotions";
 import CreatePromotion from "./pages/organizer/marketing/components/CreatePromotion";
 import CreateOrder from "./pages/attendee/order/create-order/CheckoutPage";
 import OrganizerReviews from "./pages/organizer/review/OrganizerReview";
+import OrderOrganizerLayout from "./pages/organizer/order/OrderOrganizerLayout";
+import OrderNewOrganizer from "./pages/organizer/order/components/OrderNewOrganizer";
+import CompletedOrderOrganizer from "./pages/organizer/order/components/CompletedOrderOrganizer";
 
 const router = createBrowserRouter([
   {
@@ -196,6 +199,34 @@ const router = createBrowserRouter([
           },
         ],
       },
+      // order
+      {
+        path: "orders",
+        element: (
+          <PrivateRoute allowedRoles={["ORGANIZER"]}>
+            <OrderOrganizerLayout />
+          </PrivateRoute>
+        ),
+        children: [
+          {
+            index: true,
+            element: (
+              <PrivateRoute allowedRoles={["ORGANIZER"]}>
+                <OrderNewOrganizer />
+              </PrivateRoute>
+            ),
+          },
+          {
+            path: "completed",
+            element: (
+              <PrivateRoute allowedRoles={["ORGANIZER"]}>
+                <CompletedOrderOrganizer />
+              </PrivateRoute>
+            ),
+          },
+        ],
+      },
+
       {
         path: "reviews",
         element: (

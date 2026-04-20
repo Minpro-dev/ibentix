@@ -19,7 +19,7 @@ function LoginForm({ errors, touched, isValid, dirty }: LoginFormProps) {
           <Field
             name="email"
             placeholder="name@email.com"
-            className="px-4 py-3 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-indigo-500 bg-indigo-50/30 transition-all"
+            className="px-4 py-3 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-indigo-500 bg-indigo-50/30 transition-all text-zinc-700"
           />
           {errors.email && touched.email && (
             <p className="text-red-500 text-[10px] mt-1">{errors.email}</p>
@@ -35,7 +35,7 @@ function LoginForm({ errors, touched, isValid, dirty }: LoginFormProps) {
             name="password"
             type={hidePassword ? "password" : "text"}
             placeholder="••••••••"
-            className="px-4 py-3 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-indigo-500 bg-indigo-50/30 transition-all"
+            className="px-4 py-3 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-indigo-500 bg-indigo-50/30 transition-all text-zinc-700"
           />
           {errors.password && touched.password && (
             <p className="text-red-500 text-[10px] mt-1">{errors.password}</p>

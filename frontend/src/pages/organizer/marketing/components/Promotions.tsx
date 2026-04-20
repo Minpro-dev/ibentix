@@ -66,7 +66,6 @@ function Promotions() {
     });
   };
 
-  console.log(data?.data.data);
   const eventCoupons = data?.data.data.coupons;
   const totalPage = data?.data.data.totalPage;
   return (
