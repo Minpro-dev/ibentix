@@ -176,7 +176,7 @@ function EventOrganizerList({ event }: { event: Event }) {
             </Button>
             <button
               onClick={() => handleDetailsClick(event)}
-              className="p-2 text-zinc-400 hover:text-indigo-600 transition-colors">
+              className="p-2 cursor-pointer text-zinc-400 hover:text-indigo-600 transition-colors">
               <ExternalLink size={18} />
             </button>
 
