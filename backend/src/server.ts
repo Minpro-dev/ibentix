@@ -14,7 +14,7 @@ import paymentRouter from "./routers/payment.route";
 import pointRouter from "./routers/point.route";
 import referralCouponRouter from "./routers/referralCoupon.route";
 import reviewRouter from "./routers/review.router";
-
+import statisticsRoute from "./routers/statistics.route";
 
 const app: Express = express();
 
@@ -63,12 +63,14 @@ app.use("/api/payment", paymentRouter);
 // point end point
 app.use("/api/point", pointRouter);
 
-
 // referralCoupon end point
 app.use("/api/referral-coupon", referralCouponRouter);
 
 // review end point
 app.use("/api/review", reviewRouter);
+
+// review end point
+app.use("/api/organizer/statistics", statisticsRoute);
 
 // error middleware
 app.use(globalErrorHandler);

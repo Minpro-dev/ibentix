@@ -12,7 +12,7 @@ import { useUpdatePaymentStatus } from "../hooks/useUpdatePaymentStatus";
 import { ExternalLink } from "lucide-react";
 import Swal from "sweetalert2";
 import Button from "../../../../ui/Button";
-import { BADGE_STYLE } from "../../../../static/badgeStatusStyle";
+import { BADGE_STYLE, BADGE_TEXT } from "../../../../static/badgeStatusStyle";
 
 export default function OrderCard({
   order,
@@ -56,12 +56,12 @@ export default function OrderCard({
       <div className="flex flex-col lg:flex-row justify-between gap-6">
         {/* Section 1: User & Event Info */}
         <div className="flex-1 space-y-4">
-          <div className="block md:flex items-center gap-3">
+          <div className="block lg:flex gap-3 items-center">
             <div className="text-zinc-500 text-xs pb-2 font-mono">
               {order?.invoiceNumber}
             </div>
             <StatusBadge color={BADGE_STYLE[order.payment.paymentStatus]}>
-              {order.payment.paymentStatus.replace(/_/g, " ")}
+              {BADGE_TEXT[order.payment.paymentStatus]}
             </StatusBadge>
           </div>
           <div>
