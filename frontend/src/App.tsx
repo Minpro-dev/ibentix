@@ -13,8 +13,8 @@ import ResetPasswordPage from "./pages/resetPassword/ResetPasswordPage";
 import Profile from "./pages/attendee/profile/page";
 import Ticket from "./pages/attendee/ticket/ticket";
 import Event from "./pages/event/page";
-import Payment from "./pages/payment/page"
-import Review from "./pages/attendee/review/page"
+import Payment from "./pages/attendee/payment/page";
+import Review from "./pages/attendee/review/page";
 import AppLayoutOrganizer from "./ui/AppLayoutOrganizer";
 import EventsOrganizer from "./pages/organizer/events/EventsOrganizer";
 import CreateEvent from "./pages/organizer/createEvent/CreateEvent";
@@ -50,15 +50,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "details", // ✅ ADD THIS
-        element: (
-          // <PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <HomePage />
-          // </PrivateRoute>
-        ),
-      },
-      {
-        path: "details", // ✅ ADD THIS
+        path: "details", 
         element: (
           // <PrivateRoute allowedRoles={["ATTENDEE"]}>
           <Profile />
@@ -97,7 +89,7 @@ const router = createBrowserRouter([
           //</PrivateRoute>
         ),
       },
-       {
+      {
         path: "myreview", // Tambahkan di sini
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
