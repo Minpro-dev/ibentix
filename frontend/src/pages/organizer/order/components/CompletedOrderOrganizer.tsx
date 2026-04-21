@@ -1,13 +1,20 @@
 import { useState } from "react";
 import { useFetchNewOrder } from "../hooks/useFetchNewOrder";
-import EmptyState from "./EmptyState";
 import OrderCard from "./OrderCard";
 import OrderDetailsSheet from "./OrderDetailsSheet";
+import OrderCardSkeleton from "./OrderCardSkeleton";
+import EmptyOrganizerList from "../../organizerProfile/components/EmptyOrganizerList";
+import PaginationButton from "../../../../ui/PaginationButton";
 
 function CompletedOrderOrganizer() {
   const [selectedProof, setSelectedProof] = useState<string | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
+  const [page, setPage] = useState(1);
+
+  const handlePagination = (page: number) => {
+    setPage(page);
+  };
 
   const handleOrderClick = (order: any) => {
     setSelectedOrder(order);
@@ -15,16 +22,21 @@ function CompletedOrderOrganizer() {
   };
 
   const orderStatus = ["REJECTED", "CANCELED", "DONE"];
-  const { data, isLoading } = useFetchNewOrder(orderStatus);
+  const { data, isLoading } = useFetchNewOrder(orderStatus, "new", page);
   const orders = data?.data.data;
-  console.log(data?.data.data);
+  const totalPage = data?.data.totalPage;
+  const isShowSkeleton = isLoading || !data;
   return (
     <div>
       <div className="max-w-6xl mx-auto p-6 lg:p-10 space-y-8">
         {/* List Section */}
         <div className="space-y-4">
-          {orders?.length === 0 ? (
-            <EmptyState /> //FIXME
+          {isShowSkeleton ? (
+            Array.from({ length: 5 }).map((_, i: number) => (
+              <OrderCardSkeleton key={i} />
+            ))
+          ) : orders?.length === 0 ? (
+            <EmptyOrganizerList dataName="order" />
           ) : (
             orders?.map((order: any, index: number) => (
               <OrderCard
@@ -42,6 +54,16 @@ function CompletedOrderOrganizer() {
           onClose={() => setIsDetailsOpen(false)}
           order={selectedOrder}
         />
+      </div>
+
+      <div className="pt-8 flex justify-center items-center">
+        {totalPage > 1 && (
+          <PaginationButton
+            page={page}
+            onClick={handlePagination}
+            totalPage={totalPage}
+          />
+        )}
       </div>
     </div>
   );

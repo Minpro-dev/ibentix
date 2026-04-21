@@ -12,6 +12,7 @@ import PaginationButton from "../../../../ui/PaginationButton";
 import PromotionCardSkeleton from "./PromotionCardSkeleton";
 import { toast } from "sonner";
 import Swal from "sweetalert2";
+import EmptyOrganizerList from "../../organizerProfile/components/EmptyOrganizerList";
 
 function Promotions() {
   const [search, setSearch] = useState("");
@@ -66,6 +67,7 @@ function Promotions() {
     });
   };
 
+  const isShowSkeleton = isLoading || !data;
   const eventCoupons = data?.data.data.coupons;
   const totalPage = data?.data.data.totalPage;
   return (
@@ -78,22 +80,26 @@ function Promotions() {
         />
       </div>
       <div className="space-y-4">
-        {isLoading
-          ? Array.from({ length: 5 }).map((_, i) => (
-              <PromotionCardSkeleton key={i} />
-            ))
-          : eventCoupons?.map((coupon: EventCouponResponse) => (
-              <PromotionCard
-                key={coupon.eventCouponId}
-                eventCouponId={coupon.eventCouponId}
-                couponCode={coupon.couponCode}
-                eventName={coupon.event.title}
-                validFrom={coupon.validFrom}
-                validUntil={coupon.validUntil}
-                discountAmount={coupon.discountAmount}
-                onDeleteFn={handleDelete}
-              />
-            ))}
+        {isShowSkeleton ? (
+          Array.from({ length: 5 }).map((_, i) => (
+            <PromotionCardSkeleton key={i} />
+          ))
+        ) : !eventCoupons.length ? (
+          <EmptyOrganizerList dataName="promotions" />
+        ) : (
+          eventCoupons?.map((coupon: EventCouponResponse) => (
+            <PromotionCard
+              key={coupon.eventCouponId}
+              eventCouponId={coupon.eventCouponId}
+              couponCode={coupon.couponCode}
+              eventName={coupon.event.title}
+              validFrom={coupon.validFrom}
+              validUntil={coupon.validUntil}
+              discountAmount={coupon.discountAmount}
+              onDeleteFn={handleDelete}
+            />
+          ))
+        )}
       </div>
       <div className="pt-8 flex justify-center items-center">
         {totalPage > 1 && (

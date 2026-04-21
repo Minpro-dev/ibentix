@@ -54,7 +54,7 @@ export default function OrderCard({
   return (
     <div className="bg-white border border-zinc-100 p-6 rounded-3xl hover:border-indigo-100 transition-all duration-300">
       <div className="flex flex-col lg:flex-row justify-between gap-6">
-        {/* Section 1: User & Event Info */}
+        {/* User & Event Info */}
         <div className="flex-1 space-y-4">
           <div className="block lg:flex gap-3 items-center">
             <div className="text-zinc-500 text-xs pb-2 font-mono">
@@ -87,7 +87,7 @@ export default function OrderCard({
           </div>
         </div>
 
-        {/* Section 2: Payment Detail & Proof */}
+        {/* Payment Detail & Proof */}
         <div className="flex flex-col sm:flex-row items-start md:items-center gap-6 lg:px-8 lg:border-x lg:border-zinc-50">
           <div className="text-left lg:text-center min-w-30">
             <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest mb-1">
@@ -110,7 +110,7 @@ export default function OrderCard({
           )}
         </div>
 
-        {/* Section 3: Actions */}
+        {/* Actions */}
 
         {isNew && (
           <div className="flex items-center gap-2">

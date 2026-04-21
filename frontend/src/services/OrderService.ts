@@ -15,6 +15,7 @@ export const handleCreateOrder = async (data: any) => {
 export const handleGetAllOrderByStatus = async (
   orderStatus: string[],
   newest: string,
+  page: number,
 ) => {
   const status = orderStatus.join(",");
 
@@ -22,6 +23,7 @@ export const handleGetAllOrderByStatus = async (
     params: {
       orderStatus: status,
       newest,
+      page,
     },
   });
 };

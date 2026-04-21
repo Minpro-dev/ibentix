@@ -1,27 +1,14 @@
 import { create } from "zustand";
-
-interface User {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  gender: "MALE" | "FEMALE";
-  address: string;
-  countryId: string;
-  role: "ATTENDEE" | "ORGANIZER";
-  avatar: string | null;
-  createdAt: string;
-}
+import type { UserStore } from "../types/userType";
 
 interface State {
   accessToken: string | null;
-  user: User | null;
+  user: UserStore | null;
   isInitializing: boolean;
 }
 
 interface Action {
-  setAuth: (token: string, user: User) => void;
+  setAuth: (token: string, user: UserStore) => void;
   clearAuth: () => void;
   setInitializing: (boolean: boolean) => void;
 }

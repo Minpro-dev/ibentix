@@ -15,7 +15,6 @@ import {
   ResponsiveContainer,
   PieChart,
   Pie,
-  Cell,
 } from "recharts";
 import { formatCurrency } from "../../../utils/formatCurrency";
 
@@ -53,7 +52,7 @@ function DashboardPage() {
             <button
               key={r}
               onClick={() => setRange(r)}
-              className={`px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+              className={`px-6 py-2 cursor-pointer rounded-xl text-[10px] font-semibold tracking-widest transition-all ${
                 range === r
                   ? "bg-white text-indigo-600 shadow-sm"
                   : "text-zinc-400 hover:text-zinc-600"
@@ -90,7 +89,7 @@ function DashboardPage() {
         {/* MAIN CHART - LINE/AREA CHART */}
         <div className="lg:col-span-2 bg-white p-8 rounded-[40px] border border-zinc-100 shadow-sm space-y-6">
           <div className="flex justify-between items-center">
-            <h3 className="text-sm font-black text-zinc-900 uppercase tracking-widest">
+            <h3 className="text-sm font-black text-zinc-900 s tracking-widest">
               Revenue Growth
             </h3>
           </div>
