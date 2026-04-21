@@ -1,3 +1,17 @@
+export interface UserStore {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  gender: "MALE" | "FEMALE";
+  address: string;
+  countryId: string;
+  role: "ATTENDEE" | "ORGANIZER";
+  avatar: string | null;
+  createdAt: string;
+}
+
 export type Role = "ATTENDEE" | "ORGANIZER";
 export interface EventCardProps {
   title: string;
@@ -35,7 +49,13 @@ export interface Coupon {
   expiry: string;
   color: "primary" | "tertiary";
 }
-export type TicketStatus = 'DONE' | 'PENDING_APPROVAL' | 'PAYMENT_PENDING' | 'REJECTED' | 'EXPIRED' | 'SUCCESS';
+export type TicketStatus =
+  | "DONE"
+  | "PENDING_APPROVAL"
+  | "PAYMENT_PENDING"
+  | "REJECTED"
+  | "EXPIRED"
+  | "SUCCESS";
 
 export interface Ticket {
   id: string;
@@ -48,9 +68,9 @@ export interface Ticket {
   seat?: string;
   points?: number;
   expiresIn?: string; // For PAYMENT_PENDING
-  reason?: string;    // For REJECTED
-  note?: string;      // For EXPIRED
-  priority?: 'Standard' | 'Silver' | 'Platinum';
+  reason?: string; // For REJECTED
+  note?: string; // For EXPIRED
+  priority?: "Standard" | "Silver" | "Platinum";
   gate?: string;
 }
 
@@ -97,12 +117,12 @@ export interface UserProfile {
 }
 
 export enum TransactionStatus {
-  WAITING_PAYMENT = 'Waiting for Payment',
-  WAITING_ADMIN = 'Waiting for Admin to Approve',
-  PENDING = 'Verifying Payment',
-  SUCCESS = 'Payment Success',
-  EXPIRED = 'Expired',
-  REJECTED = 'Transaction Has Been Reject'
+  WAITING_PAYMENT = "Waiting for Payment",
+  WAITING_ADMIN = "Waiting for Admin to Approve",
+  PENDING = "Verifying Payment",
+  SUCCESS = "Payment Success",
+  EXPIRED = "Expired",
+  REJECTED = "Transaction Has Been Reject",
 }
 export interface EventSummary {
   id: string;
