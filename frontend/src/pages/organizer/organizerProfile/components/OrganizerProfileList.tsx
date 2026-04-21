@@ -13,30 +13,31 @@ function OrganizerProfileList() {
 
   const organizerProfiles = data?.data.data;
 
+  const showSkeleton = isLoading && !data;
   return (
     <div>
       <div className="py-5">
         <h1>Your Profile</h1>
       </div>
-      {!organizerProfiles?.length ? (
-        <EmptyOrganizerList />
-      ) : (
-        <div className="border py-2 border-slate-200 h-75 md:h-80 overflow-y-auto rounded-xl">
-          {/* CARD */}
-          {isLoading
-            ? Array.from({ length: 5 }).map((_, index) => (
-                <OrganizerProfileCardSkeleton key={index} />
-              ))
-            : organizerProfiles?.map((profile: OrganizerProfile) => (
-                <OrganizerProfileCard
-                  key={profile.organizerId}
-                  id={profile.organizerId}
-                  name={profile.name}
-                  image={profile.image}
-                />
-              ))}
-        </div>
-      )}
+
+      <div className="border py-2 border-slate-200 h-75 md:h-80 overflow-y-auto rounded-xl">
+        {showSkeleton ? (
+          Array.from({ length: 5 }).map((_, index) => (
+            <OrganizerProfileCardSkeleton key={index} />
+          ))
+        ) : !organizerProfiles?.length ? (
+          <EmptyOrganizerList dataName="organizer profile" />
+        ) : (
+          organizerProfiles?.map((profile: OrganizerProfile) => (
+            <OrganizerProfileCard
+              key={profile.organizerId}
+              id={profile.organizerId}
+              name={profile.name}
+              image={profile.image}
+            />
+          ))
+        )}
+      </div>
     </div>
   );
 }

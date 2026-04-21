@@ -1,15 +1,14 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
-interface EventState {
-  selectedTicketId: string | null;
-  setSelectedTicket: (id: string) => void;
-  isBooking: boolean;
-  setBooking: (state: boolean) => void;
+interface State {
+  search: string;
 }
 
-export const useEventStore = create<EventState>((set) => ({
-  selectedTicketId: 'reg', // Default to regular
-  setSelectedTicket: (id) => set({ selectedTicketId: id }),
-  isBooking: false,
-  setBooking: (state) => set({ isBooking: state }),
+interface Action {
+  setSearch: (search: string) => void;
+}
+
+export const useEventStore = create<State & Action>((set) => ({
+  search: "",
+  setSearch: (search) => set({ search }),
 }));

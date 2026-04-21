@@ -1,5 +1,5 @@
 import { useState } from "react";
-import EventOrganizerList from "./components/EventOrganizerList";
+import EventOrganizerList from "./components/EventOrganizerCard";
 import { useQuery } from "@tanstack/react-query";
 import api from "../../../api/axiosInstance";
 import type { Event } from "../../../types/eventType";
@@ -30,7 +30,7 @@ function EventsOrganizer() {
   });
 
   const eventData = data?.data.data;
-  console.log(eventData);
+  console.log("eventData -->", eventData);
 
   const handlePagination = (page: number) => {
     setPage(page);
@@ -92,11 +92,13 @@ function EventsOrganizer() {
 
       {/* PAGINATION BUTTON */}
       <div className="pt-8 flex justify-center items-center">
-        <PaginationButton
-          page={page}
-          onClick={handlePagination}
-          totalPage={eventData?.totalPage}
-        />
+        {eventData?.totalPage > 1 && (
+          <PaginationButton
+            page={page}
+            onClick={handlePagination}
+            totalPage={eventData?.totalPage}
+          />
+        )}
       </div>
     </div>
   );

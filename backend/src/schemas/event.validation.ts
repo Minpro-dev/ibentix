@@ -23,7 +23,20 @@ export const createEventSchema = z.object({
 // ======================
 // UPDATE EVENT - patch
 // ======================
-export const updateEventSchema = createEventSchema.partial();
+export const updateEventSchema = z.object({
+  body: z.object({
+    title: z.string().min(3, "Title minimum 3 characters"),
+
+    description: z.string().optional(),
+
+    availableSlot: z.coerce.number().min(1, "availableSlot minimum 1"),
+
+    price: z.coerce.number().min(0, "price cannot negatif"),
+
+    locationName: z.string().optional(),
+    address: z.string().optional(),
+  }),
+});
 
 // ======================
 // QUERY FILTER (GET ALL EVENTS)

@@ -1,4 +1,3 @@
-import { toast } from "sonner";
 import api from "../api/axiosInstance";
 
 // create order -> untuk dipanggil di payment
@@ -12,44 +11,30 @@ export const handleCreateOrder = async (data: any) => {
   return res;
 };
 
-// // get all order
-// export const getAllOrder = async (orderId: string) => {
-//   const res = await api.get("/order", d, {
-//     headers: {
-//       "Content-Type": "multipart/form-data",
-//     },
-//   });
+// get all order by status
+export const handleGetAllOrderByStatus = async (
+  orderStatus: string[],
+  newest: string,
+  page: number,
+) => {
+  const status = orderStatus.join(",");
 
-//   return res;
-// };
+  return await api.get("/order", {
+    params: {
+      orderStatus: status,
+      newest,
+      page,
+    },
+  });
+};
 
-// // delete event
-// export const handleDeleteEvent = async (eventId: string) => {
-//   try {
-//     await api.delete(`/events/${eventId}`);
-//     toast.success("Event has been deleted");
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-// export const handleGetAllEvent = async (
-//   search: string,
-//   eventDate?: Date,
-//   isFree?: string,
-//   page?: number,
-// ) => {
-//   try {
-//     const res = await api.get("/events/organizer/me", {
-//       params: {
-//         search,
-//         eventDate,
-//         isFree,
-//         page,
-//       },
-//     });
-//     return res;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+// handle change status
+export const handleChangeSatatus = async (
+  orderId: string,
+  paymentStatus: string,
+) => {
+  await api.patch("/payment/status", {
+    orderId,
+    paymentStatus,
+  });
+};

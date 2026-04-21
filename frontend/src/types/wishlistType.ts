@@ -10,7 +10,7 @@ export interface Event {
   badge?: string;
   category: string;
   isWishlisted?: boolean;
-  status?: 'active' | 'ended';
+  status?: "active" | "ended";
 }
 
 export interface User {

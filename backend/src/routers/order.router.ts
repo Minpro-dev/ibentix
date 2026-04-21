@@ -23,7 +23,7 @@ route.get(
   orderController.getAllOrders,
 );
 
-// get product details
+// get order details
 route.get(
   "/details/:orderId",
   authentication,

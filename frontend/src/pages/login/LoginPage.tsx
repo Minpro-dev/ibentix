@@ -35,9 +35,9 @@ function LoginPage() {
     setAuth(token, user);
 
     if (res.user.role === "ATTENDEE") {
-      navigate("/home", { replace: true });
+      navigate("/", { replace: true });
     } else {
-      navigate("/organizer/dashboard", { replace: true });
+      navigate("/organizer", { replace: true });
     }
   };
 

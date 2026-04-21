@@ -62,15 +62,26 @@ export const reviewController = {
   getAllReviesData: catchAsync(async (req: Request, res: Response) => {
     const userId = req.user?.userId as string;
     const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 10;
+    const limit = Number(req.query.limit) || 3;
 
-    const { averageRatings, totalData, totalPage, reviews } =
-      await reviewService.getAllReviewsData(userId, page, limit);
+    const {
+      averageRatings,
+      totalData,
+      totalPage,
+      reviews,
+      ratingDistribution,
+    } = await reviewService.getAllReviewsData(userId, page, limit);
 
     res.status(200).json({
       status: "success",
       message: "Get all reviews successfull",
-      data: { averageRatings, totalData, totalPage, reviews },
+      data: {
+        averageRatings,
+        totalData,
+        totalPage,
+        reviews,
+        ratingDistribution,
+      },
     });
   }),
 };

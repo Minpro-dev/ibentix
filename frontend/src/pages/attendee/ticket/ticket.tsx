@@ -4,7 +4,7 @@ import { TicketCard } from "../../../ui/TicketCard";
 import { HistoryItem } from "../../../ui/HistoryItem";
 import { ActionsPanel } from "../../../ui/ActionsPanel";
 import type { Ticket } from "../../../types/userType";
-import { fetchTickets, payTicket } from "../../../services/ticketService";
+// import { fetchTickets, payTicket } from "../../../services/ticketService";
 import { cn } from "../../../lib/utils";
 import { Loader2, Ticket as TicketIcon } from "lucide-react";
 
@@ -18,8 +18,8 @@ export default function App() {
   useEffect(() => {
     async function loadData() {
       try {
-        const data = await fetchTickets();
-        setTickets(data);
+        // const data = await fetchTickets();
+        // setTickets(data);
       } catch (error) {
         console.error("Failed to fetch tickets:", error);
       } finally {
@@ -74,8 +74,7 @@ export default function App() {
             {/* Header Section */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-            >
+              animate={{ opacity: 1, x: 0 }}>
               <h2 className="text-3xl font-extrabold text-on-surface tracking-tighter leading-tight font-headline uppercase mb-1">
                 My Tickets
               </h2>
@@ -99,8 +98,7 @@ export default function App() {
                     activeTab === tab.id
                       ? "bg-accent text-white shadow-xl shadow-accent/10"
                       : "bg-surface border border-border text-on-surface-variant hover:bg-surface-container-low",
-                  )}
-                >
+                  )}>
                   {tab.label}
                 </button>
               ))}
@@ -114,8 +112,7 @@ export default function App() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  className="space-y-12"
-                >
+                  className="space-y-12">
                   {activeTickets.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       {activeTickets.map((ticket) => (
@@ -138,8 +135,7 @@ export default function App() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  className="space-y-6"
-                >
+                  className="space-y-6">
                   <h3 className="text-lg font-bold text-on-surface mb-6 uppercase tracking-tight font-headline">
                     Recent Activity
                   </h3>
@@ -159,8 +155,7 @@ export default function App() {
                 <motion.div
                   key="waitlist"
                   initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                >
+                  animate={{ opacity: 1 }}>
                   <EmptyState message="Waitlist is currently empty." />
                 </motion.div>
               )}

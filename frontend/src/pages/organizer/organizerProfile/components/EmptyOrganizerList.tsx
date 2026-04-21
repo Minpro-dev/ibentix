@@ -1,10 +1,8 @@
-function EmptyOrganizerList() {
+function EmptyOrganizerList({ dataName }: { dataName: string }) {
   return (
-    <div className="border py-2 border-slate-200 h-75 md:h-80 overflow-y-auto rounded-xl">
-      <p className=" py-2 px-5 text-sm text-zinc-400">
-        You don't have any organizer profile
-      </p>
-    </div>
+    <p className=" py-2 px-5 text-sm text-zinc-400">
+      No {dataName} data is found
+    </p>
   );
 }
 

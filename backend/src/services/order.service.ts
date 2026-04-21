@@ -289,8 +289,16 @@ export const orderSerivice = {
 
     // by orderStatus ✅
     if (orderStatus) {
-      const status = orderStatus.toUpperCase();
-      where.payment = { paymentStatus: status };
+      const status = orderStatus.split(",");
+      console.log("status", status);
+
+      where.payment = {
+        paymentStatus: {
+          in: status,
+        },
+      };
+      // const status = orderStatus.toUpperCase();
+      // where.payment = { paymentStatus: status };
     }
 
     // Sort by filter ✅
@@ -305,6 +313,11 @@ export const orderSerivice = {
       take: limit,
       where,
       orderBy,
+      include: {
+        tickets: true,
+        payment: true,
+        event: true,
+      },
     });
 
     const totalData = await prisma.order.count({
