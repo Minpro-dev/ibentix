@@ -5,6 +5,7 @@ import { useState } from "react";
 import PaginationButton from "../../../ui/PaginationButton";
 import { SkeletonReviewSummary } from "./components/SekeletonReviewSummary";
 import SkeletonReviewCard from "./components/SkeletonReviewCard";
+import EmptyOrganizerList from "../organizerProfile/components/EmptyOrganizerList";
 
 const OrganizerReviews = () => {
   const [page, setPage] = useState(1);
@@ -13,7 +14,7 @@ const OrganizerReviews = () => {
   const totalReviewPage = reviewData?.totalPage;
 
   const handlePagination = (page: number) => setPage(page);
-
+  const isShowSkeleton = isLoading || !data;
   return (
     <div className="max-w-5xl mx-auto p-6 md:p-10 space-y-12 bg-white">
       {/* 1. Header & Summary Section */}
@@ -30,32 +31,34 @@ const OrganizerReviews = () => {
       {/* 2. Review List Section */}
       <section className="space-y-8">
         <div className="flex justify-between items-center">
-          <h2 className="text-sm font-bold uppercase tracking-[0.15em] text-zinc-400">
-            Latest Feedback
-          </h2>
+          <h2 className="text-sm text-zinc-400">Latest Feedback</h2>
         </div>
 
         <div className="grid grid-cols-1 gap-6">
           {/* Loop Review Card */}
-          {isLoading
-            ? Array.from({ length: 5 }).map((_, index: number) => (
-                <SkeletonReviewCard key={index} />
-              ))
-            : reviewData?.reviews?.map((review: any, index: number) => (
-                <ReviewCard
-                  key={index}
-                  firstName={review?.user?.firstName}
-                  lastName={review?.user?.lastName}
-                  isAnonymous={review?.isAnonymous}
-                  title={review?.title}
-                  description={review?.description}
-                  rating={review?.rating}
-                  eventName={review?.order?.event?.title}
-                  createdAt={review?.createdAt}
-                  ticketQuantity={review?.order?.ticketQuantity}
-                  invoiceNumber={review?.order?.invoiceNumber}
-                />
-              ))}
+          {isShowSkeleton ? (
+            Array.from({ length: 5 }).map((_, index: number) => (
+              <SkeletonReviewCard key={index} />
+            ))
+          ) : !reviewData?.reviews?.length ? (
+            <EmptyOrganizerList dataName="review" />
+          ) : (
+            reviewData?.reviews?.map((review: any, index: number) => (
+              <ReviewCard
+                key={index}
+                firstName={review?.user?.firstName}
+                lastName={review?.user?.lastName}
+                isAnonymous={review?.isAnonymous}
+                title={review?.title}
+                description={review?.description}
+                rating={review?.rating}
+                eventName={review?.order?.event?.title}
+                createdAt={review?.createdAt}
+                ticketQuantity={review?.order?.ticketQuantity}
+                invoiceNumber={review?.order?.invoiceNumber}
+              />
+            ))
+          )}
         </div>
       </section>
 

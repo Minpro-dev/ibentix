@@ -14,14 +14,14 @@ function AppLayoutOrganizer() {
     <div>
       <div className="grid grid-cols-5 h-dvh">
         {/* sidebar */}
-        <aside className="hidden md:block">
+        <aside className="hidden lg:block">
           <OrganizerSideBar user={user!} />
         </aside>
 
         {/* mobile navbar */}
         <MobileNavbar user={user!} />
 
-        <div className="col-span-5 col-start-1 md:col-span-4 md:col-start-2 w-full ">
+        <div className="col-span-5 col-start-1 lg:col-span-4 lg:col-start-2 w-full ">
           <section>
             {/* BREADCRUMBS */}
 

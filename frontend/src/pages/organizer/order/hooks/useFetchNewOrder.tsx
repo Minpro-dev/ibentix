@@ -4,10 +4,11 @@ import { handleGetAllOrderByStatus } from "../../../../services/OrderService";
 export const useFetchNewOrder = (
   orderStatus: string[],
   newest: string = "true",
+  page: number,
 ) => {
   const { data, isLoading } = useQuery({
-    queryKey: ["orders"],
-    queryFn: () => handleGetAllOrderByStatus(orderStatus, newest),
+    queryKey: ["orders", page],
+    queryFn: () => handleGetAllOrderByStatus(orderStatus, newest, page),
   });
 
   return { data, isLoading };

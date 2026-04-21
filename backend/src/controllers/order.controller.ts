@@ -38,7 +38,7 @@ export const orderController = {
   // ------ GET ALL ORDER WITH FILTER
   getAllOrders: catchAsync(async (req: Request, res: Response) => {
     const userId = req.user?.userId;
-    const limit = Number(req.query.limit) || 15;
+    const limit = Number(req.query.limit) || 10;
     const page = Number(req.query.page) || 1;
     const { orders, totalData, totalPage } = await orderSerivice.getAllOrders({
       ...req.query,
