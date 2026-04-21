@@ -176,9 +176,6 @@ function EventOrganizerList({ event }: { event: Event }) {
               <Trash2 size={14} />
               Delete
             </Button>
-            <button className="p-2 cursor-pointer text-zinc-400 hover:text-indigo-600 transition-colors">
-              <ExternalLink size={18} />
-            </button>
 
             <EditEventSheet
               isOpen={isEditOpen}

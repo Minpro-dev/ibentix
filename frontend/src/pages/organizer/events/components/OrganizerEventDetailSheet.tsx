@@ -64,7 +64,7 @@ const OrganizerEventDetailSheet = ({
           <div className="flex items-center gap-4">
             <button
               onClick={onClose}
-              className="p-2 hover:bg-zinc-100 rounded-full transition-colors">
+              className="p-2 cursor-pointer hover:bg-zinc-100 rounded-full transition-colors">
               <RiCloseLine size={24} className="text-zinc-400" />
             </button>
             <div>

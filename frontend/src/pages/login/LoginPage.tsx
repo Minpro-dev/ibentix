@@ -37,7 +37,7 @@ function LoginPage() {
     if (res.user.role === "ATTENDEE") {
       navigate("/", { replace: true });
     } else {
-      navigate("/organizer/dashboard", { replace: true });
+      navigate("/organizer", { replace: true });
     }
   };
 
