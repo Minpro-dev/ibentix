@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { handleGetWishlist } from "../../../../services/wishlistService";
-import { useEventlistStore } from "../../../../store/useEventWishlistStore";
+import { useEventWishlistStore } from "../../../../store/useEventWishlistStore";
 import type { WishlistType } from "../types/wishlistType";
+import type { Event } from "../../../../types/eventType";
 
 export const useFetchWishlist = () => {
-  const setEvents = useEventlistStore((state) => state.setEvents);
+  const setEvents = useEventWishlistStore((state) => state.setEvents);
   const { data, isLoading } = useQuery({
     queryKey: ["wishlist"],
     queryFn: async () => {
@@ -12,11 +13,11 @@ export const useFetchWishlist = () => {
       const wishlist = res.data.data;
       //   console.log("res", res.data.data);
 
-      const wishlistEvents = wishlist?.map((wishlist: WishlistType) => {
-        return wishlist.event;
-      });
-
-      //   console.log("res", wishlistEvents);
+      const wishlistEvents: Event[] = wishlist?.map(
+        (wishlist: WishlistType) => {
+          return wishlist.event;
+        },
+      );
 
       setEvents(wishlistEvents);
 

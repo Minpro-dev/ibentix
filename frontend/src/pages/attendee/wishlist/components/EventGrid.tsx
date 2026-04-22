@@ -1,17 +1,15 @@
-import { useFetchWishlist } from "../hooks/useFetchWishlist";
-import { useEventlistStore } from "../../../../store/useEventWishlistStore";
 import EventCard from "../../../../ui/EventCard";
-import type { WishlistType } from "../types/wishlistType";
+import { useEventWishlistStore } from "../../../../store/useEventWishlistStore";
+import type { Event } from "../../../../types/eventType";
 
 export function EventGrid() {
-  const { data, isLoading } = useFetchWishlist();
-  const wishlistEvents = data?.data.data;
+  const events = useEventWishlistStore((state) => state.events);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {wishlistEvents?.map((event: WishlistType, index: number) => {
-        return <EventCard key={index} event={event.event} />;
-      })}
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+      {events?.map((event: Event, index: number) => (
+        <EventCard key={index} event={event} />
+      ))}
     </div>
   );
 }

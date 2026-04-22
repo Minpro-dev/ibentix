@@ -13,7 +13,7 @@ import ResetPasswordPage from "./pages/resetPassword/ResetPasswordPage";
 import Profile from "./pages/attendee/profile/page";
 import Ticket from "./pages/attendee/ticket/ticket";
 import Events from "./pages/attendee/events/Events";
-import Payment from "./pages/payment/page";
+// import Payment from "./pages/payment/page";
 import Review from "./pages/attendee/review/page";
 import AppLayoutOrganizer from "./ui/AppLayoutOrganizer";
 import EventsOrganizer from "./pages/organizer/events/EventsOrganizer";
@@ -78,14 +78,14 @@ const router = createBrowserRouter([
           //</PrivateRoute>
         ),
       },
-      {
-        path: "payment", // Tambahkan di sini
-        element: (
-          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <Payment />
-          //</PrivateRoute>
-        ),
-      },
+      // {
+      //   path: "payment", // Tambahkan di sini
+      //   element: (
+      //     //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+      //     <Payment />
+      //     //</PrivateRoute>
+      //   ),
+      // },
       {
         path: "review", // Tambahkan di sini
         element: (

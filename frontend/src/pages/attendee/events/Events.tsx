@@ -58,9 +58,9 @@ export default function Events() {
         </section>
 
         {/* Event Grid*/}
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
-          {allEvents?.map((event: Event) => (
-            <EventCard event={event} />
+        <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
+          {allEvents?.map((event: Event, index: number) => (
+            <EventCard key={index} event={event} />
           ))}
         </section>
         {/* Pagination */}

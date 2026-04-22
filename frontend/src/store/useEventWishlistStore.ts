@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { Event } from "../types/wishlistType";
+import type { Event } from "../types/eventType";
 
 interface EventState {
   events: Event[];
@@ -8,14 +8,14 @@ interface EventState {
   setIds: (eventId: string) => void;
 }
 
-export const useEventlistStore = create<EventState>()((set) => ({
+export const useEventWishlistStore = create<EventState>()((set) => ({
   events: [],
   wishlistIds: [],
   setEvents: (events) => set({ events }),
   setIds: (eventId) =>
     set((state) => ({
       wishlistIds: state?.wishlistIds.includes(eventId)
-        ? state.wishlistIds
+        ? state.wishlistIds.filter((id) => id !== eventId)
         : [...state.wishlistIds, eventId],
     })),
 }));
