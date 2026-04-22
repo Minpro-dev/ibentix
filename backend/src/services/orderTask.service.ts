@@ -8,7 +8,7 @@ export const handleAutoCancelOrders = async () => {
   const expiredPayments = await prisma.payment.findMany({
     where: {
       paymentStatus: "WAITING_FOR_ADMIN_CONFIRMATION",
-      updatedAt: { lte: threeDaysAgo },
+      updatedAt: { lt: threeDaysAgo },
     },
     include: {
       order: true, // Ambil data order untuk kembalikan slot
@@ -35,6 +35,42 @@ export const handleAutoCancelOrders = async () => {
           availableSlot: { increment: payment.order.ticketQuantity },
         },
       });
+
+      // return used points
+      if (payment.order.pointsUsed) {
+        await tx.point.updateMany({
+          where: {
+            orderId: payment.order.orderId,
+          },
+          data: {
+            orderId: null,
+          },
+        });
+      }
+
+      // return used referral coupon
+      if (payment.order.referralCouponId) {
+        await tx.referralCoupon.update({
+          where: {
+            referralCouponId: payment.order.referralCouponId,
+          },
+          data: {
+            usedAt: null,
+          },
+        });
+      }
+
+      // return used event coupon
+      if (payment.order.eventCouponId) {
+        await tx.order.update({
+          where: {
+            orderId: payment.order.orderId,
+          },
+          data: {
+            eventCouponId: null,
+          },
+        });
+      }
 
       console.log(
         `[AUTO-CANCEL] Order ${payment.order.invoiceNumber} cancelled.`,
