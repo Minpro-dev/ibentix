@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   RiCalendarLine,
   RiMapPinLine,
@@ -6,19 +5,28 @@ import {
   RiHeartLine,
   RiHeartFill,
 } from "react-icons/ri";
-import type { Event } from "../types/eventType";
 import { formatCurrency } from "../lib/utils";
 import { formatDate } from "../utils/dateFormatter";
 import eventThumbnailImage from "./../assets/static/EventThumnailImage.jpg";
 import { useNavigate } from "react-router-dom";
+import type { Event } from "../types/eventType";
+import { useEventWishlistStore } from "../store/useEventWishlistStore";
+import { useToggleWishlist } from "../pages/attendee/wishlist/hooks/useToggleWishlist";
 
 interface EventCardProps {
   event: Event;
 }
 
 const EventCard = ({ event }: EventCardProps) => {
-  const [isWishlisted, setIsWishlisted] = useState(false);
+  const wishlistIds = useEventWishlistStore((state) => state.wishlistIds);
+  const isWishlisted = wishlistIds.includes(event.eventId);
+  const mutation = useToggleWishlist();
   const navigate = useNavigate();
+
+  const handleToggleWishlist = (e: React.MouseEvent) => {
+    e.preventDefault();
+    mutation.mutate(event.eventId);
+  };
 
   return (
     <div className="group w-full max-w-70 mx-auto">
@@ -32,11 +40,8 @@ const EventCard = ({ event }: EventCardProps) => {
 
         {/* Wishlist Button */}
         <button
-          onClick={(e) => {
-            e.preventDefault();
-            setIsWishlisted(!isWishlisted);
-          }}
-          className="absolute top-4 right-4 p-2.5 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-white/40 transition-all hover:scale-110 active:scale-95">
+          onClick={handleToggleWishlist}
+          className="absolute top-4 right-4 p-2.5 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-white/40 transition-all hover:scale-110 active:scale-95 cursor-pointer">
           {isWishlisted ? (
             <RiHeartFill className="text-red-500 text-xl animate-in zoom-in-50" />
           ) : (
@@ -79,16 +84,14 @@ const EventCard = ({ event }: EventCardProps) => {
           {/* Location */}
           <div className="flex items-center gap-1 text-zinc-400 font-medium">
             <RiMapPinLine className="text-indigo-400/70" size={12} />
-            <span className="text-[10px] uppercase tracking-tighter font-semibold line-clamp-1">
-              {event.city}
-            </span>
+            <span className="text-[10px] line-clamp-1">{event.city}</span>
           </div>
         </div>
 
         {/* Action Button  */}
         <button
           onClick={() => navigate(`/events/${event.slug}`)}
-          className="w-full mt-1 py-2.5 bg-zinc-50 text-indigo-700 border border-zinc-100 text-[10px] font-bold uppercase tracking-widest rounded-xl group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
+          className="w-full mt-1 py-2.5 bg-zinc-50 text-indigo-700 border border-zinc-200 text-sm rounded-xl group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer">
           Details
           <RiArrowRightLine className="text-sm" />
         </button>
