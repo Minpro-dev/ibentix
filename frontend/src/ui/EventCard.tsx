@@ -88,7 +88,7 @@ const EventCard = ({ event }: EventCardProps) => {
         {/* Action Button  */}
         <button
           onClick={() => navigate(`/events/${event.slug}`)}
-          className="w-full mt-1 py-2.5 bg-zinc-50 text-indigo-700 border border-zinc-100 text-[10px] font-bold uppercase tracking-widest rounded-xl group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
+          className="w-full mt-1 py-2.5 bg-zinc-50 text-indigo-700 border border-zinc-200 text-sm rounded-xl group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
           Details
           <RiArrowRightLine className="text-sm" />
         </button>

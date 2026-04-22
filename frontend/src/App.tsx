@@ -21,7 +21,7 @@ import CreateEvent from "./pages/organizer/createEvent/CreateEvent";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AllReview from "./pages/attendee/review/my-review/page";
 import EventDetail from "./pages/attendee/details/EventDetails";
-import Wishlist from "./pages/attendee/wishlist/page";
+import Wishlist from "./pages/attendee/wishlist/Wishlist";
 import OrganizerProfile from "./pages/organizer/organizerProfile/OrganizerProfile";
 import MarketingLayout from "./pages/organizer/marketing/MarketingLayout";
 import Promotions from "./pages/organizer/marketing/components/Promotions";

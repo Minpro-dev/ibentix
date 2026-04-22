@@ -1,4 +1,3 @@
-import { Filter } from "lucide-react";
 import { motion } from "framer-motion";
 
 export function Hero() {
@@ -20,17 +19,6 @@ export function Hero() {
           private viewings waiting to be finalized.
         </motion.p>
       </div>
-
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.2 }}
-        className="flex gap-3">
-        <button className="flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 rounded-full text-gray-700 font-semibold text-sm hover:bg-gray-50 transition-colors shadow-sm">
-          <Filter className="w-4 h-4" />
-          Refine
-        </button>
-      </motion.div>
     </div>
   );
 }
