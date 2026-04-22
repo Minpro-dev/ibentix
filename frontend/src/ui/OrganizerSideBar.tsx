@@ -23,8 +23,8 @@ function OrganizerSideBar({ user }: OrganizerSideBarProps) {
 
         {/* navigations */}
         <nav className="space-y-1">
-          {SIDEBAR_MENU.map((item) => (
-            <SideBarMenuItemOrganizer item={item} />
+          {SIDEBAR_MENU.map((item, index: number) => (
+            <SideBarMenuItemOrganizer key={index} item={item} />
           ))}
         </nav>
       </div>
