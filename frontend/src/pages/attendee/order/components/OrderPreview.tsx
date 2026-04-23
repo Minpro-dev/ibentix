@@ -17,6 +17,7 @@ interface OrderPreviewProps {
   totalPoints: number;
   finalPrice: number;
   referralCoupon: referralCouponType;
+  isPending: boolean;
 }
 
 function OrderPreview({
@@ -33,6 +34,7 @@ function OrderPreview({
   finalPrice,
   referralCoupon,
   handleReferralCoupon,
+  isPending,
 }: OrderPreviewProps) {
   return (
     <div className="sticky top-12 space-y-6">
@@ -144,8 +146,9 @@ function OrderPreview({
         <button
           form="order-submit"
           type="submit"
+          disabled={isPending}
           className="w-full py-4 cursor-pointer bg-gray-900 text-white rounded-2xl font-semibold text-sm hover:bg-black transition-all shadow-lg shadow-gray-200">
-          Proceed to Payment
+          {isPending ? "Hold on..." : "Proceed to Payment"}
         </button>
       </div>
 

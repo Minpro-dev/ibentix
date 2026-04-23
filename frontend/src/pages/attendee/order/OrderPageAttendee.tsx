@@ -159,6 +159,7 @@ export default function OrderPageAttendee() {
                 totalPoints={totalPointsUsed}
                 usePoints={usePoints}
                 userPoints={userPoints}
+                isPending={isPending}
               />
             )}
           </aside>
