@@ -34,7 +34,7 @@ function OrderPreview({
 
         {/* PROMO AUTO-APPLY SECTION */}
         <div className="space-y-3">
-          {appCoupon && (
+          {appCoupon && basePrice ? (
             <div className="flex items-center justify-between p-3 bg-green-50 rounded-xl text-green-700 text-xs font-medium">
               <div className="flex items-center gap-2">
                 <RiCoupon2Line />
@@ -42,8 +42,8 @@ function OrderPreview({
               </div>
               <span>-{appCoupon.discountAmount}%</span>
             </div>
-          )}
-          {eventCoupon && (
+          ) : null}
+          {eventCoupon && basePrice ? (
             <div className="flex items-center justify-between p-3 bg-indigo-50 rounded-xl text-indigo-700 text-xs font-medium">
               <div className="flex items-center gap-2">
                 <RiCoupon2Line />
@@ -51,7 +51,7 @@ function OrderPreview({
               </div>
               <span>-{eventCoupon.discountAmount}%</span>
             </div>
-          )}
+          ) : null}
         </div>
 
         {/* POINTS TOGGLE */}

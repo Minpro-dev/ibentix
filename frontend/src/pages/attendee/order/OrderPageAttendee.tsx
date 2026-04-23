@@ -1,18 +1,19 @@
 import { useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 import type { Event } from "../../../types/eventType";
-import {
-  getAppCoupons,
-  getEventCoupons,
-  getUserPoints,
-} from "../../../services/promoService";
-import { handleGetEventById } from "../../../services/eventService";
+
 import OrderEventPreview from "./components/OrderEventPreview";
 import AttendeeForm from "./components/AttendeeForm";
 import type { OrderFormValues } from "./types/orderAttendeeType";
 import OrderHeader from "./components/OrderHeader";
 import OrderPreview from "./components/OrderPreview";
+import { useFetchEventById } from "./hooks/useFetchEventById";
+import { useFetchAppCoupon } from "./hooks/useFetchAppCoupon";
+import { useFetchEventCoupon } from "./hooks/useFetchEventCoupon";
+import { useFetchUserPoints } from "./hooks/useFetchUserPoints";
+import { OrderPreviewSkeleton } from "./components/OrderPreviewSkeleton";
+import { OrderEventPreviewSkeleton } from "./components/OrderEventPreviewSkeleton";
+
 export default function OrderPageAttendee() {
   const { eventId } = useParams<{ eventId: string }>();
   const [searchParams] = useSearchParams();
@@ -20,28 +21,18 @@ export default function OrderPageAttendee() {
   const qty = parseInt(searchParams.get("qty") || "1");
   const [usePoints, setUsePoints] = useState(false);
 
-  // 1. Fetch Data Event
-  const { data: eventData, isLoading: eventLoading } = useQuery({
-    queryKey: ["event", eventId],
-    queryFn: () => handleGetEventById(eventId as string),
-  });
+  // fetch event
+  const { eventData, eventLoading } = useFetchEventById(eventId as string);
   const event: Event = eventData?.data?.data;
 
-  // 2. Fetch Promo Data (App Coupon, Event Coupon, Points)
-  const { data: appCouponData } = useQuery({
-    queryKey: ["appCoupons"],
-    queryFn: getAppCoupons,
-  });
+  // fetch (App Coupon, Event Coupon, Points)
+  const { appCouponData, appCouponLoading } = useFetchAppCoupon();
 
-  const { data: eventCouponData } = useQuery({
-    queryKey: ["eventCoupons", eventId],
-    queryFn: () => getEventCoupons(eventId!),
-  });
+  const { eventCouponData, eventCouponLoading } = useFetchEventCoupon(
+    eventId as string,
+  );
 
-  const { data: pointsData } = useQuery({
-    queryKey: ["userPoints"],
-    queryFn: getUserPoints,
-  });
+  const { pointsData, pointsDataLoading } = useFetchUserPoints();
 
   const appCoupon = appCouponData?.data?.data?.[0] || null;
   const eventCoupon = eventCouponData?.data?.data || null;
@@ -90,13 +81,6 @@ export default function OrderPageAttendee() {
   // final price
   const finalPrice = Math.max(0, basePrice - totalCouponDiscount - totalPoints);
 
-  if (eventLoading)
-    return (
-      <div className="p-20 min-h-dvh text-center text-sm text-gray-400">
-        Preparing your order...
-      </div>
-    );
-
   return (
     <div className="min-h-dvh bg-[#FCFCFC] text-gray-800 antialiased">
       <OrderHeader />
@@ -105,13 +89,17 @@ export default function OrderPageAttendee() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           {/* event preview */}
           <div className="lg:col-span-7 space-y-8">
-            <OrderEventPreview
-              city={event.city}
-              locationName={event.locationName}
-              qty={qty}
-              thumbnailUrl={event.thumbnailUrl}
-              title={event.title}
-            />
+            {eventLoading ? (
+              <OrderEventPreviewSkeleton />
+            ) : (
+              <OrderEventPreview
+                city={event.city}
+                locationName={event.locationName}
+                qty={qty}
+                thumbnailUrl={event.thumbnailUrl}
+                title={event.title}
+              />
+            )}
 
             {/* holder forms*/}
             <AttendeeForm handleSubmit={handleSubmit} qty={qty} />
@@ -119,18 +107,22 @@ export default function OrderPageAttendee() {
 
           {/* Order Summary */}
           <aside className="lg:col-span-5">
-            <OrderPreview
-              appCoupon={appCoupon}
-              basePrice={basePrice}
-              eventCoupon={eventCoupon}
-              finalPrice={finalPrice}
-              handleTogglePoints={handleTogglePoints}
-              qty={qty}
-              totalDiscount={totalCouponDiscount}
-              totalPoints={totalPoints}
-              usePoints={usePoints}
-              userPoints={userPoints}
-            />
+            {appCouponLoading || eventCouponLoading || pointsDataLoading ? (
+              <OrderPreviewSkeleton />
+            ) : (
+              <OrderPreview
+                appCoupon={appCoupon}
+                basePrice={basePrice}
+                eventCoupon={eventCoupon}
+                finalPrice={finalPrice}
+                handleTogglePoints={handleTogglePoints}
+                qty={qty}
+                totalDiscount={totalCouponDiscount}
+                totalPoints={totalPoints}
+                usePoints={usePoints}
+                userPoints={userPoints}
+              />
+            )}
           </aside>
         </div>
       </main>
