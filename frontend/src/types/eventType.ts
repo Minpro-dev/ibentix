@@ -26,7 +26,7 @@ export interface Event {
   price: string;
   slug: string;
   startSellingDate: string;
-  thumbnailUrl?: string;
+  thumbnailUrl: string | null;
   title: string;
   updatedAt: string;
   userId: string;
