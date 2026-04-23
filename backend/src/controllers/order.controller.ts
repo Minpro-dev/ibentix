@@ -38,6 +38,8 @@ export const orderController = {
   // ------ GET ALL ORDER WITH FILTER
   getAllOrders: catchAsync(async (req: Request, res: Response) => {
     const userId = req.user?.userId;
+    const userRole = req.user?.role;
+
     const limit = Number(req.query.limit) || 10;
     const page = Number(req.query.page) || 1;
     const { orders, totalData, totalPage } = await orderSerivice.getAllOrders({
@@ -45,6 +47,7 @@ export const orderController = {
       limit,
       page,
       userId,
+      userRole,
     });
 
     res.status(200).json({

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { handleGetAllOrderByStatus } from "../../../../services/OrderService";
+import { handleGetAllOrderByStatus } from "../../../../services/orderService";
 
 export const useFetchNewOrder = (
   orderStatus: string[],

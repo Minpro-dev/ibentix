@@ -32,6 +32,7 @@ import OrderNewOrganizer from "./pages/organizer/order/components/OrderNewOrgani
 import CompletedOrderOrganizer from "./pages/organizer/order/components/CompletedOrderOrganizer";
 import ProfileDetails from "./pages/organizer/profile/ProfileDetails";
 import OrderPageAttendee from "./pages/attendee/order/OrderPageAttendee";
+import OrderPayment from "./pages/attendee/payment/OrderPayment";
 
 const router = createBrowserRouter([
   {
@@ -78,14 +79,14 @@ const router = createBrowserRouter([
           //</PrivateRoute>
         ),
       },
-      // {
-      //   path: "payment",
-      //   element: (
-      //     //<PrivateRoute allowedRoles={["ATTENDEE"]}>
-      //     <Payment />
-      //     //</PrivateRoute>
-      //   ),
-      // },
+      {
+        path: "payment",
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <OrderPayment />
+          //</PrivateRoute>
+        ),
+      },
       {
         path: "review",
         element: (

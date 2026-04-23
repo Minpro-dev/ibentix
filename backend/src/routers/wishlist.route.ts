@@ -12,6 +12,6 @@ const router = Router();
 router.post("/:eventId", authentication, toggleWishlist);
 
 // GET MY WISHLIST
-router.get("/", authentication, getWishlist);
+router.get("/", getWishlist);
 
 export default router;

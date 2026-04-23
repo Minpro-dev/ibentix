@@ -233,6 +233,7 @@ export const orderSerivice = {
     lastOneMonth,
     newest,
     oldest,
+    userRole,
   }: any) => {
     //filter & search params :
     // - limit
@@ -250,7 +251,8 @@ export const orderSerivice = {
     const offset = (page - 1) * limit;
 
     const where: OrderWhereInput = {
-      event: { userId },
+      userId: userRole === "ATTENDEE" ? userId : undefined,
+      event: userRole === "ORGANIZER" ? { userId } : {},
     };
 
     const orderBy: OrderOrderByWithRelationInput = {};

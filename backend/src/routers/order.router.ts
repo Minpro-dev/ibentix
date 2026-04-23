@@ -19,7 +19,7 @@ route.post(
 route.get(
   "/",
   authentication,
-  authorization("ORGANIZER"),
+  authorization("ORGANIZER", "ATTENDEE"),
   orderController.getAllOrders,
 );
 

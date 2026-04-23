@@ -1,15 +1,5 @@
 import api from "../api/axiosInstance";
-
-// create order -> untuk dipanggil di payment
-export const handleCreateOrder = async (data: any) => {
-  const res = await api.post("/order", data, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
-
-  return res;
-};
+import type { createOrderPayloadType } from "../pages/attendee/order/types/createOrderPayloadType";
 
 // get all order by status
 export const handleGetAllOrderByStatus = async (
@@ -37,4 +27,9 @@ export const handleChangeSatatus = async (
     orderId,
     paymentStatus,
   });
+};
+
+// create order
+export const handleCreateOrder = async (payload: createOrderPayloadType) => {
+  return await api.post("/order", payload);
 };

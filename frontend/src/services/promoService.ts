@@ -11,3 +11,7 @@ export const getEventCoupons = async (eventId: string) => {
 export const getUserPoints = async () => {
   return await api.get("/point");
 };
+
+export const getReferralCoupons = async () => {
+  return await api.get("/referral-coupon");
+};

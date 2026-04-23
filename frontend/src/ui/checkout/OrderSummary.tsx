@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // 1. Import useNavigate
 import { useOrderStore } from "../../store/useOrderStore";
 import { eventService } from "../../services/CreateOrderService/api";
-import { handleCreateOrder } from "../../services/OrderService";
+import { handleCreateOrder } from "../../services/orderService";
 
 export const OrderSummary: React.FC = () => {
   const navigate = useNavigate(); // 2. Inisialisasi navigate
