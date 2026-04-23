@@ -4,7 +4,7 @@ import {
   getWishlist,
   //   checkWishlist,
 } from "../controllers/wishlist.controller";
-import { authentication, authorization } from "../middleware/auth.middleware";
+import { authentication } from "../middleware/auth.middleware";
 
 const router = Router();
 

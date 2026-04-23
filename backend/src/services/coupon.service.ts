@@ -96,6 +96,10 @@ export const couponService = {
       },
     });
 
+    if (!cuoponDetails) {
+      return null;
+    }
+
     console.log("coupon details", cuoponDetails);
 
     // check the coupon in order

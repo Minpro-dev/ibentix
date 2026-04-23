@@ -66,16 +66,6 @@ const Navbar = () => {
 
           {/* Nav Links & Profile */}
           <div className="flex items-center gap-2 sm:gap-6">
-            {/*  Create Event (Desktop) */}
-            {user && (
-              <button
-                onClick={() => navigate("/create-event")}
-                className="hidden md:flex flex-col items-center text-zinc-500 hover:text-indigo-600 transition-colors">
-                <PlusCircle size={20} />
-                <span className="text-[10px] font-medium mt-1">Create</span>
-              </button>
-            )}
-
             {/* 4) Favorites */}
             <button
               onClick={() => navigate("/wishlist")}
