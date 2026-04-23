@@ -26,12 +26,12 @@ import OrganizerProfile from "./pages/organizer/organizerProfile/OrganizerProfil
 import MarketingLayout from "./pages/organizer/marketing/MarketingLayout";
 import Promotions from "./pages/organizer/marketing/components/Promotions";
 import CreatePromotion from "./pages/organizer/marketing/components/CreatePromotion";
-import CreateOrder from "./pages/attendee/order/create-order/CheckoutPage";
 import OrganizerReviews from "./pages/organizer/review/OrganizerReview";
 import OrderOrganizerLayout from "./pages/organizer/order/OrderOrganizerLayout";
 import OrderNewOrganizer from "./pages/organizer/order/components/OrderNewOrganizer";
 import CompletedOrderOrganizer from "./pages/organizer/order/components/CompletedOrderOrganizer";
 import ProfileDetails from "./pages/organizer/profile/ProfileDetails";
+import OrderPageAttendee from "./pages/attendee/order/OrderPageAttendee";
 
 const router = createBrowserRouter([
   {
@@ -55,7 +55,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "details", // ✅ ADD THIS
+        path: "details",
         element: (
           // <PrivateRoute allowedRoles={["ATTENDEE"]}>
           <Profile />
@@ -63,7 +63,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "myticket", // Tambahkan di sini
+        path: "myticket",
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
           <Ticket />
@@ -71,7 +71,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "events", // Tambahkan di sini
+        path: "events",
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
           <Events />
@@ -79,7 +79,7 @@ const router = createBrowserRouter([
         ),
       },
       // {
-      //   path: "payment", // Tambahkan di sini
+      //   path: "payment",
       //   element: (
       //     //<PrivateRoute allowedRoles={["ATTENDEE"]}>
       //     <Payment />
@@ -87,7 +87,7 @@ const router = createBrowserRouter([
       //   ),
       // },
       {
-        path: "review", // Tambahkan di sini
+        path: "review",
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
           <Review />
@@ -95,7 +95,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "myreview", // Tambahkan di sini
+        path: "myreview",
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
           <AllReview />
@@ -103,7 +103,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "events/:slug", // Tambahkan di sini
+        path: "events/:slug",
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
           <EventDetail />
@@ -111,7 +111,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "wishlist", // Tambahkan di sini
+        path: "wishlist",
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
           <Wishlist />
@@ -119,10 +119,10 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "order", // Tambahkan di sini
+        path: "order/:eventId",
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <CreateOrder />
+          <OrderPageAttendee />
           //</PrivateRoute>
         ),
       },
