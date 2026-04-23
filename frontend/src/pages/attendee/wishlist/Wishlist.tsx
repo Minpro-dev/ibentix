@@ -1,6 +1,5 @@
 import { Hero } from "../../../ui/HeroWishlist";
 import { EventGrid } from "./components/EventGrid";
-import { MobileNav } from "../../../ui/MobileNav";
 
 export default function Wishlist() {
   return (
@@ -9,8 +8,6 @@ export default function Wishlist() {
         <Hero />
         <EventGrid />
       </main>
-
-      <MobileNav />
     </div>
   );
 }

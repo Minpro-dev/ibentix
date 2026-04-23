@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 
 export const useToggleWishlist = () => {
   const setIds = useEventWishlistStore((state) => state.setIds);
+  const toggleWishlist = useEventWishlistStore((state) => state.toggleWishlist);
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -19,7 +20,7 @@ export const useToggleWishlist = () => {
       // save snapshot
       const previousWishlist = queryClient.getQueryData(["wishlist"]);
 
-      setIds(eventId);
+      toggleWishlist(eventId);
 
       return { previousWishlist };
     },
@@ -34,6 +35,7 @@ export const useToggleWishlist = () => {
     onSettled: () => {
       //syncronize
       queryClient.invalidateQueries({ queryKey: ["wishlist"] });
+      queryClient.invalidateQueries({ queryKey: ["events"] });
     },
   });
 };
