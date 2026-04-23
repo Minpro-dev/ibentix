@@ -23,6 +23,9 @@ const EventCard = ({ event }: EventCardProps) => {
   const mutation = useToggleWishlist();
   const navigate = useNavigate();
 
+  console.log(wishlistIds);
+  console.log(event.eventId);
+
   const handleToggleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
     mutation.mutate(event.eventId);

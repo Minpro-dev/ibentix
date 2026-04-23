@@ -1,8 +1,7 @@
 import { About } from "../../../ui/About";
 import { Location } from "../../../ui/Location";
-import { Footer } from "../../../ui/Footer";
 import { Sidebar } from "../../../ui/Sidebar";
-import { MobileNav } from "../../../ui/MobileNav";
+
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
@@ -44,9 +43,6 @@ export default function EventDetails() {
           </aside>
         </div>
       </main>
-
-      <Footer />
-      <MobileNav />
     </div>
   );
 }
