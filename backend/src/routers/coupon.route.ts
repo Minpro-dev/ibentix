@@ -42,7 +42,6 @@ route.get(
   "/details/by-event/:eventId",
   authentication,
   authorization("ATTENDEE"),
-  // validate(getCouponDetailsSchema),
   couponController.getCouponByEvent,
 );
 

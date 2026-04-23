@@ -96,11 +96,10 @@ export const couponService = {
       },
     });
 
+    console.log("coupon details", cuoponDetails);
     if (!cuoponDetails) {
       return null;
     }
-
-    console.log("coupon details", cuoponDetails);
 
     // check the coupon in order
     const checkOrderDetails = await prisma.order.findMany({
@@ -119,7 +118,7 @@ export const couponService = {
       },
     });
 
-    console.log("checkOrderDetails", checkOrderDetails);
+    console.log("checkOrderDetails -->", checkOrderDetails);
 
     // return data
     return checkOrderDetails.length ? null : cuoponDetails;
