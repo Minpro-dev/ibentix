@@ -8,13 +8,18 @@ import ReviewForm from "./components/ReviewForm";
 import { updatePaymentStatus } from "../../../services/paymentService";
 import PaymentUploadModal from "./components/PaymentUploadModal";
 import { useState } from "react";
+import { useFetchCurrentReview } from "./hooks/useFetchCurrentReview";
+import ReviewResultCard from "./components/ReviewResultCard";
 
 export default function OrderDetailsPage() {
   const [isOpen, setIsOpen] = useState(false);
   const queryClient = useQueryClient();
   const { orderId } = useParams();
 
-  const { data: order, isLoading } = useQuery({
+  const { data: review, isLoading: isCurrentReviewLoading } =
+    useFetchCurrentReview(orderId as string);
+
+  const { data: order, isLoading: isOrderLoading } = useQuery({
     queryKey: ["order", orderId],
     queryFn: () => getOrderDetails(orderId!),
   });
@@ -42,11 +47,10 @@ export default function OrderDetailsPage() {
     }
   });
 
-  console.log("timeLeft", timeLeft);
-
   // Review can be add after the eventDate (1 day)
   const isEligibleForReview = () => {
-    if (!order || order?.payment.paymentStatus !== "DONE") return false;
+    if (!order || order?.payment.paymentStatus !== "DONE" || review)
+      return false;
     const eventDate = new Date(order.event.eventDate).getTime();
     const oneDayAfter = eventDate + 24 * 60 * 60 * 1000;
     return new Date().getTime() >= oneDayAfter;
@@ -115,6 +119,12 @@ export default function OrderDetailsPage() {
           </button>
         ) : isEligibleForReview() ? (
           <ReviewForm orderId={order?.orderId} eventId={order?.eventId} />
+        ) : review ? (
+          <ReviewResultCard
+            description={review?.description}
+            rating={review?.rating}
+            title={review?.title}
+          />
         ) : (
           <div className="text-center p-6 bg-gray-50 rounded-2xl text-xs text-gray-400">
             {order?.payment.paymentStatus === "DONE"

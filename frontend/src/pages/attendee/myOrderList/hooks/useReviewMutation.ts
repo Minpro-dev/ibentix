@@ -17,6 +17,7 @@ export const useReviewMutation = () => {
       });
       // Refresh data order biar tombol review hilang/berubah
       queryClient.invalidateQueries({ queryKey: ["order", "details"] });
+      queryClient.invalidateQueries({ queryKey: ["current-review"] });
     },
     onError: (error: any) => {
       Swal.fire({
