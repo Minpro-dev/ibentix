@@ -16,10 +16,9 @@ export default function OrderDetailsPage() {
   const queryClient = useQueryClient();
   const { orderId } = useParams();
 
-  const { data: review, isLoading: isCurrentReviewLoading } =
-    useFetchCurrentReview(orderId as string);
+  const { data: review } = useFetchCurrentReview(orderId as string);
 
-  const { data: order, isLoading: isOrderLoading } = useQuery({
+  const { data: order } = useQuery({
     queryKey: ["order", orderId],
     queryFn: () => getOrderDetails(orderId!),
   });

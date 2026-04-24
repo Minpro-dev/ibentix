@@ -12,8 +12,10 @@ import {
 } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
 import Button from "./Button";
-import { useLocation, useNavigate } from "react-router-dom"; // Tambahkan Link jika menggunakan react-router
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEventStore } from "../store/useEventStore";
+import { capitalize } from "../utils/capitalize";
+import { useFetchUserPoints } from "../pages/attendee/order/hooks/useFetchUserPoints";
 
 const Navbar = () => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
@@ -23,7 +25,8 @@ const Navbar = () => {
   const logout = useAuthStore((state) => state.clearAuth);
   const setSearch = useEventStore((state) => state.setSearch);
   const search = useEventStore((state) => state.search);
-
+  const { pointsData, pointsDataLoading } = useFetchUserPoints();
+  const userPoints = pointsData?.data.points;
   const location = useLocation();
   console.log("location", location);
 
@@ -66,7 +69,7 @@ const Navbar = () => {
 
           {/* Nav Links & Profile */}
           <div className="flex items-center gap-2 sm:gap-6">
-            {/* 4) Favorites */}
+            {/* favorites */}
             <button
               onClick={() => navigate("/wishlist")}
               className="hidden md:flex flex-col items-center text-zinc-500 hover:text-indigo-600 transition-colors cursor-pointer">
@@ -74,15 +77,15 @@ const Navbar = () => {
               <span className="text-[10px] font-medium mt-1">Favorites</span>
             </button>
 
-            {/* 5) Tickets */}
+            {/* tickets */}
             <button
               onClick={() => navigate("/myticket")}
-              className="hidden md:flex flex-col items-center text-zinc-500 hover:text-indigo-600 transition-colors">
+              className="hidden cursor-pointer md:flex flex-col items-center text-zinc-500 hover:text-indigo-600 transition-colors">
               <Ticket size={20} />
               <span className="text-[10px] font-medium mt-1">Tickets</span>
             </button>
 
-            {/* 6) Profile with Hover Popover */}
+            {/* profile */}
             {user ? (
               <div
                 className="relative py-2"
@@ -101,7 +104,7 @@ const Navbar = () => {
                     <div className="flex items-center gap-1 mt-1">
                       <Coins size={10} className="text-indigo-600" />
                       <p className="text-[10px] font-bold text-indigo-600">
-                        IDR 2,000
+                        IDR {userPoints?.toLocaleString("id-ID")}
                       </p>
                     </div>
                   </div>
@@ -111,11 +114,11 @@ const Navbar = () => {
                 {isProfileOpen && (
                   <div className="absolute right-0 mt-0 w-56 bg-white border border-slate-100 rounded-xl shadow-xl py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                     <div className="px-4 py-2 border-b border-slate-50 lg:hidden">
-                      <p className="text-sm font-bold text-zinc-900">
-                        {user.firstName} {user.lastName}
+                      <p className="text-sm pb-2 font-bold text-zinc-900">
+                        {capitalize(user.firstName)} {capitalize(user.lastName)}
                       </p>
                       <p className="text-xs text-indigo-600 font-bold">
-                        IDR 2,000
+                        IDR {userPoints?.toLocaleString("id-ID")}
                       </p>
                     </div>
 

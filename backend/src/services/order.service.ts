@@ -120,7 +120,9 @@ export const orderSerivice = {
     const orderData: any = await prisma.$transaction(async (tx) => {
       // CREATE PAYMENT
       const payment = await tx.payment.create({
-        data: {},
+        data: {
+          paymentStatus: !Number(unitPrice) ? "DONE" : "WAITING_FOR_PAYMENT",
+        },
       });
 
       //ORDER TRANSACTIONS
