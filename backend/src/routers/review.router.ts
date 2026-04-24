@@ -29,7 +29,7 @@ route.get(
 route.get(
   "/",
   authentication,
-  authorization("ORGANIZER"),
+  authorization("ORGANIZER", "ATTENDEE"),
   reviewController.getAllReviesData,
 );
 

@@ -85,7 +85,7 @@ export default function EventDetailsPage() {
             {/* organizer profile */}
             <div className="py-8 border-t border-gray-100">
               <OrganizerCard
-                averageRating={reviewData?.averageRating}
+                averageRating={reviewData?.averageRatings}
                 image={event?.organizer?.image}
                 name={event?.organizer?.name}
               />
