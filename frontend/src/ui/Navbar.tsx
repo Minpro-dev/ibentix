@@ -7,8 +7,8 @@ import {
   Settings,
   Compass,
   Coins,
-  PlusCircle,
   X,
+  ListOrdered,
 } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
 import Button from "./Button";
@@ -119,27 +119,25 @@ const Navbar = () => {
                       </p>
                     </div>
 
-                    {/* Create Event (Mobile Dropdown Only) */}
-                    <button
-                      onClick={() => navigate("/create-event")}
-                      className="flex md:hidden items-center gap-3 px-4 py-2 text-sm text-indigo-600 font-semibold hover:bg-slate-50">
-                      <PlusCircle size={16} /> Create Event
-                    </button>
-
                     <button
                       onClick={() => navigate("/events")}
-                      className="flex items-center gap-3 px-4 py-2 text-sm text-zinc-600 hover:bg-slate-50 hover:text-indigo-600 w-full text-left">
+                      className="flex items-center cursor-pointer gap-3 px-4 py-2 text-sm text-zinc-600 hover:bg-slate-50 hover:text-indigo-600 w-full text-left">
                       <Compass size={16} /> Browse Events
                     </button>
                     <button
+                      onClick={() => navigate("/my-orders")}
+                      className="flex cursor-pointer items-center gap-3 px-4 py-2 text-sm text-zinc-600 hover:bg-slate-50 hover:text-indigo-600 w-full text-left">
+                      <ListOrdered size={16} /> My Orders
+                    </button>
+                    <button
                       onClick={() => navigate("/details")}
-                      className="flex items-center gap-3 px-4 py-2 text-sm text-zinc-600 hover:bg-slate-50 w-full text-left">
+                      className="flex items-center cursor-pointer gap-3 px-4 py-2 text-sm text-zinc-600 hover:bg-slate-50 w-full text-left">
                       <Settings size={16} /> Account Settings
                     </button>
                     <div className="border-t border-slate-50 mt-2 pt-2">
                       <button
                         onClick={logout}
-                        className="flex items-center gap-3 px-4 py-2 text-sm text-red-500 hover:bg-red-50 w-full text-left">
+                        className="flex items-center cursor-pointer gap-3 px-4 py-2 text-sm text-red-500 hover:bg-red-50 w-full text-left">
                         <LogOut size={16} /> Logout
                       </button>
                     </div>

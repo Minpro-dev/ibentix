@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import type { Event } from "../../../types/eventType";
 
 import OrderEventPreview from "./components/OrderEventPreview";
@@ -71,14 +71,12 @@ export default function OrderPageAttendee() {
     confirmOrder(() => {
       mutate(payload);
     });
-
-    // navigate(`/payment/${eventId}`, { state: payload });
   };
 
-  // 1. Harga Dasar (Total awal)
+  // Harga Dasar (Total awal)
   const basePrice = event ? Number(event.price) * qty : 0;
 
-  // 2. Diskon Pertama: Event Coupon (Misal 20%)
+  // Diskon Pertama: Event Coupon (Misal 20%)
   const discountEvent = eventCoupon
     ? basePrice * (Number(eventCoupon.discountAmount) / 100)
     : 0;
@@ -86,7 +84,7 @@ export default function OrderPageAttendee() {
   // Update harga setelah diskon pertama
   const priceAfterEvent = basePrice - discountEvent;
 
-  // 3. Diskon Kedua: Referral Coupon (Misal 10%) dari harga sisa
+  // Diskon Kedua: Referral Coupon (Misal 10%) dari harga sisa
   const discountReferral =
     useReferralCoupon && referralCoupon
       ? priceAfterEvent * (Number(referralCoupon.discountAmount) / 100)
@@ -95,18 +93,18 @@ export default function OrderPageAttendee() {
   // Update harga setelah diskon kedua
   const priceAfterReferral = priceAfterEvent - discountReferral;
 
-  // 4. Diskon Ketiga: App Coupon (Misal 5%) dari harga sisa terakhir
+  // Diskon Ketiga: App Coupon (Misal 5%) dari harga sisa terakhir
   const discountApp = appCoupon
     ? priceAfterReferral * (Number(appCoupon.discountAmount) / 100)
     : 0;
 
-  // 5. Total potongan dari semua kupon (untuk display di UI)
+  // Total potongan dari semua kupon (untuk display di UI)
   const totalCouponDiscount = discountEvent + discountReferral + discountApp;
 
-  // 6. Potongan Nominal: Points (Paling akhir)
+  // Potongan Nominal: Points (Paling akhir)
   const totalPointsUsed = usePoints && userPoints ? Number(userPoints) : 0;
 
-  // 7. Harga Akhir (Final Price)
+  // Harga Akhir (Final Price)
   // Pastikan tidak minus dengan Math.max
   const finalPrice = Math.max(
     0,

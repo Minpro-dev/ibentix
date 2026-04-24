@@ -343,6 +343,7 @@ export const orderSerivice = {
         include: {
           tickets: true,
           payment: true,
+          event: true,
         },
       });
 

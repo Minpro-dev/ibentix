@@ -8,3 +8,14 @@ export const handleGetReviewData = async (page: number) => {
     },
   });
 };
+
+export const postReview = async (payload: {
+  orderId: string;
+  eventId: string;
+  rating: number;
+  title: string;
+  description: string;
+  isAnonymous: boolean;
+}) => {
+  return await api.post("/review", payload);
+};

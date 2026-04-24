@@ -11,7 +11,6 @@ export const useOrderMutation = () => {
     mutationFn: (payload: createOrderPayloadType) => handleCreateOrder(payload),
 
     onSuccess: (res) => {
-      // SWAL Sukses
       Swal.fire({
         title: "Order Placed!",
         text: "Your order has been created successfully. Redirecting to payment...",
@@ -19,11 +18,11 @@ export const useOrderMutation = () => {
         showConfirmButton: false,
         timer: 2000,
         customClass: {
-          popup: "rounded-3xl", // Menjaga konsistensi minimalist rounded
+          popup: "rounded-3xl",
         },
       }).then(() => {
         const orderId = res.data?.data?.orderId;
-        navigate(`/payment/${orderId}`);
+        navigate(`/my-orders/${orderId}`);
       });
     },
 
@@ -34,7 +33,7 @@ export const useOrderMutation = () => {
           error.response?.data?.message ||
           "Something went wrong, please try again.",
         icon: "error",
-        confirmButtonColor: "#4f46e5", // Indigo-600
+        confirmButtonColor: "#4f46e5",
         customClass: {
           popup: "rounded-3xl",
         },

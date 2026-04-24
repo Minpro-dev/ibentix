@@ -1,4 +1,5 @@
 import api from "../api/axiosInstance";
+import type { OrderListResponse } from "../pages/attendee/myOrderList/types/myOrderType";
 import type { createOrderPayloadType } from "../pages/attendee/order/types/createOrderPayloadType";
 
 // get all order by status
@@ -32,4 +33,22 @@ export const handleChangeSatatus = async (
 // create order
 export const handleCreateOrder = async (payload: createOrderPayloadType) => {
   return await api.post("/order", payload);
+};
+
+// get all order (attendee)
+export const getMyOrders = async (page: number): Promise<OrderListResponse> => {
+  const res = await api.get("/order", {
+    params: {
+      page,
+      newest: "true",
+    },
+  });
+
+  return res.data;
+};
+
+// get order details by Id
+export const getOrderDetails = async (orderId: string) => {
+  const res = await api.get(`/order/details/${orderId}`);
+  return res.data.data;
 };
