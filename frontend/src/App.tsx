@@ -10,10 +10,12 @@ import { useAuthStore } from "./store/useAuthStore";
 import Unauthorized from "./ui/Unauthorized";
 import PrivateRoute from "./ui/PrivateRoute";
 import ResetPasswordPage from "./pages/resetPassword/ResetPasswordPage";
-import Profile from "./pages/attendee/profile/page";
+import EditProfile from "./pages/attendee/profile/edit-profile/EditProfile";
+import ProfilePage from "./pages/attendee/profile/ProfilePage"
 import Ticket from "./pages/attendee/ticket/ticket";
 import Events from "./pages/attendee/events/Events";
-import Payment from "./pages/payment/page";
+
+// import Payment from "./pages/attendee/ticket/ticket;
 import Review from "./pages/attendee/review/page";
 import AppLayoutOrganizer from "./ui/AppLayoutOrganizer";
 import EventsOrganizer from "./pages/organizer/events/EventsOrganizer";
@@ -26,12 +28,13 @@ import OrganizerProfile from "./pages/organizer/organizerProfile/OrganizerProfil
 import MarketingLayout from "./pages/organizer/marketing/MarketingLayout";
 import Promotions from "./pages/organizer/marketing/components/Promotions";
 import CreatePromotion from "./pages/organizer/marketing/components/CreatePromotion";
-import CreateOrder from "./pages/attendee/order/create-order/CheckoutPage";
+import CreateOrder from "./pages/attendee/order/checkout-page/CheckoutPage";
 import OrganizerReviews from "./pages/organizer/review/OrganizerReview";
 import OrderOrganizerLayout from "./pages/organizer/order/OrderOrganizerLayout";
 import OrderNewOrganizer from "./pages/organizer/order/components/OrderNewOrganizer";
 import CompletedOrderOrganizer from "./pages/organizer/order/components/CompletedOrderOrganizer";
 import ProfileDetails from "./pages/organizer/profile/ProfileDetails";
+
 
 const router = createBrowserRouter([
   {
@@ -55,10 +58,18 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "details", // ✅ ADD THIS
+        path: "profile", // ✅ ADD THIS
         element: (
           // <PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <Profile />
+          <ProfilePage />
+          // </PrivateRoute>
+        ),
+      },
+      {
+        path: "edit", // ✅ ADD THIS
+        element: (
+          // <PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <EditProfile />
           // </PrivateRoute>
         ),
       },
@@ -78,14 +89,14 @@ const router = createBrowserRouter([
           //</PrivateRoute>
         ),
       },
-      {
-        path: "payment", // Tambahkan di sini
-        element: (
-          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <Payment />
-          //</PrivateRoute>
-        ),
-      },
+      // {
+      //   path: "payment", // Tambahkan di sini
+      //   element: (
+      //     //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+      //     <Payment />
+      //     //</PrivateRoute>
+      //   ),
+      // },
       {
         path: "review", // Tambahkan di sini
         element: (
@@ -118,14 +129,14 @@ const router = createBrowserRouter([
           //</PrivateRoute>
         ),
       },
-      {
-        path: "order", // Tambahkan di sini
-        element: (
-          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <CreateOrder />
-          //</PrivateRoute>
-        ),
-      },
+      // {
+      //   path: "order", // Tambahkan di sini
+      //   element: (
+      //     //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+      //     <CreateOrder />
+      //     //</PrivateRoute>
+      //   ),
+      // },
       {
         path: "unauthorized",
         element: <Unauthorized />,

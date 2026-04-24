@@ -14,6 +14,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<Tab>("ACTIVE");
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [loading, setLoading] = useState(true);
+  const [payTicket] = useState<Ticket[]>([]);;
 
   useEffect(() => {
     async function loadData() {

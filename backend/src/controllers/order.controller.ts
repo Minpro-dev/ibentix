@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { catchAsync } from "../utils/catchAsync";
-import { orderSerivice } from "../services/order.service";
+import { orderService } from "../services/order.service";
 import { Role } from "../../generated/prisma/enums";
 import { CreateOrerSchema } from "../schemas/order.schema";
 
@@ -17,7 +17,7 @@ export const orderController = {
         tickets,
       } = req.body;
 
-      const orderData = await orderSerivice.createOrder({
+      const orderData = await orderService.createOrder({
         userId,
         eventId,
         isPointsUsed,
@@ -40,7 +40,7 @@ export const orderController = {
     const userId = req.user?.userId;
     const limit = Number(req.query.limit) || 10;
     const page = Number(req.query.page) || 1;
-    const { orders, totalData, totalPage } = await orderSerivice.getAllOrders({
+    const { orders, totalData, totalPage } = await orderService.getAllOrders({
       ...req.query,
       limit,
       page,
@@ -62,7 +62,7 @@ export const orderController = {
     const userRole = req.user?.role as Role;
     const orderId = req.params.orderId as string;
 
-    const orderDetails = await orderSerivice.getOrderDetails(
+    const orderDetails = await orderService.getOrderDetails(
       userId,
       userRole,
       orderId,
