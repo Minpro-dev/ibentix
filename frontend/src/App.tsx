@@ -12,10 +12,9 @@ import PrivateRoute from "./ui/PrivateRoute";
 import ResetPasswordPage from "./pages/resetPassword/ResetPasswordPage";
 import EditProfile from "./pages/attendee/profile/edit-profile/EditProfile";
 import ProfilePage from "./pages/attendee/profile/ProfilePage"
-import Ticket from "./pages/attendee/ticket/ticket";
+import TicketPage from "./pages/attendee/ticket/TicketPage";
 import Events from "./pages/attendee/events/Events";
-
-// import Payment from "./pages/attendee/ticket/ticket;
+import PaymentPage from "./pages/attendee/payment/page";
 import Review from "./pages/attendee/review/page";
 import AppLayoutOrganizer from "./ui/AppLayoutOrganizer";
 import EventsOrganizer from "./pages/organizer/events/EventsOrganizer";
@@ -23,17 +22,17 @@ import CreateEvent from "./pages/organizer/createEvent/CreateEvent";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AllReview from "./pages/attendee/review/my-review/page";
 import EventDetail from "./pages/attendee/details/EventDetails";
-import Wishlist from "./pages/attendee/wishlist/page";
+import Wishlist from "./pages/attendee/wishlist/Wishlist";
 import OrganizerProfile from "./pages/organizer/organizerProfile/OrganizerProfile";
 import MarketingLayout from "./pages/organizer/marketing/MarketingLayout";
 import Promotions from "./pages/organizer/marketing/components/Promotions";
 import CreatePromotion from "./pages/organizer/marketing/components/CreatePromotion";
-import CreateOrder from "./pages/attendee/order/checkout-page/CheckoutPage";
 import OrganizerReviews from "./pages/organizer/review/OrganizerReview";
 import OrderOrganizerLayout from "./pages/organizer/order/OrderOrganizerLayout";
 import OrderNewOrganizer from "./pages/organizer/order/components/OrderNewOrganizer";
 import CompletedOrderOrganizer from "./pages/organizer/order/components/CompletedOrderOrganizer";
 import ProfileDetails from "./pages/organizer/profile/ProfileDetails";
+import OrderPageAttendee from "./pages/attendee/order/OrderPageAttendee";
 
 
 const router = createBrowserRouter([
@@ -74,31 +73,31 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "myticket", // Tambahkan di sini
+        path: "myticket",
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <Ticket />
+          <TicketPage />
           //</PrivateRoute>
         ),
       },
       {
-        path: "events", // Tambahkan di sini
+        path: "events",
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
           <Events />
           //</PrivateRoute>
         ),
       },
-      // {
-      //   path: "payment", // Tambahkan di sini
-      //   element: (
-      //     //<PrivateRoute allowedRoles={["ATTENDEE"]}>
-      //     <Payment />
-      //     //</PrivateRoute>
-      //   ),
-      // },
       {
-        path: "review", // Tambahkan di sini
+        path: "payment",
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <PaymentPage />
+          //</PrivateRoute>
+        ),
+      },
+      {
+        path: "review",
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
           <Review />
@@ -106,7 +105,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "myreview", // Tambahkan di sini
+        path: "myreview",
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
           <AllReview />
@@ -114,7 +113,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "events/:slug", // Tambahkan di sini
+        path: "events/:slug",
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
           <EventDetail />
@@ -122,21 +121,21 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "wishlist", // Tambahkan di sini
+        path: "wishlist",
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
           <Wishlist />
           //</PrivateRoute>
         ),
       },
-      // {
-      //   path: "order", // Tambahkan di sini
-      //   element: (
-      //     //<PrivateRoute allowedRoles={["ATTENDEE"]}>
-      //     <CreateOrder />
-      //     //</PrivateRoute>
-      //   ),
-      // },
+      {
+        path: "order/:eventId",
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <OrderPageAttendee />
+          //</PrivateRoute>
+        ),
+      },
       {
         path: "unauthorized",
         element: <Unauthorized />,

@@ -9,6 +9,8 @@ export const useFetchNewOrder = (
   const { data, isLoading } = useQuery({
     queryKey: ["orders", page],
     queryFn: () => handleGetAllOrderByStatus(orderStatus, newest, page),
+    refetchInterval: 30000,
+    refetchIntervalInBackground: true,
   });
 
   return { data, isLoading };

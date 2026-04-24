@@ -15,6 +15,7 @@ import pointRouter from "./routers/point.route";
 import referralCouponRouter from "./routers/referralCoupon.route";
 import reviewRouter from "./routers/review.router";
 import statisticsRoute from "./routers/statistics.route";
+import { initCronJobs } from "./jobs/cron";
 
 const app: Express = express();
 
@@ -78,4 +79,5 @@ app.use(globalErrorHandler);
 //app config
 app.listen(PORT, () => {
   console.log(`🦄 Server is running in port ${PORT}`);
+  initCronJobs();
 });

@@ -56,7 +56,7 @@ export function HomePage() {
           {/* Wrapper Slider */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
             {trendingEvents?.map((event: Event) => (
-              <EventCard event={event} />
+              <EventCard key={event.eventId} event={event} />
             ))}
           </div>
         </section>

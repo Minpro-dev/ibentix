@@ -33,7 +33,7 @@ const Navbar = () => {
     <nav className="sticky top-0 z-50 bg-white border-b border-slate-100 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 gap-4">
-          {/* 1) Logo */}
+          {/*  Logo */}
           <div
             onClick={() => navigate("/")}
             className="flex items-center gap-2 shrink-0 cursor-pointer">
@@ -42,7 +42,7 @@ const Navbar = () => {
             </span>
           </div>
 
-          {/* 2) Search Bar & Filter Button */}
+          {/*  Search Bar & Filter Button */}
           {isEventRoute && (
             <div className="flex-1 max-w-xl flex items-center gap-2">
               <div className="relative w-full">
@@ -66,20 +66,10 @@ const Navbar = () => {
 
           {/* Nav Links & Profile */}
           <div className="flex items-center gap-2 sm:gap-6">
-            {/* 3) Create Event (Desktop) */}
-            {user && (
-              <button
-                onClick={() => navigate("/create-event")}
-                className="hidden md:flex flex-col items-center text-zinc-500 hover:text-indigo-600 transition-colors">
-                <PlusCircle size={20} />
-                <span className="text-[10px] font-medium mt-1">Create</span>
-              </button>
-            )}
-
             {/* 4) Favorites */}
             <button
-              onClick={() => navigate("/favorites")}
-              className="hidden md:flex flex-col items-center text-zinc-500 hover:text-indigo-600 transition-colors">
+              onClick={() => navigate("/wishlist")}
+              className="hidden md:flex flex-col items-center text-zinc-500 hover:text-indigo-600 transition-colors cursor-pointer">
               <Heart size={20} />
               <span className="text-[10px] font-medium mt-1">Favorites</span>
             </button>
@@ -137,12 +127,12 @@ const Navbar = () => {
                     </button>
 
                     <button
-                      onClick={() => navigate("/event")}
+                      onClick={() => navigate("/events")}
                       className="flex items-center gap-3 px-4 py-2 text-sm text-zinc-600 hover:bg-slate-50 hover:text-indigo-600 w-full text-left">
                       <Compass size={16} /> Browse Events
                     </button>
                     <button
-                      onClick={() => navigate("/details")}
+                      onClick={() => navigate("/profile")}
                       className="flex items-center gap-3 px-4 py-2 text-sm text-zinc-600 hover:bg-slate-50 w-full text-left">
                       <Settings size={16} /> Account Settings
                     </button>

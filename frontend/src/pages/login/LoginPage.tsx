@@ -42,7 +42,7 @@ function LoginPage() {
   };
 
   return (
-    <main>
+    <main className="min-h-dvh">
       <div className="flex justify-center">
         <div className="w-[90%] sm:w-[75%] md:w-[50%] lg:w-[35%] px-8 py-8 border border-zinc-300 rounded-xl">
           <div className="flex justify-center items-center pt-5 pb-10">

@@ -90,3 +90,8 @@ export const handleEditEventDetails = async (
     console.log(error);
   }
 };
+
+// get event by id
+export const handleGetEventById = async (eventId: string) => {
+  return await api.get(`/events/details/${eventId}`);
+};

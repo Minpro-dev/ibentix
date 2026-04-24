@@ -83,7 +83,11 @@ export const paymentService = {
         }
 
         // RETURNING
-        if (status === "CANCELED" || status === "EXPIRED") {
+        if (
+          status === "CANCELED" ||
+          status === "EXPIRED" ||
+          status === "REJECTED"
+        ) {
           // return used points
           if (orderDetails.pointsUsed) {
             await tx.point.updateMany({
