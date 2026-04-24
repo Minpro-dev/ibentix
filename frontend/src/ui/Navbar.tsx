@@ -25,7 +25,7 @@ const Navbar = () => {
   const logout = useAuthStore((state) => state.clearAuth);
   const setSearch = useEventStore((state) => state.setSearch);
   const search = useEventStore((state) => state.search);
-  const { pointsData, pointsDataLoading } = useFetchUserPoints();
+  const { pointsData } = useFetchUserPoints();
   const userPoints = pointsData?.data.points;
   const location = useLocation();
   console.log("location", location);

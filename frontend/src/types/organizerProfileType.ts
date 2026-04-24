@@ -3,7 +3,7 @@ export interface OrganizerProfile {
   userId: string;
   name: string;
   image: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt: Date | null;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
 }

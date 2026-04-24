@@ -75,7 +75,7 @@ function OrderPreview({
         </div>
 
         {/* POINTS TOGGLE */}
-        {userPoints > 0 && (
+        {userPoints > 0 && basePrice ? (
           <div className="flex items-center justify-between p-4 border border-dashed border-gray-200 rounded-2xl">
             <div className="flex items-center gap-3">
               <RiCoinsLine className="text-amber-500" size={20} />
@@ -94,10 +94,10 @@ function OrderPreview({
               />
             </button>
           </div>
-        )}
+        ) : null}
 
         {/* referralCoupon */}
-        {referralCoupon && (
+        {referralCoupon && basePrice ? (
           <div className="flex items-center justify-between p-4 border border-dashed border-gray-200 rounded-2xl">
             <div className="flex items-center gap-3">
               <RiCoupon2Line />
@@ -116,7 +116,7 @@ function OrderPreview({
               />
             </button>
           </div>
-        )}
+        ) : null}
 
         {/* CALCULATION */}
         <div className="space-y-4 pt-4 border-t border-gray-50 text-sm">
