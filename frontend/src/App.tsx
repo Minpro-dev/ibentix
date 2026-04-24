@@ -14,7 +14,7 @@ import EditProfile from "./pages/attendee/profile/edit-profile/EditProfile";
 import ProfilePage from "./pages/attendee/profile/ProfilePage"
 import TicketPage from "./pages/attendee/ticket/TicketPage";
 import Events from "./pages/attendee/events/Events";
-import PaymentPage from "./pages/attendee/payment/page";
+// import Payment from "./pages/payment/page";
 import Review from "./pages/attendee/review/page";
 import AppLayoutOrganizer from "./ui/AppLayoutOrganizer";
 import EventsOrganizer from "./pages/organizer/events/EventsOrganizer";
@@ -33,7 +33,6 @@ import OrderNewOrganizer from "./pages/organizer/order/components/OrderNewOrgani
 import CompletedOrderOrganizer from "./pages/organizer/order/components/CompletedOrderOrganizer";
 import ProfileDetails from "./pages/organizer/profile/ProfileDetails";
 import OrderPageAttendee from "./pages/attendee/order/OrderPageAttendee";
-
 
 const router = createBrowserRouter([
   {
@@ -88,14 +87,14 @@ const router = createBrowserRouter([
           //</PrivateRoute>
         ),
       },
-      {
-        path: "payment",
-        element: (
-          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <PaymentPage />
-          //</PrivateRoute>
-        ),
-      },
+      // {
+      //   path: "payment",
+      //   element: (
+      //     //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+      //     <Payment />
+      //     //</PrivateRoute>
+      //   ),
+      // },
       {
         path: "review",
         element: (
