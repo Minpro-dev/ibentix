@@ -132,7 +132,7 @@ const Navbar = () => {
                       <Compass size={16} /> Browse Events
                     </button>
                     <button
-                      onClick={() => navigate("/details")}
+                      onClick={() => navigate("/profile")}
                       className="flex items-center gap-3 px-4 py-2 text-sm text-zinc-600 hover:bg-slate-50 w-full text-left">
                       <Settings size={16} /> Account Settings
                     </button>

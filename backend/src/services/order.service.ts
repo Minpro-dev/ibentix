@@ -12,7 +12,7 @@ import {
 import { handlePrismaError } from "../utils/prismaErrorHandler";
 import { PaymentStatus, Role } from "../../generated/prisma/enums";
 
-export const orderSerivice = {
+export const orderService = {
   // ---> $transactions ---> create payment✅ ---> create ticket✅ --> update points✅, update refferalCoupon✅ --> create order✅ --> update event_slot✅ :v
 
   createOrder: async ({
