@@ -9,6 +9,7 @@ export const handleGetReviewData = async (page: number) => {
   });
 };
 
+// post review
 export const postReview = async (payload: {
   orderId: string;
   eventId: string;
@@ -19,3 +20,5 @@ export const postReview = async (payload: {
 }) => {
   return await api.post("/review", payload);
 };
+
+// get current order review

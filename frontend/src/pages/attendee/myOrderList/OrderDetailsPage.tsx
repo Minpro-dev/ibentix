@@ -13,6 +13,7 @@ export default function OrderDetailsPage() {
   const [isOpen, setIsOpen] = useState(false);
   const queryClient = useQueryClient();
   const { orderId } = useParams();
+
   const { data: order, isLoading } = useQuery({
     queryKey: ["order", orderId],
     queryFn: () => getOrderDetails(orderId!),

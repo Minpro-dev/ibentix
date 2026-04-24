@@ -98,7 +98,7 @@ export default function EventDetailsPage() {
             </div>
           </div>
 
-          {/* SIDEBAR: ACTION */}
+          {/* sidebar action */}
           <div className="lg:col-span-5">
             <DetailsActionBar
               availableSlot={event.availableSlot}

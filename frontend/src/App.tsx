@@ -11,7 +11,7 @@ import Unauthorized from "./ui/Unauthorized";
 import PrivateRoute from "./ui/PrivateRoute";
 import ResetPasswordPage from "./pages/resetPassword/ResetPasswordPage";
 import Profile from "./pages/attendee/profile/page";
-import Ticket from "./pages/attendee/ticket/ticket";
+import MyTicketPage from "./pages/attendee/ticket/MyTicketPage";
 import Events from "./pages/attendee/events/Events";
 // import Payment from "./pages/payment/page";
 import Review from "./pages/attendee/review/page";
@@ -69,7 +69,7 @@ const router = createBrowserRouter([
         path: "myticket",
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <Ticket />
+          <MyTicketPage />
           //</PrivateRoute>
         ),
       },

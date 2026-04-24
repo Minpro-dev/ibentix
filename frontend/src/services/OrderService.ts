@@ -1,6 +1,10 @@
 import api from "../api/axiosInstance";
-import type { OrderListResponse } from "../pages/attendee/myOrderList/types/myOrderType";
+import type {
+  OrderListItem,
+  OrderListResponse,
+} from "../pages/attendee/myOrderList/types/myOrderType";
 import type { createOrderPayloadType } from "../pages/attendee/order/types/createOrderPayloadType";
+import type { GetTicketResponse } from "../pages/attendee/ticket/types.ts/getTicketResponseType";
 
 // get all order by status
 export const handleGetAllOrderByStatus = async (
@@ -51,4 +55,14 @@ export const getMyOrders = async (page: number): Promise<OrderListResponse> => {
 export const getOrderDetails = async (orderId: string) => {
   const res = await api.get(`/order/details/${orderId}`);
   return res.data.data;
+};
+
+// get all order for tickets data
+export const getMyTickets = async (
+  page: number,
+): Promise<GetTicketResponse> => {
+  const res = await api.get("/order", {
+    params: { orderStatus: "DONE", page, newest: "true" },
+  });
+  return res.data;
 };
