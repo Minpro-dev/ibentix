@@ -10,3 +10,16 @@ export const updatePaymentStatus = async (
     paymentStatus,
   });
 };
+
+export const uploadPaymentProof = async (orderId: string, file: File) => {
+  const formData = new FormData();
+  formData.append("orderId", orderId);
+  formData.append("payment", file);
+
+  const res = await api.patch("/payment/upload-proof", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return res.data;
+};

@@ -7,7 +7,6 @@ import EmptyOrganizerList from "../../organizerProfile/components/EmptyOrganizer
 import PaginationButton from "../../../../ui/PaginationButton";
 
 function CompletedOrderOrganizer() {
-  const [selectedProof, setSelectedProof] = useState<string | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<any>(null);
   const [page, setPage] = useState(1);
@@ -22,7 +21,7 @@ function CompletedOrderOrganizer() {
   };
 
   const orderStatus = ["REJECTED", "CANCELED", "DONE"];
-  const { data, isLoading } = useFetchNewOrder(orderStatus, "new", page);
+  const { data, isLoading } = useFetchNewOrder(orderStatus, "true", page);
   const orders = data?.data.data;
   const totalPage = data?.data.totalPage;
   const isShowSkeleton = isLoading || !data;
@@ -43,7 +42,6 @@ function CompletedOrderOrganizer() {
                 key={index}
                 onOrderClick={handleOrderClick}
                 order={order}
-                onViewProof={(url) => setSelectedProof(url)}
               />
             ))
           )}

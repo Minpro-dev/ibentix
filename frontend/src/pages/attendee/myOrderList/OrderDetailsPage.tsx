@@ -6,8 +6,11 @@ import { RiTimeLine } from "react-icons/ri";
 import defaultThumbnail from "../../../assets/static/EventThumnailImage.jpg";
 import ReviewForm from "./components/ReviewForm";
 import { updatePaymentStatus } from "../../../services/paymentService";
+import PaymentUploadModal from "./components/PaymentUploadModal";
+import { useState } from "react";
 
 export default function OrderDetailsPage() {
+  const [isOpen, setIsOpen] = useState(false);
   const queryClient = useQueryClient();
   const { orderId } = useParams();
   const { data: order, isLoading } = useQuery({
@@ -27,6 +30,10 @@ export default function OrderDetailsPage() {
       });
     },
   });
+
+  const handleClose = () => {
+    setIsOpen((open) => !open);
+  };
 
   const timeLeft = useCountdown(order?.createdAt || "", () => {
     if (order?.payment?.paymentStatus === "WAITING_FOR_PAYMENT") {
@@ -100,7 +107,9 @@ export default function OrderDetailsPage() {
       {/*  ACTION AREA (Review or Upload) */}
       <div className="pt-6 border-t border-gray-100">
         {order?.payment.paymentStatus === "WAITING_FOR_PAYMENT" ? (
-          <button className="w-full py-4 bg-indigo-600 text-white rounded-2xl font-bold text-sm shadow-indigo-100 shadow-lg transition-all active:scale-[0.98]">
+          <button
+            onClick={handleClose}
+            className="w-full py-4 cursor-pointer bg-indigo-600 text-white rounded-2xl font-bold text-sm shadow-indigo-100 shadow-lg transition-all active:scale-[0.98]">
             Upload Payment Proof
           </button>
         ) : isEligibleForReview() ? (
@@ -113,6 +122,12 @@ export default function OrderDetailsPage() {
           </div>
         )}
       </div>
+
+      <PaymentUploadModal
+        isOpen={isOpen}
+        onClose={handleClose}
+        orderId={orderId as string}
+      />
     </div>
   );
 }

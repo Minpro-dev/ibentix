@@ -18,11 +18,9 @@ import { getConfirmationDeadline } from "../../../../utils/getConfirmationDeadli
 
 export default function OrderCard({
   order,
-  onViewProof,
   onOrderClick,
 }: {
   order: any;
-  onViewProof: (url: string) => void;
   onOrderClick: (order: any) => void;
 }) {
   const { mutateAsync, isPending } = useUpdatePaymentStatus();
@@ -137,17 +135,6 @@ export default function OrderCard({
               {formatCurrency(order?.totalAmount)}
             </p>
           </div>
-
-          {order?.payment?.paymentProof && (
-            <button
-              onClick={() => onViewProof(order.payment.paymentProof!)}
-              className="flex items-center gap-2 px-4 py-2.5 bg-zinc-50 hover:bg-indigo-50 text-zinc-600 hover:text-indigo-600 rounded-xl border border-zinc-100 hover:border-indigo-100 transition-all duration-300">
-              <RiImageLine size={18} className="text-zinc-400" />
-              <span className="text-[11px] font-bold uppercase tracking-wider">
-                View Proof
-              </span>
-            </button>
-          )}
         </div>
 
         {/* Actions */}
@@ -170,7 +157,6 @@ export default function OrderCard({
             </>
           )}
 
-          {/* Label info jika sudah expired secara virtual */}
           {isWaitingConfirmation && isVirtuallyExpired && (
             <div className="text-[10px] font-black text-red-500 uppercase px-4 py-2 bg-red-50 border border-red-100 rounded-xl">
               Processing Auto-Cancel

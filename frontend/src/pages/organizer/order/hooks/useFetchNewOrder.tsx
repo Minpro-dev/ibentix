@@ -3,7 +3,7 @@ import { handleGetAllOrderByStatus } from "../../../../services/orderService";
 
 export const useFetchNewOrder = (
   orderStatus: string[],
-  newest: string = "true",
+  newest: string,
   page: number,
 ) => {
   const { data, isLoading } = useQuery({

@@ -34,6 +34,8 @@ export default function OrderCard({ order }: { order: OrderListItem }) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const status = statusConfig[order.payment.paymentStatus];
+  const isWaitingPayment =
+    order?.payment?.paymentStatus === "WAITING_FOR_PAYMENT";
 
   const { mutate: expireOrder } = useMutation({
     mutationFn: () => updatePaymentStatus(order.orderId as string, "EXPIRED"),
@@ -49,7 +51,7 @@ export default function OrderCard({ order }: { order: OrderListItem }) {
   });
 
   const timeLeft = useCountdown(order?.createdAt || "", () => {
-    if (order?.payment?.paymentStatus === "WAITING_FOR_PAYMENT") {
+    if (isWaitingPayment) {
       expireOrder();
     }
   });
@@ -74,7 +76,7 @@ export default function OrderCard({ order }: { order: OrderListItem }) {
                   {status.label}
                 </span>
               </div>
-              {timeLeft && timeLeft !== "EXPIRED" && (
+              {timeLeft && timeLeft !== "EXPIRED" && isWaitingPayment && (
                 <div className="px-2.5 py-1 flex items-center justify-center text-[10px] text-amber-500 border border-amber-200 bg-amber-50 rounded-full">
                   <span>{timeLeft}</span>
                 </div>
