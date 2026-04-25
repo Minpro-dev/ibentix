@@ -58,73 +58,73 @@ const router = createBrowserRouter([
       {
         path: "profile",
         element: (
-          // <PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <ProfilePage />
-          // </PrivateRoute>
+          <PrivateRoute allowedRoles={["ATTENDEE"]}>
+            <ProfilePage />
+          </PrivateRoute>
         ),
       },
       {
         path: "edit",
         element: (
-          // <PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <EditProfile />
-          // </PrivateRoute>
+          <PrivateRoute allowedRoles={["ATTENDEE"]}>
+            <EditProfile />
+          </PrivateRoute>
         ),
       },
       {
         path: "my-tickets",
         element: (
-          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <MyTicketPage />
-          //</PrivateRoute>
+          <PrivateRoute allowedRoles={["ATTENDEE"]}>
+            <MyTicketPage />
+          </PrivateRoute>
         ),
       },
       {
         path: "events",
         element: (
-          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          // <PrivateRoute allowedRoles={["ATTENDEE"]}>
           <Events />
-          //</PrivateRoute>
+          // </PrivateRoute>
         ),
       },
       {
         path: "payment",
         element: (
-          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <OrderPayment />
-          //</PrivateRoute>
+          <PrivateRoute allowedRoles={["ATTENDEE"]}>
+            <OrderPayment />
+          </PrivateRoute>
         ),
       },
       {
         path: "my-orders",
         element: (
-          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <MyOrdersPage />
-          //</PrivateRoute>
+          <PrivateRoute allowedRoles={["ATTENDEE"]}>
+            <MyOrdersPage />
+          </PrivateRoute>
         ),
       },
       {
         path: "my-orders/:orderId",
         element: (
-          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <OrderDetailsPage />
-          //</PrivateRoute>
+          <PrivateRoute allowedRoles={["ATTENDEE"]}>
+            <OrderDetailsPage />
+          </PrivateRoute>
         ),
       },
       {
         path: "review",
         element: (
-          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <Review />
-          //</PrivateRoute>
+          <PrivateRoute allowedRoles={["ATTENDEE"]}>
+            <Review />
+          </PrivateRoute>
         ),
       },
       {
         path: "myreview",
         element: (
-          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <AllReview />
-          //</PrivateRoute>
+          <PrivateRoute allowedRoles={["ATTENDEE"]}>
+            <AllReview />
+          </PrivateRoute>
         ),
       },
       {
@@ -138,17 +138,17 @@ const router = createBrowserRouter([
       {
         path: "wishlist",
         element: (
-          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <Wishlist />
-          //</PrivateRoute>
+          <PrivateRoute allowedRoles={["ATTENDEE"]}>
+            <Wishlist />
+          </PrivateRoute>
         ),
       },
       {
         path: "order/:eventId",
         element: (
-          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <OrderPageAttendee />
-          //</PrivateRoute>
+          <PrivateRoute allowedRoles={["ATTENDEE"]}>
+            <OrderPageAttendee />
+          </PrivateRoute>
         ),
       },
       {
