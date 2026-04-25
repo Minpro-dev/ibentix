@@ -45,7 +45,7 @@ export const getAllEventsService = async (query: any) => {
     date,
     isFree,
     page = 1,
-    limit = 10,
+    limit = 12,
     sort = "eventDate",
   } = query;
 

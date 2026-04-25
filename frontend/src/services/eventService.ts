@@ -63,6 +63,7 @@ export const handleGetAllActiveEvents = async (
   search: string,
   category: EventCategory | null,
   isFree: string,
+  page: number,
 ) => {
   try {
     return await api.get("/events", {
@@ -70,6 +71,7 @@ export const handleGetAllActiveEvents = async (
         search,
         category,
         isFree,
+        page,
       },
     });
   } catch (error) {

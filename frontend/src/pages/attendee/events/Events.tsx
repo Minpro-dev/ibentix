@@ -7,31 +7,34 @@ import CategoryFilter from "./components/CategoryFilters";
 import { useEventStore } from "../../../store/useEventStore";
 import { useDebounce } from "use-debounce";
 import { useEeventQuery } from "./hooks/useEventQuery";
+import PaginationButton from "../../../ui/PaginationButton";
 
 export default function Events() {
   const [selectedCategory, setSelectedCategory] =
     useState<EventCategory | null>(null);
+  const [page, setPage] = useState(1);
   const search = useEventStore((state) => state.search);
   const isFree = useEventStore((state) => state.isFree);
-
-  const handleSelect = (category: EventCategory | null) => {
-    setSelectedCategory(category);
-  };
 
   const [searchValue] = useDebounce(search, 800);
   const { data, isLoading } = useEeventQuery(
     searchValue,
     selectedCategory,
     isFree,
+    page,
   );
 
-  // const { data } = useQuery({
-  //   queryKey: ["events", searchValue, selectedCategory],
-  //   queryFn: () => handleGetAllActiveEvents(searchValue, selectedCategory),
-  // });
+  const handleSelect = (category: EventCategory | null) => {
+    setSelectedCategory(category);
+  };
+
+  const handleSetpage = (num: number) => {
+    setPage(num);
+  };
 
   const allEvents = data?.data.data.events;
   const totalEvents = data?.data.data.totalData;
+  const totalPage = data?.data.data.totalPage;
 
   return (
     <div className="min-h-screen flex flex-col font-sans bg-[#F8FAFC]">
@@ -72,40 +75,13 @@ export default function Events() {
         </section>
         {/* Pagination */}
         <nav className="mt-20 flex justify-center items-center gap-2">
-          <button className="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-slate-100 text-slate-400 hover:text-blue-600 transition-all shadow-sm">
-            <ChevronLeft className="w-4 h-4" />
-          </button>
-          {[1, 2, 3].map((num) => (
-            <button
-              key={num}
-              className={`w-10 h-10 flex items-center justify-center rounded-xl font-black text-xs transition-all ${num === 1 ? "bg-blue-600 text-white shadow-lg shadow-blue-100" : "bg-white border border-slate-100 text-slate-400 hover:bg-slate-50"}`}>
-              {num}
-            </button>
-          ))}
-          <button className="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-slate-100 text-slate-400 hover:text-blue-600 transition-all shadow-sm">
-            <ChevronRight className="w-4 h-4" />
-          </button>
+          <PaginationButton
+            onClick={handleSetpage}
+            page={page}
+            totalPage={totalPage}
+          />
         </nav>
       </main>
-
-      <footer className="bg-white border-t border-slate-100 w-full">
-        <div className="flex flex-col md:flex-row justify-between items-center py-8 px-6 max-w-7xl mx-auto">
-          <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest">
-            © 2026 Vista Pass. Digital Concierge Experience.
-          </p>
-          <div className="flex gap-6 text-[10px] font-black uppercase tracking-widest text-slate-400">
-            <a href="#" className="hover:text-blue-600 transition-colors">
-              Privacy
-            </a>
-            <a href="#" className="hover:text-blue-600 transition-colors">
-              Terms
-            </a>
-            <a href="#" className="hover:text-blue-600 transition-colors">
-              Contact
-            </a>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
