@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getMyTickets } from "../../../../services/orderService";
+import { getMyTickets } from "../../../../services/OrderService";
 
 export const useMyTicketsQuery = (page: number) => {
   return useQuery({

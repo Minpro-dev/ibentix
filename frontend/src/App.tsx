@@ -12,9 +12,8 @@ import PrivateRoute from "./ui/PrivateRoute";
 import ResetPasswordPage from "./pages/resetPassword/ResetPasswordPage";
 import MyTicketPage from "./pages/attendee/ticket/MyTicketPage";
 import EditProfile from "./pages/attendee/profile/edit-profile/EditProfile";
-import ProfilePage from "./pages/attendee/profile/ProfilePage"
+import ProfilePage from "./pages/attendee/profile/ProfilePage";
 import Events from "./pages/attendee/events/Events";
-// import Payment from "./pages/payment/page";
 import Review from "./pages/attendee/review/page";
 import AppLayoutOrganizer from "./ui/AppLayoutOrganizer";
 import EventsOrganizer from "./pages/organizer/events/EventsOrganizer";
@@ -51,12 +50,8 @@ const router = createBrowserRouter([
         element: <LoginPage />,
       },
       {
-        path: "home",
-        element: (
-          // <PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <HomePage />
-          // </PrivateRoute>
-        ),
+        index: true,
+        element: <HomePage />,
       },
       {
         path: "profile", // ✅ ADD THIS
@@ -78,11 +73,7 @@ const router = createBrowserRouter([
         path: "myticket",
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
-<<<<<<< HEAD
           <MyTicketPage />
-=======
-          <TicketPage />
->>>>>>> origin
           //</PrivateRoute>
         ),
       },
