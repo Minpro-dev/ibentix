@@ -78,7 +78,7 @@ const Navbar = () => {
 
             {/* tickets */}
             <button
-              onClick={() => navigate("/myticket")}
+              onClick={() => navigate("/my-tickets")}
               className="hidden cursor-pointer md:flex flex-col items-center text-zinc-500 hover:text-indigo-600 transition-colors">
               <Ticket size={20} />
               <span className="text-[10px] font-medium mt-1">Tickets</span>
