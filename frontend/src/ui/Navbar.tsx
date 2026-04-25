@@ -8,7 +8,6 @@ import {
   Compass,
   Coins,
   X,
-  ListOrdered,
 } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
 import Button from "./Button";
@@ -128,13 +127,8 @@ const Navbar = () => {
                       <Compass size={16} /> Browse Events
                     </button>
                     <button
-                      onClick={() => navigate("/my-orders")}
-                      className="flex cursor-pointer items-center gap-3 px-4 py-2 text-sm text-zinc-600 hover:bg-slate-50 hover:text-indigo-600 w-full text-left">
-                      <ListOrdered size={16} /> My Orders
-                    </button>
-                    <button
-                      onClick={() => navigate("/details")}
-                      className="flex items-center cursor-pointer gap-3 px-4 py-2 text-sm text-zinc-600 hover:bg-slate-50 w-full text-left">
+                      onClick={() => navigate("/profile")}
+                      className="flex items-center gap-3 px-4 py-2 text-sm text-zinc-600 hover:bg-slate-50 w-full text-left">
                       <Settings size={16} /> Account Settings
                     </button>
                     <div className="border-t border-slate-50 mt-2 pt-2">

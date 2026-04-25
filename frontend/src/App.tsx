@@ -10,8 +10,9 @@ import { useAuthStore } from "./store/useAuthStore";
 import Unauthorized from "./ui/Unauthorized";
 import PrivateRoute from "./ui/PrivateRoute";
 import ResetPasswordPage from "./pages/resetPassword/ResetPasswordPage";
-import Profile from "./pages/attendee/profile/page";
 import MyTicketPage from "./pages/attendee/ticket/MyTicketPage";
+import EditProfile from "./pages/attendee/profile/edit-profile/EditProfile";
+import ProfilePage from "./pages/attendee/profile/ProfilePage"
 import Events from "./pages/attendee/events/Events";
 // import Payment from "./pages/payment/page";
 import Review from "./pages/attendee/review/page";
@@ -50,7 +51,7 @@ const router = createBrowserRouter([
         element: <LoginPage />,
       },
       {
-        index: true,
+        path: "home",
         element: (
           // <PrivateRoute allowedRoles={["ATTENDEE"]}>
           <HomePage />
@@ -58,10 +59,18 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "details",
+        path: "profile", // ✅ ADD THIS
         element: (
           // <PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <Profile />
+          <ProfilePage />
+          // </PrivateRoute>
+        ),
+      },
+      {
+        path: "edit", // ✅ ADD THIS
+        element: (
+          // <PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <EditProfile />
           // </PrivateRoute>
         ),
       },
@@ -69,7 +78,11 @@ const router = createBrowserRouter([
         path: "myticket",
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+<<<<<<< HEAD
           <MyTicketPage />
+=======
+          <TicketPage />
+>>>>>>> origin
           //</PrivateRoute>
         ),
       },

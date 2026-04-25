@@ -27,11 +27,16 @@ api.interceptors.response.use(
     const originalRequest = error.config;
     const isRefreshRequest = originalRequest.url?.includes("/auth/refresh");
 
+    // if (
+    //   error.response.status === 401 &&
+    //   !originalRequest._retry &&
+    //   !isRefreshRequest
+    // )
     if (
-      error.response.status === 401 &&
-      !originalRequest._retry &&
-      !isRefreshRequest
-    ) {
+  error?.response?.status === 401 &&
+  !originalRequest._retry &&
+  !isRefreshRequest
+) {
       //error is 401, nevery tried, it's not from /auth/refresh
       originalRequest._retry = true;
 
