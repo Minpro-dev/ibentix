@@ -41,6 +41,7 @@ export default function ProfileDropdown({
       {/* Mapped Menu Items */}
       {MENU_ITEMS.map((item) => (
         <NavLink
+          key={item.path}
           to={item.path}
           className={({ isActive }) => `
     flex cursor-pointer items-center gap-3 px-5 py-2.5 text-sm transition-all w-full text-left rounded-xl
