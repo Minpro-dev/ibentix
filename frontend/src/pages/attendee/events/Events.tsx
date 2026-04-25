@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "motion/react";
 import EventCard from "../../../ui/EventCard";
 import type { Event, EventCategory } from "../../../types/eventType";
@@ -8,6 +7,9 @@ import { useEventStore } from "../../../store/useEventStore";
 import { useDebounce } from "use-debounce";
 import { useEeventQuery } from "./hooks/useEventQuery";
 import PaginationButton from "../../../ui/PaginationButton";
+import EventCardSkeleton from "./components/EventCardSkeleton";
+import EmptyOrganizerList from "../../organizer/organizerProfile/components/EmptyOrganizerList";
+import BrowseHeader from "./components/BrowseHeader";
 
 export default function Events() {
   const [selectedCategory, setSelectedCategory] =
@@ -38,49 +40,44 @@ export default function Events() {
 
   return (
     <div className="min-h-screen flex flex-col font-sans bg-[#F8FAFC]">
-      {/* Header telah dihapus sesuai permintaan */}
-
       <main className="grow pt-20 pb-20 px-6 max-w-400 mx-auto w-full">
         {/* Title Section */}
-        <section className="mb-12 text-center md:text-left">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="flex flex-col gap-2">
-            <h1 className="text-5xl md:text-6xl font-black tracking-tighter text-slate-900">
-              Explore All Events
-            </h1>
-            <p className="text-slate-500 text-lg">
-              Curated experiences in Indonesia's most vibrant cities.
-              <span className="font-bold text-blue-600 ml-1.5">
-                {totalEvents} events available.
-              </span>
-            </p>
-          </motion.div>
-        </section>
+        <BrowseHeader isLoading={isLoading} totalEvents={totalEvents} />
 
         {/* Filters Section */}
-        <section className="mb-12 space-y-6">
-          <CategoryFilter
-            selectedCategory={selectedCategory}
-            onSelect={handleSelect}
-          />
+        <section className="sticky top-16 z-30 rounded-xl bg-white/80 backdrop-blur-md pb-6 pt-4 space-y-6 transition-all duration-300 border-b border-zinc-100/50">
+          <div className="container mx-auto px-5">
+            <CategoryFilter
+              selectedCategory={selectedCategory}
+              onSelect={handleSelect}
+            />
+          </div>
         </section>
 
         {/* Event Grid*/}
         <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
-          {allEvents?.map((event: Event, index: number) => (
-            <EventCard key={index} event={event} />
-          ))}
+          {isLoading || !data ? (
+            Array.from({ length: 12 }).map((_, index: number) => (
+              <EventCardSkeleton key={index} />
+            ))
+          ) : !allEvents?.length ? (
+            <EmptyOrganizerList dataName="event" />
+          ) : (
+            allEvents?.map((event: Event, index: number) => (
+              <EventCard key={index} event={event} />
+            ))
+          )}
         </section>
         {/* Pagination */}
-        <nav className="mt-20 flex justify-center items-center gap-2">
-          <PaginationButton
-            onClick={handleSetpage}
-            page={page}
-            totalPage={totalPage}
-          />
-        </nav>
+        {totalPage > 1 && (
+          <nav className="mt-20 flex justify-center items-center gap-2">
+            <PaginationButton
+              onClick={handleSetpage}
+              page={page}
+              totalPage={totalPage}
+            />
+          </nav>
+        )}
       </main>
     </div>
   );

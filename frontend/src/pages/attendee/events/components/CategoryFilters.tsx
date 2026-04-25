@@ -24,15 +24,15 @@ const CategoryFilter: React.FC<TagBarProps> = ({
   onSelect,
 }) => {
   return (
-    <div className="w-full border-b border-slate-100">
+    <div className="w-full">
       <div className="flex items-center gap-8 overflow-x-auto no-scrollbar py-2">
         {/* Tombol ALL */}
         <button
           onClick={() => onSelect(null)}
-          className={`relative pb-3 text-sm cursor-pointer tracking-widest transition-all duration-300 whitespace-nowrap ${
+          className={`relative pb-3 text-xs sm:text-sm cursor-pointer tracking-wider transition-all duration-300 whitespace-nowrap ${
             selectedCategory === null
               ? "text-indigo-600"
-              : "text-slate-400 hover:text-slate-600"
+              : "text-slate-500 hover:text-slate-600"
           }`}>
           All
           {selectedCategory === null && (
@@ -46,10 +46,10 @@ const CategoryFilter: React.FC<TagBarProps> = ({
             <button
               key={cat}
               onClick={() => onSelect(cat)}
-              className={`relative pb-3 text-sm cursor-pointer tracking-widest transition-all duration-300 whitespace-nowrap ${
+              className={`relative pb-3 text-xs sm:text-sm cursor-pointer tracking-wider transition-all duration-300 whitespace-nowrap ${
                 isActive
                   ? "text-indigo-600"
-                  : "text-slate-400 hover:text-slate-600"
+                  : "text-slate-500 hover:text-slate-600"
               }`}>
               {formatCategory(cat)}
               {isActive && (

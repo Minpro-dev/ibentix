@@ -6,7 +6,7 @@ export const formatChartData = (orders: any[], range: string) => {
     let label = "";
 
     if (range === "year")
-      label = date.toLocaleString("default", { month: "short" }); // Jan, Feb
+      label = date?.toLocaleString("default", { month: "short" }); // Jan, Feb
     else if (range === "month")
       label = `Week ${Math.ceil(date.getDate() / 7)}`; // Week 1, 2
     else label = date.getHours() + ":00"; // 09:00, 10:00
