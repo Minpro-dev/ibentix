@@ -2,26 +2,33 @@ import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion } from "motion/react";
 import EventCard from "../../../ui/EventCard";
-import { useQuery } from "@tanstack/react-query";
-import { handleGetAllActiveEvents } from "../../../services/eventService";
-import type { Event } from "../../../types/eventType";
+import type { Event, EventCategory } from "../../../types/eventType";
 import CategoryFilter from "./components/CategoryFilters";
 import { useEventStore } from "../../../store/useEventStore";
 import { useDebounce } from "use-debounce";
+import { useEeventQuery } from "./hooks/useEventQuery";
 
 export default function Events() {
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] =
+    useState<EventCategory | null>(null);
   const search = useEventStore((state) => state.search);
+  const isFree = useEventStore((state) => state.isFree);
 
-  const handleSelect = (category: string) => {
+  const handleSelect = (category: EventCategory | null) => {
     setSelectedCategory(category);
   };
 
   const [searchValue] = useDebounce(search, 800);
-  const { data } = useQuery({
-    queryKey: ["events", searchValue, selectedCategory],
-    queryFn: () => handleGetAllActiveEvents(searchValue, selectedCategory),
-  });
+  const { data, isLoading } = useEeventQuery(
+    searchValue,
+    selectedCategory,
+    isFree,
+  );
+
+  // const { data } = useQuery({
+  //   queryKey: ["events", searchValue, selectedCategory],
+  //   queryFn: () => handleGetAllActiveEvents(searchValue, selectedCategory),
+  // });
 
   const allEvents = data?.data.data.events;
   const totalEvents = data?.data.data.totalData;

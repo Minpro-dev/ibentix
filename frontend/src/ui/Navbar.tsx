@@ -16,6 +16,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useEventStore } from "../store/useEventStore";
 import { capitalize } from "../utils/capitalize";
 import { useFetchUserPoints } from "../pages/attendee/order/hooks/useFetchUserPoints";
+import FreeToggle from "./FreeToogle";
 
 const Navbar = () => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
@@ -28,6 +29,8 @@ const Navbar = () => {
   const { pointsData } = useFetchUserPoints();
   const userPoints = pointsData?.data.points;
   const location = useLocation();
+  const setIsFree = useEventStore((state) => state.setIsFree);
+
   console.log("location", location);
 
   const isEventRoute = location.pathname === "/events";
@@ -61,9 +64,7 @@ const Navbar = () => {
                 />
               </div>
 
-              <div>
-                <p>Free</p>
-              </div>
+              <FreeToggle />
             </div>
           )}
 
@@ -158,7 +159,7 @@ const Navbar = () => {
 
       {/* --- Filter Modal (Tetap Sama) --- */}
       {isFilterModalOpen && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-zinc-900/40 backdrop-blur-sm transition-opacity">
+        <div className="fixed inset-0 z-60 flex items-center justify-center p-4 bg-zinc-900/40 backdrop-blur-sm transition-opacity">
           <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
               <h3 className="text-lg font-bold text-zinc-900">Filter Events</h3>
