@@ -23,8 +23,8 @@ export default function FreeToggle() {
       {/* Label */}
       <span
         onClick={setIsFree}
-        className={`text-sm cursor-pointer transition-colors duration-200 ${
-          isFree === "true" ? "text-indigo-600" : "text-gray-400"
+        className={`text-xs cursor-pointer transition-colors duration-200 ${
+          isFree === "true" ? "text-indigo-600" : "text-zinc-500"
         }`}>
         Free
       </span>

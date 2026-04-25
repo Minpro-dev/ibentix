@@ -29,7 +29,6 @@ const Navbar = () => {
   const { pointsData } = useFetchUserPoints();
   const userPoints = pointsData?.data.points;
   const location = useLocation();
-  const setIsFree = useEventStore((state) => state.setIsFree);
 
   console.log("location", location);
 
