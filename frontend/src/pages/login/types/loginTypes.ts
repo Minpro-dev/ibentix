@@ -10,4 +10,5 @@ export interface LoginFormProps {
   touched: FormikTouched<LoginFormType>;
   isValid: boolean;
   dirty: boolean;
+  isLoading: boolean;
 }

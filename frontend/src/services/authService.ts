@@ -14,22 +14,18 @@ export const getAllData = async () => {
 
 // ------- HANDLE SUBMIT LOGIN
 export const handleSubmitLogin = async (values: LoginFormType) => {
-  try {
-    const res = await api.post("/auth/login", {
-      email: values.email,
-      password: values.password,
-    });
+  const res = await api.post("/auth/login", {
+    email: values.email,
+    password: values.password,
+  });
 
-    // console.log("res-login", res.data.data);
+  // console.log("res-login", res.data.data);
 
-    return res.data.data;
-  } catch (error) {
-    console.log(error);
-  }
+  return res.data.data;
 };
 
 // --HANDLE SUBMIT CREATE ORDER
 export const getUserProfile = async () => {
-  const { data } = await api.get('/details');
+  const { data } = await api.get("/details");
   return data;
 };
