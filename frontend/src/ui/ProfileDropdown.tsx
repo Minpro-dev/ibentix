@@ -12,6 +12,7 @@ interface ProfileDropdownProps {
   userPoints: number;
   onNavigate: NavigateFunction;
   onLogout: () => void;
+  isPending: boolean;
 }
 
 export default function ProfileDropdown({
@@ -19,6 +20,7 @@ export default function ProfileDropdown({
   userPoints,
   onNavigate,
   onLogout,
+  isPending,
 }: ProfileDropdownProps) {
   return (
     <div className="absolute right-0 w-64 bg-white border border-slate-100 rounded-2xl shadow-xl py-3 z-50 animate-in fade-in zoom-in-95 duration-200">
@@ -73,7 +75,8 @@ export default function ProfileDropdown({
         <button
           onClick={onLogout}
           className="flex cursor-pointer items-center gap-3 px-5 py-2.5 text-sm text-red-500 hover:bg-red-50 w-full text-left transition-colors">
-          <LogOut size={18} strokeWidth={2.5} /> Logout
+          <LogOut size={18} strokeWidth={2.5} />{" "}
+          {isPending ? "Logging out..." : "Logout"}
         </button>
       </div>
     </div>

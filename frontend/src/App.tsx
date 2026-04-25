@@ -36,6 +36,7 @@ import OrderPayment from "./pages/attendee/payment/OrderPayment";
 import MyOrdersPage from "./pages/attendee/myOrderList/MyOrdersPage";
 import OrderDetailsPage from "./pages/attendee/myOrderList/OrderDetailsPage";
 import NotFoundPage from "./ui/NotFoundPage";
+import { VerifyEmailPage } from "./pages/signup/components/VerifyEmailPage";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: "signup",
         element: <SignupPage />,
+      },
+      {
+        path: "/verify-email",
+        element: <VerifyEmailPage />,
       },
       {
         path: "login",

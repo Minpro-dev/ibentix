@@ -15,6 +15,7 @@ const route = Router();
 
 route.post("/signup", validate(signupSchema), authController.signup);
 route.post("/login", validate(loginSchema), authController.login);
+route.post("/logout", authentication, authController.logout);
 route.get("/refresh", authController.refresh);
 route.post("/verify-otp", authController.verifyOtp);
 route.get("/resend-otp", authController.resendOtp);

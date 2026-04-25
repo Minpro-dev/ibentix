@@ -116,6 +116,19 @@ export const authService = {
     }
   },
 
+  // logout
+  logoutService: async (userId: string) => {
+    try {
+      await prisma.refreshToken.deleteMany({
+        where: { userId: userId },
+      });
+
+      return { message: "logout success" };
+    } catch (error) {
+      handlePrismaError(error);
+    }
+  },
+
   // -------------------- POST REFERRAL
   addReferral: async (email: string, usedReferralCode: string) => {
     const REFERRAL_DISCOUNT = 10;
@@ -242,7 +255,7 @@ export const authService = {
     }
 
     if (user.otpExpiresAt && user.otpExpiresAt > new Date()) {
-      throw new AppError(400, "OTP still active, please check your email");
+      throw new AppError(400, "OTP is still active, please check your email");
     }
 
     const otp = generateOtp();
