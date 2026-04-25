@@ -120,7 +120,9 @@ export const orderService = {
     const orderData: any = await prisma.$transaction(async (tx) => {
       // CREATE PAYMENT
       const payment = await tx.payment.create({
-        data: {},
+        data: {
+          paymentStatus: !Number(unitPrice) ? "DONE" : "WAITING_FOR_PAYMENT",
+        },
       });
 
       //ORDER TRANSACTIONS
@@ -233,6 +235,7 @@ export const orderService = {
     lastOneMonth,
     newest,
     oldest,
+    userRole,
   }: any) => {
     //filter & search params :
     // - limit
@@ -250,7 +253,8 @@ export const orderService = {
     const offset = (page - 1) * limit;
 
     const where: OrderWhereInput = {
-      event: { userId },
+      userId: userRole === "ATTENDEE" ? userId : undefined,
+      event: userRole === "ORGANIZER" ? { userId } : {},
     };
 
     const orderBy: OrderOrderByWithRelationInput = {};
@@ -341,6 +345,7 @@ export const orderService = {
         include: {
           tickets: true,
           payment: true,
+          event: true,
         },
       });
 

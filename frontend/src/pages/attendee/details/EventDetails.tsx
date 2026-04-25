@@ -1,19 +1,23 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { RiCalendarLine, RiMapPin2Line } from "react-icons/ri";
-import type { Event } from "../../../types/eventType";
 import { useFetchEventSlug } from "./hooks/useFetchEventSlug";
 import DetailsHeader from "./Components/DetailsHeader";
 import DetailsThumbnail from "./Components/DetailsThumbnail";
 import DetailsActionBar from "./Components/DetailsActionBar";
 import { DetailsEventSkeleton } from "./Components/DetailsEventSkeleton";
+import type { EventDetailsType } from "../../../types/eventType";
+import OrganizerCard from "./Components/OrganizerCard";
+import { useFetchReviewData } from "../../organizer/review/hooks/useFetchReviewData";
 
 export default function EventDetailsPage() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const [ticketCount, setTicketCount] = useState(1);
   const { data, isLoading, isError } = useFetchEventSlug(slug);
-  const event: Event = data?.data?.data;
+  const { data: reviewStats } = useFetchReviewData(1);
+  const event: EventDetailsType = data?.data?.data;
+  const reviewData = reviewStats?.data.data;
 
   const handleDecrement = () => {
     setTicketCount(Math.max(1, ticketCount - 1));
@@ -78,8 +82,17 @@ export default function EventDetailsPage() {
               </div>
             </div>
 
+            {/* organizer profile */}
+            <div className="py-8 border-t border-gray-100">
+              <OrganizerCard
+                averageRating={reviewData?.averageRatings}
+                image={event?.organizer?.image}
+                name={event?.organizer?.name}
+              />
+            </div>
+
             {/* DESCRIPTION */}
-            <div className="pt-16 border-t border-gray-100">
+            <div className="pt-8 border-t border-gray-100">
               <h2 className="text-xs text-gray-400 mb-3">Description</h2>
               <div className="text-gray-600 leading-relaxed max-w-2xl text-lg whitespace-pre-line">
                 {event.description}
@@ -87,7 +100,7 @@ export default function EventDetailsPage() {
             </div>
 
             {/* venue */}
-            <div className="mt-16 pt-16 border-t border-gray-100">
+            <div className="mt-8 pt-8 border-t border-gray-100">
               <h2 className="text-xs text-gray-400 mb-3">Location & Venue</h2>
               <div className="space-y-2">
                 <p className="text-xl font-medium text-black">
@@ -98,7 +111,7 @@ export default function EventDetailsPage() {
             </div>
           </div>
 
-          {/* SIDEBAR: ACTION */}
+          {/* sidebar action */}
           <div className="lg:col-span-5">
             <DetailsActionBar
               availableSlot={event.availableSlot}

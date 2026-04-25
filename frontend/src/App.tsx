@@ -10,9 +10,9 @@ import { useAuthStore } from "./store/useAuthStore";
 import Unauthorized from "./ui/Unauthorized";
 import PrivateRoute from "./ui/PrivateRoute";
 import ResetPasswordPage from "./pages/resetPassword/ResetPasswordPage";
+import MyTicketPage from "./pages/attendee/ticket/MyTicketPage";
 import EditProfile from "./pages/attendee/profile/edit-profile/EditProfile";
 import ProfilePage from "./pages/attendee/profile/ProfilePage"
-import TicketPage from "./pages/attendee/ticket/TicketPage";
 import Events from "./pages/attendee/events/Events";
 // import Payment from "./pages/payment/page";
 import Review from "./pages/attendee/review/page";
@@ -33,6 +33,9 @@ import OrderNewOrganizer from "./pages/organizer/order/components/OrderNewOrgani
 import CompletedOrderOrganizer from "./pages/organizer/order/components/CompletedOrderOrganizer";
 import ProfileDetails from "./pages/organizer/profile/ProfileDetails";
 import OrderPageAttendee from "./pages/attendee/order/OrderPageAttendee";
+import OrderPayment from "./pages/attendee/payment/OrderPayment";
+import MyOrdersPage from "./pages/attendee/myOrderList/MyOrdersPage";
+import OrderDetailsPage from "./pages/attendee/myOrderList/OrderDetailsPage";
 
 const router = createBrowserRouter([
   {
@@ -75,7 +78,11 @@ const router = createBrowserRouter([
         path: "myticket",
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+<<<<<<< HEAD
+          <MyTicketPage />
+=======
           <TicketPage />
+>>>>>>> origin
           //</PrivateRoute>
         ),
       },
@@ -87,14 +94,30 @@ const router = createBrowserRouter([
           //</PrivateRoute>
         ),
       },
-      // {
-      //   path: "payment",
-      //   element: (
-      //     //<PrivateRoute allowedRoles={["ATTENDEE"]}>
-      //     <Payment />
-      //     //</PrivateRoute>
-      //   ),
-      // },
+      {
+        path: "payment",
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <OrderPayment />
+          //</PrivateRoute>
+        ),
+      },
+      {
+        path: "my-orders",
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <MyOrdersPage />
+          //</PrivateRoute>
+        ),
+      },
+      {
+        path: "my-orders/:orderId",
+        element: (
+          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
+          <OrderDetailsPage />
+          //</PrivateRoute>
+        ),
+      },
       {
         path: "review",
         element: (

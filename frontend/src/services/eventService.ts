@@ -1,5 +1,6 @@
 import { toast } from "sonner";
 import api from "../api/axiosInstance";
+import type { EventCategory } from "../types/eventType";
 
 // create event
 export const handleCreateEvent = async (data: FormData) => {
@@ -60,13 +61,17 @@ export const handleGetTrendingEvent = async () => {
 //get all events (ATTENDEE)
 export const handleGetAllActiveEvents = async (
   search: string,
-  category: string,
+  category: EventCategory | null,
+  isFree: string,
+  page: number,
 ) => {
   try {
     return await api.get("/events", {
       params: {
         search,
         category,
+        isFree,
+        page,
       },
     });
   } catch (error) {

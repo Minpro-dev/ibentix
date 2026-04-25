@@ -23,9 +23,6 @@ const EventCard = ({ event }: EventCardProps) => {
   const mutation = useToggleWishlist();
   const navigate = useNavigate();
 
-  console.log(wishlistIds);
-  console.log(event.eventId);
-
   const handleToggleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
     mutation.mutate(event.eventId);
@@ -59,10 +56,10 @@ const EventCard = ({ event }: EventCardProps) => {
 
         {/* Price Tag */}
         <div className="absolute bottom-4 right-4 bg-white px-3.5 py-2 rounded-xl shadow-lg border border-zinc-50">
-          <span className="block text-[7px] uppercase font-black text-zinc-400 tracking-wider">
+          <span className="block text-[7px] uppercase font-semibold text-zinc-400 tracking-wider">
             Ticket Price
           </span>
-          <span className="text-sm font-black text-indigo-700 tracking-tighter">
+          <span className="text-sm text-zinc-500 tracking-tighter">
             {formatCurrency(Number(event.price))}
           </span>
         </div>
@@ -74,9 +71,7 @@ const EventCard = ({ event }: EventCardProps) => {
           {/* Date */}
           <div className="flex items-center gap-1.5 text-zinc-400 font-medium">
             <RiCalendarLine className="text-indigo-400/70" size={12} />
-            <span className="text-[9px] uppercase tracking-tighter font-semibold">
-              {formatDate(event.eventDate)}
-            </span>
+            <span className="text-[9px]">{formatDate(event.eventDate)}</span>
           </div>
 
           {/* Title */}

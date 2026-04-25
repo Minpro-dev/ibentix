@@ -1,7 +1,8 @@
 import React from "react";
 import { formatCategory } from "../../../../utils/formatCategory";
+import type { EventCategory } from "../../../../types/eventType";
 
-const categories = [
+const categories: EventCategory[] = [
   "MUSIC",
   "NIGHTLIFE",
   "WORKSHOP",
@@ -14,8 +15,8 @@ const categories = [
 ];
 
 interface TagBarProps {
-  selectedCategory: string;
-  onSelect: (category: string) => void;
+  selectedCategory: EventCategory | null;
+  onSelect: (category: EventCategory | null) => void;
 }
 
 const CategoryFilter: React.FC<TagBarProps> = ({
@@ -23,18 +24,18 @@ const CategoryFilter: React.FC<TagBarProps> = ({
   onSelect,
 }) => {
   return (
-    <div className="w-full border-b border-slate-100">
+    <div className="w-full">
       <div className="flex items-center gap-8 overflow-x-auto no-scrollbar py-2">
         {/* Tombol ALL */}
         <button
-          onClick={() => onSelect("")}
-          className={`relative pb-3 text-sm cursor-pointer tracking-widest transition-all duration-300 whitespace-nowrap ${
-            selectedCategory === ""
+          onClick={() => onSelect(null)}
+          className={`relative pb-3 text-xs sm:text-sm cursor-pointer tracking-wider transition-all duration-300 whitespace-nowrap ${
+            selectedCategory === null
               ? "text-indigo-600"
-              : "text-slate-400 hover:text-slate-600"
+              : "text-slate-500 hover:text-slate-600"
           }`}>
           All
-          {selectedCategory === "" && (
+          {selectedCategory === null && (
             <span className="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-600 transition-all duration-300" />
           )}
         </button>
@@ -45,10 +46,10 @@ const CategoryFilter: React.FC<TagBarProps> = ({
             <button
               key={cat}
               onClick={() => onSelect(cat)}
-              className={`relative pb-3 text-sm cursor-pointer tracking-widest transition-all duration-300 whitespace-nowrap ${
+              className={`relative pb-3 text-xs sm:text-sm cursor-pointer tracking-wider transition-all duration-300 whitespace-nowrap ${
                 isActive
                   ? "text-indigo-600"
-                  : "text-slate-400 hover:text-slate-600"
+                  : "text-slate-500 hover:text-slate-600"
               }`}>
               {formatCategory(cat)}
               {isActive && (
