@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { RiArrowRightLine } from "react-icons/ri";
 
 const SLIDE_DATA = [
   {

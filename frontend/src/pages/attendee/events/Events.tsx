@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { motion } from "motion/react";
 import EventCard from "../../../ui/EventCard";
 import type { Event, EventCategory } from "../../../types/eventType";
 import CategoryFilter from "./components/CategoryFilters";
@@ -10,10 +9,13 @@ import PaginationButton from "../../../ui/PaginationButton";
 import EventCardSkeleton from "./components/EventCardSkeleton";
 import EmptyOrganizerList from "../../organizer/organizerProfile/components/EmptyOrganizerList";
 import BrowseHeader from "./components/BrowseHeader";
+import { useSearchParams } from "react-router-dom";
 
 export default function Events() {
+  const [searchParms] = useSearchParams();
+  const categoryParams = searchParms.get("cat")?.toUpperCase();
   const [selectedCategory, setSelectedCategory] =
-    useState<EventCategory | null>(null);
+    useState<EventCategory | null>((categoryParams as EventCategory) || null);
   const [page, setPage] = useState(1);
   const search = useEventStore((state) => state.search);
   const isFree = useEventStore((state) => state.isFree);
