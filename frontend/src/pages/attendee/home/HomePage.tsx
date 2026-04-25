@@ -16,7 +16,7 @@ export function HomePage() {
 
   console.log("Data --> ", data?.data.data);
   return (
-    <div className="bg-gray-50 min-h-screen font-sans">
+    <div className="bg-gray-50 min-h-dvh font-sans">
       <Hero />
 
       <main className="max-w-7xl mx-auto px-8 py-12">
