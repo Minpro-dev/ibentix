@@ -1,24 +1,40 @@
 import { motion } from "framer-motion";
+import { RiSparkling2Line } from "react-icons/ri";
 
 export function Hero() {
   return (
-    <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 pt-8">
-      <div className="max-w-2xl">
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="font-display text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter text-gray-900 mb-4">
-          Curated Selections
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="text-gray-500 text-lg md:text-xl font-sans leading-relaxed">
-          Your personal collection of upcoming experiences, gala evenings, and
-          private viewings waiting to be finalized.
-        </motion.p>
+    <div
+      className="flex flex-col gap-4 px-8 pb-16
+     max-w-3xl">
+      <div className="flex pb-5 items-center gap-2 text-indigo-600">
+        <RiSparkling2Line className="text-xl animate-pulse" />
+        <span className="text-[10px] font-black uppercase tracking-[0.2em]">
+          Your Choices
+        </span>
       </div>
+      <motion.h1
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="text-4xl md:text-5xl font-medium tracking-tight text-zinc-800">
+        Curated Selections
+      </motion.h1>
+
+      <motion.p
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
+        className="text-base md:text-lg text-zinc-500 leading-relaxed font-normal">
+        Your personal collection of upcoming experiences, gala evenings, and
+        private viewings waiting to be finalized.
+      </motion.p>
+
+      <motion.div
+        initial={{ opacity: 0, scaleX: 0 }}
+        animate={{ opacity: 1, scaleX: 1 }}
+        transition={{ duration: 0.8, delay: 0.3 }}
+        className="h-px w-12 bg-indigo-500/30 mt-2 origin-left"
+      />
     </div>
   );
 }

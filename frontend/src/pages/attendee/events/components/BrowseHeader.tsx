@@ -1,5 +1,6 @@
 import { RiSparkling2Line, RiCompass3Line } from "react-icons/ri";
 import TotalEventsPreviewSkeleton from "./TotalEventsPreviewSkeleton";
+import { motion } from "framer-motion";
 
 export default function BrowseHeader({
   totalEvents,
@@ -20,14 +21,22 @@ export default function BrowseHeader({
             </span>
           </div>
 
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 tracking-tight leading-none">
+          <motion.h1
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="text-4xl md:text-5xl font-bold text-slate-900 tracking-tight leading-none">
             Browse <span className="text-indigo-600">Events.</span>
-          </h1>
+          </motion.h1>
 
-          <p className="text-slate-500 text-sm md:text-base max-w-md leading-relaxed">
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
+            className="text-slate-500 text-sm md:text-base max-w-md leading-relaxed">
             Curated experiences in Indonesia's most vibrant cities. Find your
             next favorite memory.
-          </p>
+          </motion.p>
         </div>
 
         {/* Right Side: Badge Count */}
@@ -39,7 +48,7 @@ export default function BrowseHeader({
               <span className="text-[10px] text-slate-400 leading-none mb-1">
                 Selected category
               </span>
-              <span className="text-sm font-black text-slate-900">
+              <span className="text-sm text-slate-900">
                 {totalEvents?.toLocaleString()}{" "}
                 <span className="text-[10px] ml-0.5">
                   {totalEvents > 1 ? "Events" : "Event"}
