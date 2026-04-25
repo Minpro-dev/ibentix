@@ -9,6 +9,8 @@ import FreeToggle from "./FreeToogle";
 import ProfileDropdown from "./ProfileDropdown";
 import { MENU_ITEMS } from "../static/navbarMenusStatic";
 import { capitalize } from "../utils/capitalize";
+import defaultAvatar from "./../assets/static/EventThumnailImage.jpg";
+import { useLogoutMutation } from "../pages/attendee/logout/hooks/useLogoutMutation";
 
 const Navbar = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -16,9 +18,9 @@ const Navbar = () => {
   const location = useLocation();
 
   const user = useAuthStore((state) => state.user);
-  const logout = useAuthStore((state) => state.clearAuth);
   const { search, setSearch } = useEventStore();
   const { pointsData } = useFetchUserPoints();
+  const { mutate: logout, isPending } = useLogoutMutation();
 
   const userPoints = pointsData?.data.points;
   const isEventRoute = location.pathname === "/events";
@@ -73,14 +75,14 @@ const Navbar = () => {
             </div>
 
             {/* Profile Logic */}
-            {user ? (
+            {user && user.isVerified ? (
               <div
                 className="relative"
                 onMouseEnter={() => setIsProfileOpen(true)}
                 onMouseLeave={() => setIsProfileOpen(false)}>
                 <div className="flex items-center gap-3 bg-zinc-50 hover:bg-indigo-50 p-1.5 pr-4 rounded-2xl border border-transparent hover:border-indigo-100 cursor-pointer transition-all">
                   <img
-                    src={user.avatar}
+                    src={user?.avatar || defaultAvatar}
                     alt="User"
                     className="w-9 h-9 rounded-xl object-cover shadow-sm"
                   />
@@ -103,15 +105,24 @@ const Navbar = () => {
                     userPoints={userPoints}
                     onNavigate={navigate}
                     onLogout={logout}
+                    isPending={isPending}
                   />
                 )}
               </div>
             ) : (
-              <Button
-                onClick={() => navigate("/login")}
-                className="px-8 rounded-2xl tracking-widest text-[11px]">
-                Sign In
-              </Button>
+              <div className="flex gap-3">
+                <Button
+                  variant="secondary"
+                  onClick={() => navigate("/signup")}
+                  className="px-8 rounded-2xl tracking-widest text-[11px]">
+                  Signup
+                </Button>
+                <Button
+                  onClick={() => navigate("/login")}
+                  className="px-8 rounded-2xl tracking-widest text-[11px]">
+                  Login
+                </Button>
+              </div>
             )}
           </div>
         </div>

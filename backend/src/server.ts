@@ -15,6 +15,7 @@ import pointRouter from "./routers/point.route";
 import referralCouponRouter from "./routers/referralCoupon.route";
 import reviewRouter from "./routers/review.router";
 import statisticsRoute from "./routers/statistics.route";
+import countryRoute from "./routers/country.router";
 import { initCronJobs } from "./jobs/cron";
 
 const app: Express = express();
@@ -72,6 +73,9 @@ app.use("/api/review", reviewRouter);
 
 // review end point
 app.use("/api/organizer/statistics", statisticsRoute);
+
+// country end point
+app.use("/api/countries", countryRoute);
 
 // error middleware
 app.use(globalErrorHandler);

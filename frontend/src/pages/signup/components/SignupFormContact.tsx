@@ -1,6 +1,9 @@
 import { Field } from "formik";
 import type { Role } from "../../../types/userType";
 import type { SignupFormContactProps } from "../types/signupTypes";
+import { useFetchCountries } from "../hooks/useFetchCountries";
+import type { ICountry } from "../../../types/countryType";
+import Button from "../../../ui/Button";
 
 const userRoles: Role[] = ["ATTENDEE", "ORGANIZER"];
 
@@ -11,6 +14,9 @@ function SignupFormContact({
   errors,
   touched,
 }: SignupFormContactProps) {
+  const { data } = useFetchCountries();
+  const countries = data?.data.data;
+
   return (
     <>
       <div className="flex gap-5 pb-5">
@@ -78,10 +84,14 @@ function SignupFormContact({
               as="select"
               name="countryId"
               className="px-4 py-3 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-indigo-500 bg-indigo-50/30 cursor-pointer appearance-none">
-              {/* 85625510-19bd-41b3-9f49-75d9c217d46a */}
-              <option value="ID">Indonesia</option>
-              <option value="US">United States</option>
-              <option value="JP">Japan</option>
+              <option value="" disabled>
+                select your country
+              </option>
+              {countries?.map((country: ICountry) => (
+                <option key={country.countryId} value={country.countryId}>
+                  {country.countryName}
+                </option>
+              ))}
             </Field>
             {errors.countryId && touched.countryId && (
               <p className="text-red-500 text-[10px] mt-1">
@@ -123,13 +133,9 @@ function SignupFormContact({
         </div>
 
         {/* Action Button */}
-        <button
-          type="button"
-          // disabled={}
-          onClick={onHandleNext}
-          className={`w-full mt-2 bg-indigo-600 hover:bg-indigo-700 text-white py-4 rounded-2xl shadow-xl shadow-indigo-100 transition-all active:scale-95 tracking-wider text-md`}>
+        <Button type="button" onClick={onHandleNext} className="w-full">
           Next
-        </button>
+        </Button>
       </div>
     </>
   );

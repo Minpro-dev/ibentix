@@ -133,12 +133,33 @@ export const authController = {
 
       res.cookie("refreshToken", refreshToken, REFRESH_COOKIE_OPTIONS);
 
+      if (!user?.isVerified) {
+        res.cookie("emailForOtp", user?.email, USER_EMAIL_OTP_COOKIE_OPTIONS);
+
+        await authService.resendOtp(user?.email);
+      }
+
       return res.status(200).json({
         status: "Success",
         data: { accessToken, user },
       });
     },
   ),
+
+  // LOGOUT
+  logout: catchAsync(async (req: Request, res: Response) => {
+    const userId = req.user?.userId;
+
+    if (userId) {
+      await authService.logoutService(userId);
+    }
+
+    res.clearCookie("refreshToken", REFRESH_COOKIE_OPTIONS);
+
+    return res.status(200).send({
+      message: "logged out successfully",
+    });
+  }),
 
   //----------- REFRESH TOKEN
   refresh: catchAsync(async (req: Request, res: Response) => {

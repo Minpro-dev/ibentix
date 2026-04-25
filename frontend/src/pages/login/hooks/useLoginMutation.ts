@@ -5,6 +5,7 @@ import { useAuthStore } from "../../../store/useAuthStore";
 import type { LoginFormType } from "../types/loginTypes";
 import { handleSubmitLogin } from "../../../services/authService";
 import { capitalize } from "../../../utils/capitalize";
+import api from "../../../api/axiosInstance";
 
 export const useLoginMutation = () => {
   const navigate = useNavigate();
@@ -12,9 +13,10 @@ export const useLoginMutation = () => {
 
   return useMutation({
     mutationFn: (values: LoginFormType) => handleSubmitLogin(values),
-    onSuccess: (res) => {
+    onSuccess: async (res) => {
       const token = res?.accessToken;
       const userResponse = res?.user;
+      console.log("res", res);
 
       const user = {
         id: userResponse?.userId,
@@ -25,10 +27,16 @@ export const useLoginMutation = () => {
         gender: userResponse?.gender,
         address: userResponse?.address,
         countryId: userResponse?.countryId,
+        isVerified: userResponse?.isVerified,
         role: userResponse?.role,
         avatar: userResponse?.avatar,
         createdAt: userResponse?.createdAt,
       };
+
+      if (!userResponse?.isVerified) {
+        navigate("/verify-email", { replace: true });
+        return;
+      }
 
       // save to zustand
       setAuth(token, user);

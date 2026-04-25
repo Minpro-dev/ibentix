@@ -24,7 +24,7 @@ export interface ContactFormValue {
   email: string;
   phone: string;
   password: string;
-  reconfirmPassword: string;
+  confirmPassword: string;
 }
 
 export interface SignupFormCredentialsProps {

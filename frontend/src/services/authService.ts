@@ -29,3 +29,13 @@ export const getUserProfile = async () => {
   const { data } = await api.get("/details");
   return data;
 };
+
+// handle sign up
+export const handleSignup = async (values: any) => {
+  await api.post("/auth/signup", values);
+};
+
+// handle get all countries
+export const handleGetAllCountries = async () => {
+  return await api.get("/countries");
+};
