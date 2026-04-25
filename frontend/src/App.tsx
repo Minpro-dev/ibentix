@@ -35,11 +35,13 @@ import OrderPageAttendee from "./pages/attendee/order/OrderPageAttendee";
 import OrderPayment from "./pages/attendee/payment/OrderPayment";
 import MyOrdersPage from "./pages/attendee/myOrderList/MyOrdersPage";
 import OrderDetailsPage from "./pages/attendee/myOrderList/OrderDetailsPage";
+import NotFoundPage from "./ui/NotFoundPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <AppLayout />,
+    errorElement: <NotFoundPage />,
     children: [
       {
         path: "signup",
@@ -54,7 +56,7 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "profile", // ✅ ADD THIS
+        path: "profile",
         element: (
           // <PrivateRoute allowedRoles={["ATTENDEE"]}>
           <ProfilePage />
@@ -62,7 +64,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "edit", // ✅ ADD THIS
+        path: "edit",
         element: (
           // <PrivateRoute allowedRoles={["ATTENDEE"]}>
           <EditProfile />
@@ -70,7 +72,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "myticket",
+        path: "my-tickets",
         element: (
           //<PrivateRoute allowedRoles={["ATTENDEE"]}>
           <MyTicketPage />
