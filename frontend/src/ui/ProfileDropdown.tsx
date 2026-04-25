@@ -2,7 +2,7 @@ import { House, LogOut } from "lucide-react";
 
 import { capitalize } from "../utils/capitalize";
 import { MENU_ITEMS } from "../static/navbarMenusStatic";
-import type { NavigateFunction } from "react-router-dom";
+import { NavLink, type NavigateFunction } from "react-router-dom";
 
 interface ProfileDropdownProps {
   user: {
@@ -40,13 +40,31 @@ export default function ProfileDropdown({
       </button>
       {/* Mapped Menu Items */}
       {MENU_ITEMS.map((item) => (
-        <button
-          key={item.path}
-          onClick={() => onNavigate(item.path)}
-          className="flex cursor-pointer items-center gap-3 px-5 py-2.5 text-sm text-zinc-600 hover:bg-indigo-50/50 hover:text-indigo-600 w-full text-left transition-colors">
-          <item.icon size={18} strokeWidth={2.5} />
-          <span>{item.label}</span>
-        </button>
+        <NavLink
+          to={item.path}
+          className={({ isActive }) => `
+    flex cursor-pointer items-center gap-3 px-5 py-2.5 text-sm transition-all w-full text-left rounded-xl
+    ${
+      isActive
+        ? "bg-indigo-50 text-indigo-600"
+        : "text-zinc-600 hover:bg-slate-50 hover:text-indigo-600"
+    }
+  `}>
+          {({ isActive }) => (
+            <>
+              <item.icon
+                size={18}
+                strokeWidth={isActive ? 2.5 : 2}
+                className={
+                  isActive
+                    ? "text-indigo-600"
+                    : "text-zinc-400 group-hover:text-indigo-600"
+                }
+              />
+              <span>{item.label}</span>
+            </>
+          )}
+        </NavLink>
       ))}
 
       {/* Logout Section */}

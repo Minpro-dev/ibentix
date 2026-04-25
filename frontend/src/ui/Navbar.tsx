@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Search, Coins } from "lucide-react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
 import { useEventStore } from "../store/useEventStore";
 import { useFetchUserPoints } from "../pages/attendee/order/hooks/useFetchUserPoints";
@@ -56,16 +56,19 @@ const Navbar = () => {
           <div className="flex items-center gap-2 md:gap-8">
             <div className="hidden lg:flex items-center gap-6">
               {MENU_ITEMS.slice(0, 2).map((item) => (
-                <button
+                <NavLink
                   key={item.path}
-                  onClick={() => navigate(item.path)}
-                  className="flex flex-col cursor-pointer items-center text-zinc-500 hover:text-indigo-600 transition-all group">
+                  to={item.path}
+                  className={({ isActive }) => `
+    relative flex flex-col cursor-pointer items-center transition-all group pt-2 pb-1
+    ${isActive ? "text-indigo-600" : "text-zinc-500 hover:text-indigo-600"}
+  `}>
                   <item.icon
                     size={20}
                     className="group-hover:scale-110 transition-transform"
                   />
                   <span className="text-[10px] mt-1.5">{item.label}</span>
-                </button>
+                </NavLink>
               ))}
             </div>
 
@@ -106,7 +109,7 @@ const Navbar = () => {
             ) : (
               <Button
                 onClick={() => navigate("/login")}
-                className="px-8 rounded-2xl font-black uppercase tracking-widest text-[11px]">
+                className="px-8 rounded-2xl tracking-widest text-[11px]">
                 Sign In
               </Button>
             )}
