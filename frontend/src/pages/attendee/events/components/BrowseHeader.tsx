@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { RiSparkling2Line, RiCompass3Line } from "react-icons/ri";
 import TotalEventsPreviewSkeleton from "./TotalEventsPreviewSkeleton";
 
