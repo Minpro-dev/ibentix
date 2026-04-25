@@ -30,7 +30,7 @@ const Navbar = () => {
           {/* 1. Logo */}
           <div
             onClick={() => navigate("/")}
-            className="shrink-0 cursor-pointer">
+            className={`${isEventRoute && "hidden sm:block"} shrink-0 cursor-pointer`}>
             <span className="text-2xl font-black text-indigo-600 tracking-tighter uppercase">
               Ibentix<span className="text-zinc-900">.</span>
             </span>
@@ -38,14 +38,14 @@ const Navbar = () => {
 
           {/* 2. Search Bar Section */}
           {isEventRoute && (
-            <div className="flex-1 max-w-lg hidden sm:flex items-center gap-3">
+            <div className="flex-1 max-w-lg flex items-center gap-3">
               <div className="relative w-full">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
                 <input
                   type="text"
                   value={search}
                   placeholder="Search events..."
-                  className="w-full pl-11 pr-4 py-3 bg-zinc-50 border-none rounded-2xl text-sm focus:ring-2 focus:ring-indigo-500/20 focus:bg-white transition-all outline-none"
+                  className="w-full pl-11 pr-4 py-2 sm:py-3 bg-zinc-50 border-none rounded-2xl text-xs sm:text-sm focus:ring-2  text-zinc-500 focus:ring-indigo-500/20 focus:bg-white transition-all outline-none"
                   onChange={(e) => setSearch(e.target.value)}
                 />
               </div>
