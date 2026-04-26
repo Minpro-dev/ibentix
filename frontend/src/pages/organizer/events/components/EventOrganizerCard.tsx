@@ -1,11 +1,4 @@
-import {
-  Calendar,
-  Edit3,
-  ExternalLink,
-  MapPin,
-  Trash2,
-  Users,
-} from "lucide-react";
+import { Calendar, Edit3, MapPin, Trash2, Users } from "lucide-react";
 import Button from "../../../../ui/Button";
 import type { Event } from "../../../../types/eventType";
 import { formatDate } from "../../../../utils/dateFormatter";

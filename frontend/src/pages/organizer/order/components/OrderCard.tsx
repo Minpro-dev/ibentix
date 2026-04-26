@@ -1,7 +1,6 @@
 import {
   RiCheckboxCircleLine,
   RiCloseCircleLine,
-  RiImageLine,
   RiTimeLine,
   RiUserLine,
   RiErrorWarningLine,

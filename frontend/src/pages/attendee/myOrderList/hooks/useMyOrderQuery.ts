@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getMyOrders } from "../../../../services/orderService";
+import { getMyOrders } from "../../../../services/OrderService";
 
 export const useMyOrdersQuery = (page: number) => {
   const { data, isLoading } = useQuery({

@@ -1,7 +1,7 @@
 import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
-import { orderAttendeeSchema } from "../schemas/OrderAttendeeSchme";
 import { RiMailLine, RiTicket2Line, RiUser3Line } from "react-icons/ri";
 import type { OrderFormValues } from "../types/orderAttendeeType";
+import { orderAttendeeSchema } from "../schemas/orderAttendeeSchme";
 
 interface AttendeeFormProps {
   qty: number;

@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { handleChangeSatatus } from "../../../../services/orderService";
+
 import { toast } from "sonner";
+import { handleChangeSatatus } from "../../../../services/OrderService";
 
 export const useUpdatePaymentStatus = () => {
   const queryClient = useQueryClient();

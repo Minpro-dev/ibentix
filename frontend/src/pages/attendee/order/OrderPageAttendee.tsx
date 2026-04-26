@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import type { Event } from "../../../types/eventType";
 
 import OrderEventPreview from "./components/OrderEventPreview";

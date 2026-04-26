@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import type { createOrderPayloadType } from "../types/createOrderPayloadType";
-import { handleCreateOrder } from "../../../../services/orderService";
+import { handleCreateOrder } from "../../../../services/OrderService";
 
 export const useOrderMutation = () => {
   const navigate = useNavigate();
@@ -10,7 +10,7 @@ export const useOrderMutation = () => {
   return useMutation({
     mutationFn: (payload: createOrderPayloadType) => handleCreateOrder(payload),
 
-    onSuccess: (res) => {
+    onSuccess: (res: any) => {
       Swal.fire({
         title: "Order Placed!",
         text: "Your order has been created successfully. Redirecting to payment...",

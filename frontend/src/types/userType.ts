@@ -1,6 +1,6 @@
 export type Role = "ORGANIZER" | "ATTENDEE";
 
-export interface UserStore {
+export interface UserProfile {
   id: string;
   firstName: string;
   lastName: string;

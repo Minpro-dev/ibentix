@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import { useCountdown } from "./hooks/useCountDown";
-import { getOrderDetails } from "../../../services/orderService";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { RiTimeLine } from "react-icons/ri";
 import defaultThumbnail from "../../../assets/static/EventThumnailImage.jpg";
@@ -10,6 +9,7 @@ import PaymentUploadModal from "./components/PaymentUploadModal";
 import { useState } from "react";
 import { useFetchCurrentReview } from "./hooks/useFetchCurrentReview";
 import ReviewResultCard from "./components/ReviewResultCard";
+import { getOrderDetails } from "../../../services/OrderService";
 
 export default function OrderDetailsPage() {
   const [isOpen, setIsOpen] = useState(false);

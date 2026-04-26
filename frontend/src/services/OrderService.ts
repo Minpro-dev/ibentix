@@ -1,8 +1,5 @@
 import api from "../api/axiosInstance";
-import type {
-  OrderListItem,
-  OrderListResponse,
-} from "../pages/attendee/myOrderList/types/myOrderType";
+import type { OrderListResponse } from "../pages/attendee/myOrderList/types/myOrderType";
 import type { createOrderPayloadType } from "../pages/attendee/order/types/createOrderPayloadType";
 import type { GetTicketResponse } from "../pages/attendee/ticket/types.ts/getTicketResponseType";
 
