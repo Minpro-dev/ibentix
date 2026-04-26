@@ -17,11 +17,9 @@ import reviewRouter from "./routers/review.router";
 import statisticsRoute from "./routers/statistics.route";
 import countryRoute from "./routers/country.router";
 import { initCronJobs } from "./jobs/cron";
-import { FRONTEND_URL } from "./config/dotenv.config";
+import { FRONTEND_URL, NODE_ENV } from "./config/dotenv.config";
 
 const app: Express = express();
-
-const PORT = 8000;
 
 // json middleware
 app.use(express.json());
@@ -82,7 +80,11 @@ app.use("/api/countries", countryRoute);
 app.use(globalErrorHandler);
 
 //app config
-app.listen(PORT, () => {
-  console.log(`🦄 Server is running in port ${PORT}`);
-  initCronJobs();
-});
+if (NODE_ENV !== "production") {
+  const PORT = 8000;
+
+  app.listen(PORT, () => {
+    console.log(`🦄 Server is running in port ${PORT}`);
+    initCronJobs();
+  });
+}
