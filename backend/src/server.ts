@@ -1,5 +1,5 @@
 import "dotenv/config";
-import express, { Express, NextFunction, Request, Response } from "express";
+import express, { Express } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { globalErrorHandler } from "./middleware/error.middleware";
@@ -17,6 +17,7 @@ import reviewRouter from "./routers/review.router";
 import statisticsRoute from "./routers/statistics.route";
 import countryRoute from "./routers/country.router";
 import { initCronJobs } from "./jobs/cron";
+import { FRONTEND_URL } from "./config/dotenv.config";
 
 const app: Express = express();
 
@@ -31,7 +32,7 @@ app.use(cookieParser());
 //cors middleware
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: FRONTEND_URL,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
