@@ -87,6 +87,7 @@ export const authController = {
   //----------- RESEND OTP
   resendOtp: catchAsync(async (req: Request, res: Response) => {
     const email = req.cookies.emailForOtp;
+    console.log(email);
 
     await authService.resendOtp(email);
 
@@ -131,10 +132,7 @@ export const authController = {
       );
 
       res.cookie("refreshToken", refreshToken, REFRESH_COOKIE_OPTIONS);
-
-      if (!user?.isVerified) {
-        res.cookie("emailForOtp", user?.email, USER_EMAIL_OTP_COOKIE_OPTIONS);
-      }
+      res.cookie("emailForOtp", user?.email, USER_EMAIL_OTP_COOKIE_OPTIONS);
 
       return res.status(200).json({
         status: "Success",
