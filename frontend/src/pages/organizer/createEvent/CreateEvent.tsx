@@ -183,7 +183,7 @@ function CreateEvent() {
                   ))}
                 </Field>
                 <Link
-                  to="/"
+                  to="/organizer/organizer-profile"
                   className="text-xs text-indigo-600 hover:underline mt-2 inline-block">
                   + Create new organizer profile
                 </Link>
