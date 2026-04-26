@@ -88,3 +88,5 @@ if (NODE_ENV !== "production") {
     initCronJobs();
   });
 }
+
+export default app;
