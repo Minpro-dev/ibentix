@@ -21,6 +21,8 @@ import { FRONTEND_URL, NODE_ENV } from "./config/dotenv.config";
 
 const app: Express = express();
 
+app.set("trust proxy", 1);
+
 // json middleware
 app.use(express.json());
 
