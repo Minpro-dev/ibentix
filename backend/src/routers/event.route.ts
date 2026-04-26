@@ -24,10 +24,6 @@ import {
 
 const route = Router();
 
-// =========================
-// ATTENDEE ROUTES
-// =========================
-
 // GET all events (with filter + pagination)
 route.get("/", validate(getEventsQuerySchema), getAllEvents);
 
@@ -39,10 +35,6 @@ route.get("/details/:eventId", getEventDetail);
 
 // GET event detail by slug
 route.get("/slug/:slug", getEventBySlug);
-
-// // =========================
-// // ORGANIZER ROUTES
-// // =========================
 
 // GET my events
 route.get("/organizer/me", authentication, getEventsByOrganizer);

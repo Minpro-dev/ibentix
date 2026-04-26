@@ -287,6 +287,9 @@ export const updateEventService = async (
     where: { eventId },
     data: {
       ...(data.title && { title: data.title }),
+      ...(data.title && {
+        slug: data.title.toLowerCase().replace(/ /g, "-") + "-" + Date.now(),
+      }),
       ...(data.description && { description: data.description }),
       ...(data.availableSlot && { availableSlot: Number(data.availableSlot) }),
       ...(data.price && { price: Number(data.price) }),

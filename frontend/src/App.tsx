@@ -14,12 +14,10 @@ import MyTicketPage from "./pages/attendee/ticket/MyTicketPage";
 import EditProfile from "./pages/attendee/profile/edit-profile/EditProfile";
 import ProfilePage from "./pages/attendee/profile/ProfilePage";
 import Events from "./pages/attendee/events/Events";
-import Review from "./pages/attendee/review/page";
 import AppLayoutOrganizer from "./ui/AppLayoutOrganizer";
 import EventsOrganizer from "./pages/organizer/events/EventsOrganizer";
 import CreateEvent from "./pages/organizer/createEvent/CreateEvent";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import AllReview from "./pages/attendee/review/my-review/page";
 import EventDetail from "./pages/attendee/details/EventDetails";
 import Wishlist from "./pages/attendee/wishlist/Wishlist";
 import OrganizerProfile from "./pages/organizer/organizerProfile/OrganizerProfile";
@@ -118,29 +116,10 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-      {
-        path: "review",
-        element: (
-          <PrivateRoute allowedRoles={["ATTENDEE"]}>
-            <Review />
-          </PrivateRoute>
-        ),
-      },
-      {
-        path: "myreview",
-        element: (
-          <PrivateRoute allowedRoles={["ATTENDEE"]}>
-            <AllReview />
-          </PrivateRoute>
-        ),
-      },
+
       {
         path: "events/:slug",
-        element: (
-          //<PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <EventDetail />
-          //</PrivateRoute>
-        ),
+        element: <EventDetail />,
       },
       {
         path: "wishlist",

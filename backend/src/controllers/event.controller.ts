@@ -178,39 +178,6 @@ export const updateEvent = catchAsync(async (req: Request, res: Response) => {
     data: updatedEvent,
   });
 });
-//   // validation number
-//   if (req.body.available_slot) {
-//     const slot = parseInt(String(req.body.available_slot));
-//     if (isNaN(slot)) throw new AppError(400, 'Invalid available_slot');
-//     updateData.available_slot = slot;
-//   }
-
-//   if (req.body.price) {
-//     const price = parseFloat(String(req.body.price));
-//     if (isNaN(price)) throw new AppError(400, 'Invalid price');
-//     updateData.price = price;
-//   }
-
-//   if (req.body.event_date) {
-//     updateData.event_date = new Date(req.body.event_date);
-//   }
-
-//   if (req.body.isFree !== undefined) {
-//     updateData.isFree = String(req.body.isFree) === 'true';
-//   }
-
-//   const result = await eventService.updateEventService(
-//     event_id,
-//     updateData,
-//     organizerId
-//   );
-
-//   res.status(200).json({
-//     status: 'success',
-//     message: 'Event updated successfully',
-//     data: result,
-//   });
-// });
 
 // 7. DELETE EVENT (SOFT DELETE)
 export const deleteEvent = catchAsync(async (req: Request, res: Response) => {
