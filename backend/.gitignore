@@ -2,6 +2,9 @@
 node_modules/
 jspm_packages/
 
+# Custom Prisma generated client
+/generated/prisma
+
 # Build outputs
 dist/
 build/
