@@ -69,7 +69,7 @@ function SingupPage() {
               // const { confirmPassword: _confirmPassword, ...rest } = values;
               const valuesSelection = {
                 ...values,
-                referralCode:
+                usedReferralCode:
                   values.referralCode !== "" ? values.referralCode : null,
               };
 
