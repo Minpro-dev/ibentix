@@ -32,7 +32,7 @@ function SingupPage() {
       <div className="flex justify-center">
         <div className="w-[90%] sm:w-[80%] md:w-[70%] lg:w-[50%] px-8 py-8 border border-zinc-300 rounded-xl">
           <div className="flex justify-center items-center pt-5 pb-10">
-            <h1 className="text-3xl font-helvetica-arial font-semibold text-zinc-600">
+            <h1 className="text-3xl font-helvetica-arial font-base text-zinc-600">
               Create Account
             </h1>
           </div>

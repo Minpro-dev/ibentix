@@ -33,7 +33,7 @@ const Navbar = () => {
           <div
             onClick={() => navigate("/")}
             className={`${isEventRoute && "hidden sm:block"} shrink-0 cursor-pointer`}>
-            <span className="text-2xl font-black text-indigo-600 tracking-tighter uppercase">
+            <span className="text-xl sm:text-2xl font-black text-indigo-600 tracking-tighter uppercase">
               Ibentix<span className="text-zinc-900">.</span>
             </span>
           </div>
