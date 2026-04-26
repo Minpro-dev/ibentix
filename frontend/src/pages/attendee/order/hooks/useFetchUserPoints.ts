@@ -6,7 +6,7 @@ export const useFetchUserPoints = () => {
     queryKey: ["userPoints"],
     queryFn: getUserPoints,
     retry: (failureCount, error: any) => {
-      if (error?.response?.status === 403) return false;
+      if (error?.response?.status === 401) return false;
       return failureCount < 3; //
     },
   });
