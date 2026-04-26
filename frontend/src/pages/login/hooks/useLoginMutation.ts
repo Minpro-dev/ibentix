@@ -5,7 +5,6 @@ import { useAuthStore } from "../../../store/useAuthStore";
 import type { LoginFormType } from "../types/loginTypes";
 import { handleSubmitLogin } from "../../../services/authService";
 import { capitalize } from "../../../utils/capitalize";
-import api from "../../../api/axiosInstance";
 
 export const useLoginMutation = () => {
   const navigate = useNavigate();
@@ -16,7 +15,6 @@ export const useLoginMutation = () => {
     onSuccess: async (res) => {
       const token = res?.accessToken;
       const userResponse = res?.user;
-      console.log("res", res);
 
       const user = {
         id: userResponse?.userId,
