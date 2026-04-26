@@ -20,7 +20,7 @@ export default function Unauthorized() {
             <RiLockPasswordLine size={48} />
           </div>
 
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-indigo-100/50 rounded-full blur-2xl -z-0" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-indigo-100/50 rounded-full blur-2xl z-0" />
         </motion.div>
 
         <motion.div

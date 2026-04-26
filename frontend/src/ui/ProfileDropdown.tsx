@@ -30,7 +30,7 @@ export default function ProfileDropdown({
           {capitalize(user.firstName)} {user.lastName}
         </p>
         <p className="text-xs text-indigo-600 mt-1">
-          IDR {userPoints?.toLocaleString("id-ID")}
+          IDR {userPoints?.toLocaleString("id-ID") || 0}
         </p>
       </div>
 

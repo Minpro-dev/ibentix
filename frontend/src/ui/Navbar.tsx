@@ -75,7 +75,7 @@ const Navbar = () => {
             </div>
 
             {/* Profile Logic */}
-            {user && user.isVerified ? (
+            {user && user.isVerified && user.role === "ATTENDEE" ? (
               <div
                 className="relative"
                 onMouseEnter={() => setIsProfileOpen(true)}
@@ -93,7 +93,7 @@ const Navbar = () => {
                     <div className="flex items-center gap-1 mt-1">
                       <Coins size={10} className="text-indigo-600" />
                       <p className="text-[10px] font-semibold text-indigo-600">
-                        IDR {userPoints?.toLocaleString("id-ID")}
+                        IDR {userPoints?.toLocaleString("id-ID") || 0}
                       </p>
                     </div>
                   </div>
