@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { RiMenu3Fill, RiCloseLine, RiLogoutBoxLine } from "react-icons/ri";
-import type { UserStore } from "../types/userType";
 import { useAuthStore } from "../store/useAuthStore";
 import { SIDEBAR_MENU } from "../static/sidebarRoutes";
+import type { UserProfile } from "../types/userType";
 
 interface MobileNavbarProps {
-  user: UserStore;
+  user: UserProfile;
 }
 
 export default function MobileNavbar({ user }: MobileNavbarProps) {

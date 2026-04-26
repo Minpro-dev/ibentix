@@ -1,14 +1,14 @@
 import { create } from "zustand";
-import type { UserStore } from "../types/userType";
+import type { UserProfile } from "../types/userType";
 
 interface State {
   accessToken: string | null;
-  user: UserStore | null;
+  user: UserProfile | null;
   isInitializing: boolean;
 }
 
 interface Action {
-  setAuth: (token: string, user: UserStore) => void;
+  setAuth: (token: string, user: UserProfile) => void;
   clearAuth: () => void;
   setInitializing: (boolean: boolean) => void;
 }

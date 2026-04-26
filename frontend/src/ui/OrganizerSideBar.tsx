@@ -1,10 +1,10 @@
 import { NavLink } from "react-router-dom";
 import { SIDEBAR_MENU } from "../static/sidebarRoutes";
-import type { UserStore } from "../types/userType";
 import SideBarMenuItemOrganizer from "./SideBarMenuItemOrganizer";
+import type { UserProfile } from "../types/userType";
 
 interface OrganizerSideBarProps {
-  user: UserStore;
+  user: UserProfile;
 }
 
 function OrganizerSideBar({ user }: OrganizerSideBarProps) {
