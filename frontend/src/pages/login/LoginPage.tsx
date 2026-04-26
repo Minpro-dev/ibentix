@@ -2,10 +2,20 @@ import { Form, Formik } from "formik";
 import { loginSchema } from "./schema/loginSchema";
 import LoginForm from "./components/LoginForm";
 import { useLoginMutation } from "./hooks/useLoginMutation";
+import { useAuthStore } from "../../store/useAuthStore";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function LoginPage() {
   const { mutate: login, isPending } = useLoginMutation();
+  const user = useAuthStore((state) => state.user);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [navigate, user]);
   return (
     <main className="min-h-[90dvh] flex items-center justify-center bg-zinc-50/50">
       <div className="w-[95%] sm:w-100 px-8 py-10 bg-white border border-zinc-200 rounded-2xl shadow-xl shadow-zinc-100/50">

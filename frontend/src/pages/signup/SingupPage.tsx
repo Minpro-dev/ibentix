@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SignupFormCredentials from "./components/SignupFormCredentials";
 import SignupFormContact from "./components/SignupFormContact";
 
@@ -9,11 +9,15 @@ import {
 } from "./schema/signUpSchema";
 import type { Role } from "../../types/userType";
 import { useSignupMutation } from "./hooks/useSignupMutation";
+import { useAuthStore } from "../../store/useAuthStore";
+import { useNavigate } from "react-router-dom";
 
 function SingupPage() {
   const [step, setStep] = useState(1);
   const [role, setRole] = useState<Role>("ATTENDEE");
   const { mutate } = useSignupMutation();
+  const user = useAuthStore((state) => state.user);
+  const navigate = useNavigate();
 
   const handleSelectRole = (role: Role) => {
     setRole(role);
@@ -26,6 +30,12 @@ function SingupPage() {
   const handlePrevStep = () => {
     setStep(1);
   };
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [navigate, user]);
 
   return (
     <main className="py-20">
