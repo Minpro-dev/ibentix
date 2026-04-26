@@ -43,7 +43,6 @@ function OrderNewOrganizer() {
               key={index}
               onOrderClick={handleOrderClick}
               order={order}
-              onViewProof={(url) => setSelectedProof(url)}
             />
           ))
         )}
@@ -57,7 +56,7 @@ function OrderNewOrganizer() {
       {/* Modal View Proof */}
       {selectedProof && (
         <div
-          className="fixed inset-0 bg-zinc-900/90 backdrop-blur-md z-[100] flex items-center justify-center p-6"
+          className="fixed inset-0 bg-zinc-900/90 backdrop-blur-md z-100 flex items-center justify-center p-6"
           onClick={() => setSelectedProof(null)}>
           <button className="absolute top-10 right-10 text-white hover:text-indigo-400 transition-all">
             <RiCloseLine size={32} />
