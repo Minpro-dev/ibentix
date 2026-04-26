@@ -32,7 +32,7 @@ function SingupPage() {
   };
 
   useEffect(() => {
-    if (user) {
+    if (user && user.isVerified) {
       navigate("/");
     }
   }, [navigate, user]);

@@ -21,11 +21,7 @@ export const signupContactSchema = y.object().shape({
     .required("Address is required")
     .min(8, "Full address contains at least 8 character")
     .max(35, "Maximum 35 characters"),
-  referralCode: y
-    .string()
-    .min(5, "Refferal code only has 5 character") //FIXME
-    .max(5, "Refferal code only has 5 character")
-    .optional(),
+  referralCode: y.string().optional(),
 });
 
 export const signupCredentialsSchema = y.object().shape({
