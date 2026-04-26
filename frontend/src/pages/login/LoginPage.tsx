@@ -12,8 +12,10 @@ function LoginPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) {
+    if (user && user.role === "ATTENDEE") {
       navigate("/");
+    } else if (user && user.role === "ORGANIZER") {
+      navigate("/organizer");
     }
   }, [navigate, user]);
   return (

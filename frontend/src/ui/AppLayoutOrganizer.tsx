@@ -5,8 +5,11 @@ import { Toaster } from "sonner";
 import Breadcrumbs from "./BreadCrumbsOrganizer";
 import OrganizerSideBar from "./OrganizerSideBar";
 import MobileNavbar from "./OrganizerMobileNavbar";
+import Button from "./Button";
+import { useLogoutMutation } from "../pages/attendee/logout/hooks/useLogoutMutation";
 
 function AppLayoutOrganizer() {
+  const { mutate: logout, isPending } = useLogoutMutation();
   const navigate = useNavigate();
   const user = useAuthStore((state) => state.user);
   const clearAuth = useAuthStore((state) => state.clearAuth);
@@ -38,9 +41,12 @@ function AppLayoutOrganizer() {
                 <div
                   onClick={clearAuth}
                   className="bg-red-50 px-3 py-2 cursor-pointer hover:bg-red-100 transition-all duration-500 flex items-center rounded-xl">
-                  <button>
-                    <LuLogOut className="font-3xl text-red-600 cursor-pointer" />
-                  </button>
+                  <Button
+                    disabled={isPending}
+                    variant="danger"
+                    onClick={logout}>
+                    <LuLogOut className="font-3xl text-red-600" />
+                  </Button>
                 </div>
               </div>
             </div>
