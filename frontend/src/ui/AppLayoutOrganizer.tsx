@@ -44,7 +44,7 @@ function AppLayoutOrganizer() {
                   <Button
                     disabled={isPending}
                     variant="danger"
-                    onClick={logout}>
+                    onClick={() => logout()}>
                     <LuLogOut className="font-3xl text-red-600" />
                   </Button>
                 </div>
