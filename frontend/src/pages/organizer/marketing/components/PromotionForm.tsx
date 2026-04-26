@@ -46,7 +46,6 @@ function PromotionForm({ selectedEvent }: PromotionFormProps) {
         }}
         validationSchema={promotionSchema}
         onSubmit={(values, { resetForm }) => {
-          console.log(values);
           mutate({ ...values, eventId });
           resetForm();
         }}>

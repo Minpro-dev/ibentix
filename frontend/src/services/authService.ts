@@ -5,8 +5,7 @@ import { api } from "../api/axiosInstance";
 // ----- TESTING PURPOSES
 export const getAllData = async () => {
   try {
-    const res = await axios.get("http://localhost:8000/api/auth/testing");
-    console.log("res", res);
+    await axios.get("http://localhost:8000/api/auth/testing");
   } catch (error) {
     console.log(error);
   }
@@ -18,8 +17,6 @@ export const handleSubmitLogin = async (values: LoginFormType) => {
     email: values.email,
     password: values.password,
   });
-
-  // console.log("res-login", res.data.data);
 
   return res.data.data;
 };

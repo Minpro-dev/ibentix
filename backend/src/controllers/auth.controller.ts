@@ -112,7 +112,6 @@ export const authController = {
   //----------- LOGIN
   login: catchAsync(
     async (req: Request<{}, {}, LoginSchema>, res: Response) => {
-      console.log(req.body);
       const user = await authService.validateUser(req.body);
 
       const payload = {
@@ -224,7 +223,7 @@ export const authController = {
     ) => {
       const token = req.params.token;
       const { newPassword } = req.body;
-      console.log("token , typeof", token, typeof token);
+
       await authService.createNewPassword(token, newPassword);
 
       res.status(200).json({

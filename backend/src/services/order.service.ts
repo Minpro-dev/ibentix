@@ -24,7 +24,6 @@ export const orderService = {
     referralCouponId,
     tickets,
   }: any) => {
-    console.log("user id --> ", userId);
     // CHECK EVENT IN DB
     const event = await prisma.event.findUnique({ where: { eventId } });
 
@@ -294,7 +293,6 @@ export const orderService = {
     // by orderStatus ✅
     if (orderStatus) {
       const status = orderStatus.split(",");
-      console.log("status", status);
 
       where.payment = {
         paymentStatus: {

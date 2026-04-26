@@ -14,10 +14,6 @@ export const toggleWishlist = async (
     const userId = req.user?.userId;
     const eventId = req.params.eventId as string;
 
-    // console.log("=== TOGGLE WISHLIST ===");
-    // console.log("User:", userId);
-    // console.log("Event:", eventId);
-
     if (!userId) {
       return res.status(401).json({ message: "Unauthorized" });
     }

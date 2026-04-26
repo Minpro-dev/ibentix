@@ -56,8 +56,6 @@ function SingupPage() {
               step === 1 ? signupContactSchema : signupCredentialsSchema
             }
             onSubmit={(values) => {
-              console.log(values);
-
               // const { confirmPassword: _confirmPassword, ...rest } = values;
               const valuesSelection = {
                 ...values,

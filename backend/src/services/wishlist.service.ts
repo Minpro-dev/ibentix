@@ -5,11 +5,10 @@ import { prisma } from "../config/prismaClient.config";
 // const prisma = new PrismaClient();
 // 1. TOGGLE WISHLIST (LIKE / UNLIKE)
 
-export const toggleWishlistService = async (userId: string, eventId: string) => {
-  console.log("=== TOGGLE WISHLIST ===");
-  console.log("User:", userId);
-  console.log("Event:", eventId);
-
+export const toggleWishlistService = async (
+  userId: string,
+  eventId: string,
+) => {
   const existing = await prisma.wishlist.findUnique({
     where: {
       userId_eventId: {
@@ -21,8 +20,6 @@ export const toggleWishlistService = async (userId: string, eventId: string) => 
 
   // UNLIKE
   if (existing) {
-    console.log("ACTION: UNLIKE");
-
     await prisma.wishlist.delete({
       where: {
         userId_eventId: {

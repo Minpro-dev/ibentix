@@ -32,12 +32,10 @@ const OrganizerEventDetailSheet = ({
     setPage(page);
   };
 
-  const { data, isLoading } = useFetchTicketData(event, isOpen, page); //FIXME
+  const { data } = useFetchTicketData(event, isOpen, page); //FIXME
   const totalData = data?.data.data.totalData;
   const ticketData = data?.data.data.attendees;
   const totalPage = data?.data.data.totalPage;
-
-  console.log(data?.data.data);
 
   if (!event) return null;
 

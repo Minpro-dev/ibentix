@@ -24,7 +24,6 @@ const SALT_ROUNDS = 10;
 export const authService = {
   //--------------------- SIGNUP
   registerUser: async (data: any) => {
-    console.log("data", data);
     try {
       const hashedPassword = await bcrypt.hash(data.password, SALT_ROUNDS);
       const otpExpiresAt = new Date(Date.now() + 5 * 60 * 1000); // expired 5 menit
@@ -111,7 +110,6 @@ export const authService = {
 
       return user;
     } catch (error) {
-      console.log("error --> ", error);
       handlePrismaError(error);
     }
   },
@@ -215,7 +213,6 @@ export const authService = {
       const updateData: any = {
         ...data,
       };
-      console.log(updateData);
 
       if (file) {
         updateData.avatar = file

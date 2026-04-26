@@ -12,7 +12,7 @@ export const createEvent = catchAsync(async (req: Request, res: Response) => {
   }
 
   const userId = req.user.userId;
-  console.log(userId);
+
   let thumbnailUrl = "";
 
   if (req.file?.buffer) {
@@ -156,7 +156,6 @@ export const updateEvent = catchAsync(async (req: Request, res: Response) => {
   const userId = req.user.userId;
   let updateData: any = { ...req.body };
 
-  console.log("file", req.file);
   // upload thumbnail
   if (req.file) {
     try {

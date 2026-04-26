@@ -94,7 +94,7 @@ export default function EditEventSheet({
               formData.append("availableSlot", values.availableSlot.toString());
               formData.append("isFree", values.isFree.toString());
               formData.append("price", values.price.toString());
-              console.log("Updating event:", values);
+
               if (values.thumbnail !== null) {
                 formData.append("thumbnail", values.thumbnail);
               }

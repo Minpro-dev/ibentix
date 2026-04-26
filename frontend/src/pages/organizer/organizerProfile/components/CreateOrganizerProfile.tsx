@@ -46,7 +46,6 @@ function CreateOrganizerProfile() {
             formData.append("image", values.image);
           }
 
-          //   console.log(values);
           mutate(formData);
           resetForm();
         }}>

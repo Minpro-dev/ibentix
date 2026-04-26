@@ -66,8 +66,6 @@ export default function OrderPageAttendee() {
         : null,
     };
 
-    console.log("payload --> ", payload);
-
     confirmOrder(() => {
       mutate(payload);
     });

@@ -54,8 +54,6 @@ function CreateEvent() {
         onSubmit={async (values, { resetForm }) => {
           const formData = new FormData();
 
-          // console.log("Form Submitted:", values);
-
           formData.append("title", values.title);
           formData.append("description", values.description);
           formData.append("availableSlot", values.availableSlot.toString());
@@ -76,7 +74,7 @@ function CreateEvent() {
           try {
             setIsLoading(true);
             const response: any = await handleCreateEvent(formData);
-            // console.log("response", response);
+
             setIsLoading(false);
             if (response.status === 201) {
               navigate("/organizer/events");

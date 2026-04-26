@@ -271,7 +271,6 @@ function App() {
       isInistialized.current = true;
       try {
         const { data } = await api.get("/auth/refresh");
-        console.log("app ->", data);
         setAuth(data.data.accessToken, data.data.user);
       } catch (error) {
         console.log("error -> ", error);

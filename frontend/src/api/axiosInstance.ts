@@ -44,7 +44,6 @@ api.interceptors.response.use(
           "http://localhost:8000/api/auth/refresh",
           { withCredentials: true },
         );
-        // console.log("data interceptors", data);
 
         const accessToken = data.data.accessToken;
         useAuthStore.getState().setAuth(accessToken, data.data.user);
