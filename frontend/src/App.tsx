@@ -37,6 +37,7 @@ import MyOrdersPage from "./pages/attendee/myOrderList/MyOrdersPage";
 import OrderDetailsPage from "./pages/attendee/myOrderList/OrderDetailsPage";
 import NotFoundPage from "./ui/NotFoundPage";
 import { VerifyEmailPage } from "./pages/signup/components/VerifyEmailPage";
+import { handleResendOtp as loaderResendOtp } from "./services/authService";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,7 @@ const router = createBrowserRouter([
       {
         path: "/verify-email",
         element: <VerifyEmailPage />,
+        loader: loaderResendOtp,
       },
       {
         path: "login",

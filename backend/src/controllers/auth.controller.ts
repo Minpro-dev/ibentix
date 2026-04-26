@@ -135,8 +135,6 @@ export const authController = {
 
       if (!user?.isVerified) {
         res.cookie("emailForOtp", user?.email, USER_EMAIL_OTP_COOKIE_OPTIONS);
-
-        await authService.resendOtp(user?.email);
       }
 
       return res.status(200).json({

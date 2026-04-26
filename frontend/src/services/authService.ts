@@ -39,3 +39,12 @@ export const handleSignup = async (values: any) => {
 export const handleGetAllCountries = async () => {
   return await api.get("/countries");
 };
+
+// handle resend otp email
+export const handleResendOtp = async () => {
+  try {
+    await api.get("/auth/resend-otp");
+  } catch (error) {
+    console.log(error);
+  }
+};
