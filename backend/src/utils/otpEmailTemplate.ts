@@ -1,5 +1,7 @@
+import { FRONTEND_URL } from "../config/dotenv.config";
+
 export const otpEmailTemplate = (otp: string, fullName: string) => {
-  const baseUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+  const baseUrl = FRONTEND_URL || "http://localhost:5173";
   const verifyLink = `${baseUrl}/verify-email`;
 
   return {

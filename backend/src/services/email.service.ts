@@ -1,4 +1,5 @@
 import { Ticket } from "../../generated/prisma/client";
+import { EMAIL_USER } from "../config/dotenv.config";
 import { transporter } from "../config/nodemailer.config";
 import { paymentDoneTemplate } from "../utils/emailConfirmationTemplate";
 import { otpEmailTemplate } from "../utils/otpEmailTemplate";
@@ -11,7 +12,7 @@ export const emailService = {
     try {
       const template = otpEmailTemplate(otp, fullName);
       const info = await transporter.sendMail({
-        from: `Ibentix<${process.env.EMAIL_USER}>`,
+        from: `Ibentix<${EMAIL_USER}>`,
         to: email,
         subject: template.subject,
         html: template.html,
@@ -32,7 +33,7 @@ export const emailService = {
     try {
       const template = resetPasswordEmailTemplate(resetUrl, fullName);
       const info = await transporter.sendMail({
-        from: `Ibentix<${process.env.EMAIL_USER}>`,
+        from: `Ibentix<${EMAIL_USER}>`,
         to: email,
         subject: template.subject,
         html: template.html,
@@ -49,7 +50,7 @@ export const emailService = {
     try {
       const template = paymentDoneTemplate(eTicket);
       const info = await transporter.sendMail({
-        from: `Ibentix<${process.env.EMAIL_USER}>`,
+        from: `Ibentix<${EMAIL_USER}>`,
         to: email,
         subject: template.subject,
         html: template.html,
@@ -66,7 +67,7 @@ export const emailService = {
     try {
       const template = paymentRejectedTemplate(orderId);
       const info = await transporter.sendMail({
-        from: `Ibentix<${process.env.EMAIL_USER}>`,
+        from: `Ibentix<${EMAIL_USER}>`,
         to: email,
         subject: template.subject,
         html: template.html,
