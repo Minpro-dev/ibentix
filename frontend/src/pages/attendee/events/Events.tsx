@@ -36,7 +36,10 @@ export default function Events() {
     setPage(num);
   };
 
-  const allEvents = data?.data.data.events;
+  const events = data?.data.data.events;
+  const allEvents = events?.filter(
+    (event: Event) => new Date(event.endSellingDate) >= new Date(),
+  );
   const totalEvents = data?.data.data.totalData;
   const totalPage = data?.data.data.totalPage;
 
