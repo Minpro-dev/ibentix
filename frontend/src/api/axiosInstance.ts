@@ -25,6 +25,13 @@ api.interceptors.response.use(
   async (error) => {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
+
+    const isLoginPage = window.location.pathname === "/login";
+
+    if (isLoginPage) {
+      return Promise.reject(error);
+    }
+
     const originalRequest = error.config;
     const isRefreshRequest = originalRequest.url?.includes("/auth/refresh");
 

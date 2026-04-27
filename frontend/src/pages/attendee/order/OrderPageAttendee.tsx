@@ -15,8 +15,11 @@ import { OrderPreviewSkeleton } from "./components/OrderPreviewSkeleton";
 import { OrderEventPreviewSkeleton } from "./components/OrderEventPreviewSkeleton";
 import { confirmOrder, useOrderMutation } from "./hooks/useOrderMutation";
 import { useFetchReferralCoupon } from "./hooks/useFetchRefferalCoupon";
+import { useAuthStore } from "../../../store/useAuthStore";
 
 export default function OrderPageAttendee() {
+  const user = useAuthStore((state) => state.user);
+  const isLoggin = !!user;
   const { mutate, isPending } = useOrderMutation();
   const { eventId } = useParams<{ eventId: string }>();
   const [searchParams] = useSearchParams();
@@ -39,7 +42,7 @@ export default function OrderPageAttendee() {
   const { referralCouponData, referralCouponLoading } =
     useFetchReferralCoupon();
 
-  const { pointsData, pointsDataLoading } = useFetchUserPoints();
+  const { pointsData, pointsDataLoading } = useFetchUserPoints(isLoggin);
 
   const appCoupon = appCouponData?.data?.data?.[0] || null;
   const eventCoupon = eventCouponData?.data?.data || null;

@@ -33,4 +33,5 @@ export interface SignupFormCredentialsProps {
   touched: FormikTouched<ContactFormValue>;
   isValid: boolean;
   dirty: boolean;
+  isPending: boolean;
 }

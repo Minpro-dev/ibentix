@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 function SingupPage() {
   const [step, setStep] = useState(1);
   const [role, setRole] = useState<Role>("ATTENDEE");
-  const { mutate } = useSignupMutation();
+  const { mutate, isPending } = useSignupMutation();
   const user = useAuthStore((state) => state.user);
   const navigate = useNavigate();
 
@@ -66,12 +66,13 @@ function SingupPage() {
               step === 1 ? signupContactSchema : signupCredentialsSchema
             }
             onSubmit={(values) => {
-              // const { confirmPassword: _confirmPassword, ...rest } = values;
               const valuesSelection = {
                 ...values,
                 usedReferralCode:
                   values.referralCode !== "" ? values.referralCode : null,
               };
+
+              console.log(valuesSelection);
 
               mutate(valuesSelection);
             }}>
@@ -93,6 +94,7 @@ function SingupPage() {
                       touched={touched}
                       isValid={isValid}
                       dirty={dirty}
+                      isPending={isPending}
                     />
                   )}
                 </Form>

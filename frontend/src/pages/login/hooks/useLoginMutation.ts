@@ -48,11 +48,10 @@ export const useLoginMutation = () => {
       navigate(targetPath, { replace: true });
     },
     onError: (error: any) => {
-      console.log(error);
       const errorMessage =
         error.response?.data?.message || "Something went wrong";
 
-      toast.error(errorMessage);
+      toast.error(errorMessage, { id: "error-login" });
     },
   });
 };

@@ -9,6 +9,7 @@ function SignupFormCredentials({
   touched,
   isValid,
   dirty,
+  isPending,
 }: SignupFormCredentialsProps) {
   const [hidePassword, setHidePassword] = useState(true);
 
@@ -80,8 +81,11 @@ function SignupFormCredentials({
       </div>
 
       <div>
-        <Button disabled={!isValid || !dirty} type="submit" className="w-full">
-          Create Account
+        <Button
+          disabled={!isValid || !dirty || isPending}
+          type="submit"
+          className="w-full">
+          {isPending ? "Hold on..." : "Create Account"}
         </Button>
       </div>
 

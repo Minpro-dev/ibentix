@@ -12,6 +12,7 @@ import { useUpdatePaymentStatus } from "../hooks/useUpdatePaymentStatus";
 import Button from "../../../../ui/Button";
 import { capitalize } from "../../../../utils/capitalize";
 import { BADGE_STYLE } from "../../../../static/badgeStatusStyle";
+import { getConfirmationDeadline } from "../../../../utils/getConfirmationDeadline";
 
 interface OrderDetailsSheetProps {
   isOpen: boolean;
@@ -24,6 +25,14 @@ export default function OrderDetailsSheet({
   onClose,
   order,
 }: OrderDetailsSheetProps) {
+  const isWaitingConfirmation =
+    order?.payment?.paymentStatus === "WAITING_FOR_ADMIN_CONFIRMATION";
+  const timeLeft = isWaitingConfirmation
+    ? getConfirmationDeadline(order.payment.updatedAt)
+    : null;
+
+  const isVirtuallyExpired = timeLeft === "EXPIRED";
+
   const { mutateAsync, isPending } = useUpdatePaymentStatus();
   if (!order) return null;
 
@@ -209,7 +218,7 @@ export default function OrderDetailsSheet({
           </section>
 
           {/* BOTTOM ACTIONS (STICKY) */}
-          {order.payment.paymentStatus === "WAITING_FOR_ADMIN_CONFIRMATION" && (
+          {isWaitingConfirmation && !isVirtuallyExpired && (
             <div className="sticky bottom-0 left-0 w-full p-6 bg-linear-to-t from-zinc-50 via-zinc-50 to-transparent flex gap-3">
               <Button
                 variant={"danger"}

@@ -84,11 +84,15 @@ export const authService = {
             where: { myReferralCode: data.usedReferralCode },
           });
 
+          if (!referralOwner) {
+            throw new AppError(400, "Invalid referral code");
+          }
+
           await tx.referralCoupon.create({
             data: {
               couponCode: referralCouponCode,
               userId: createUser.userId,
-              referralCodeBy: referralOwner!.userId,
+              referralCodeBy: referralOwner.userId,
               validFrom: new Date(),
               validUntil: addMonths(new Date(), 3),
               discountAmount: 10,
@@ -98,7 +102,7 @@ export const authService = {
           await tx.point.create({
             data: {
               userId: referralOwner!.userId,
-              pointAmount: 1000,
+              pointAmount: 10000,
               validFrom: new Date(),
               validUntil: addMonths(new Date(), 3),
             },
@@ -130,7 +134,7 @@ export const authService = {
   // -------------------- POST REFERRAL
   addReferral: async (email: string, usedReferralCode: string) => {
     const REFERRAL_DISCOUNT = 10;
-    const POINT_AMMOUNT = 1000;
+    const POINT_AMMOUNT = 10000;
 
     try {
       const referralUser = await prisma.user.findUnique({
