@@ -11,6 +11,7 @@ import { MENU_ITEMS } from "../static/navbarMenusStatic";
 import { capitalize } from "../utils/capitalize";
 import defaultAvatar from "./../assets/static/EventThumnailImage.jpg";
 import { useLogoutMutation } from "../pages/attendee/logout/hooks/useLogoutMutation";
+import { useEventWishlistStore } from "../store/useEventWishlistStore";
 
 const Navbar = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -18,6 +19,8 @@ const Navbar = () => {
   const location = useLocation();
 
   const user = useAuthStore((state) => state.user);
+  const wishlist = useEventWishlistStore((state) => state.wishlistIds);
+  const totalWishlist = wishlist.length;
   const isLoggin = !!user;
   const { search, setSearch } = useEventStore();
   const { pointsData } = useFetchUserPoints(isLoggin);
@@ -59,19 +62,30 @@ const Navbar = () => {
           <div className="flex items-center gap-2 md:gap-8">
             <div className="hidden lg:flex items-center gap-6">
               {MENU_ITEMS.slice(0, 2).map((item) => (
-                <NavLink
-                  key={item.path}
-                  to={item.path}
-                  className={({ isActive }) => `
+                <>
+                  <NavLink
+                    key={item.path}
+                    to={item.path}
+                    className={({ isActive }) => `
     relative flex flex-col cursor-pointer items-center transition-all group pt-2 pb-1
-    ${isActive ? "text-indigo-600" : "text-zinc-500 hover:text-indigo-600"}
+    ${isActive ? "text-indigo-600" : "text-zinc-500 hover:text-indigo-600"} ${item?.path === "/wishlist" ? "relative" : ""}
   `}>
-                  <item.icon
-                    size={20}
-                    className="group-hover:scale-110 transition-transform"
-                  />
-                  <span className="text-[10px] mt-1.5">{item.label}</span>
-                </NavLink>
+                    <item.icon
+                      size={20}
+                      className="group-hover:scale-110 transition-transform"
+                    />
+                    <span className="text-[10px] mt-1.5">{item.label}</span>
+                    {item?.path === "/wishlist"
+                      ? totalWishlist > 0 && (
+                          <div className="absolute top-1 right-0 flex h-4 w-4 items-center justify-center rounded-full bg-indigo-500 ring-2 ring-white">
+                            <span className="text-[10px] text-white leading-none">
+                              {totalWishlist}
+                            </span>
+                          </div>
+                        )
+                      : null}
+                  </NavLink>
+                </>
               ))}
             </div>
 
