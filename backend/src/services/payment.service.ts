@@ -3,7 +3,6 @@ import { prisma } from "../config/prismaClient.config";
 import { AppError } from "../utils/AppError";
 import { uploadSingle } from "../utils/cloudinaryUploader";
 import { handlePrismaError } from "../utils/prismaErrorHandler";
-import { emailService } from "./email.service";
 
 export const paymentService = {
   updateOrderStatus: async (
@@ -181,6 +180,12 @@ export const paymentService = {
 
       if (!file) {
         throw new AppError(400, "Payment proof is not received");
+      }
+
+      const MAX_FILE_SIZE = 2 * 1024 * 1024;
+
+      if (file && Number(file.size) > MAX_FILE_SIZE) {
+        throw new AppError(400, "File size too large. Maximum allowed is 2MB");
       }
 
       const url = await uploadSingle(file, "payment-proof");

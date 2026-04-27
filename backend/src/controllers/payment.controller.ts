@@ -5,6 +5,7 @@ import { Role } from "../../generated/prisma/enums";
 import { UpdatePaymentStatusSchema } from "../schemas/payment.schema";
 import { emailService } from "../services/email.service";
 import { Ticket } from "../../generated/prisma/browser";
+import { AppError } from "../utils/AppError";
 
 export const paymentController = {
   // UPDATE ORDER/PAYMENT STATUS

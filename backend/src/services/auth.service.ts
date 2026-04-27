@@ -218,6 +218,12 @@ export const authService = {
         ...data,
       };
 
+      const MAX_FILE_SIZE = 2 * 1024 * 1024;
+
+      if (file && Number(file.size) > MAX_FILE_SIZE) {
+        throw new AppError(400, "File size too large. Maximum allowed is 2MB");
+      }
+
       if (file) {
         updateData.avatar = file
           ? await uploadSingle(file, "profile-avatar")
