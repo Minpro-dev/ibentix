@@ -1,14 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUserPoints } from "../../../../services/promoService";
 
-export const useFetchUserPoints = () => {
+export const useFetchUserPoints = (isLoggin: boolean) => {
   const { data: pointsData, isLoading: pointsDataLoading } = useQuery({
     queryKey: ["userPoints"],
     queryFn: getUserPoints,
-    retry: (failureCount, error: any) => {
-      if (error?.response?.status === 401) return false;
-      return failureCount < 3; //
-    },
+    enabled: isLoggin,
   });
 
   return { pointsData, pointsDataLoading };

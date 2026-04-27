@@ -18,8 +18,9 @@ const Navbar = () => {
   const location = useLocation();
 
   const user = useAuthStore((state) => state.user);
+  const isLoggin = !!user;
   const { search, setSearch } = useEventStore();
-  const { pointsData } = useFetchUserPoints();
+  const { pointsData } = useFetchUserPoints(isLoggin);
   const { mutate: logout, isPending } = useLogoutMutation();
 
   const userPoints = pointsData?.data.points;

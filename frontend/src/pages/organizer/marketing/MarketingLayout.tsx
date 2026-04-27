@@ -17,7 +17,7 @@ function MarketingLayout() {
   return (
     <main>
       <div className="flex justify-center items-center">
-        <OutletNavigation menus={promotionsNavigationData} />;
+        <OutletNavigation menus={promotionsNavigationData} />
       </div>
 
       <div>

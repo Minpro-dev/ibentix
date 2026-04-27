@@ -32,7 +32,7 @@ const OrganizerEventDetailSheet = ({
     setPage(page);
   };
 
-  const { data } = useFetchTicketData(event, isOpen, page); //FIXME
+  const { data } = useFetchTicketData(event, isOpen, page);
   const totalData = data?.data.data.totalData;
   const ticketData = data?.data.data.attendees;
   const totalPage = data?.data.data.totalPage;
@@ -166,8 +166,9 @@ const OrganizerEventDetailSheet = ({
                       Attendee List
                     </h3>
                   </div>
-                  <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-tight">
-                    Total: {ticketData?.length || 0}
+                  <span className="text-[10px] text-zinc-400 capitalize tracking-tight">
+                    Total: {ticketData?.length || 0}{" "}
+                    {ticketData?.length > 1 ? "tickets" : "ticket"}
                   </span>
                 </div>
 
@@ -223,7 +224,7 @@ const OrganizerEventDetailSheet = ({
                   </div>
 
                   {/* pagination */}
-                  {page < 3 && (
+                  {page > 1 && (
                     <div className="flex  bg-zinc-50  justify-center py-3">
                       <PaginationButton
                         totalPage={totalPage}

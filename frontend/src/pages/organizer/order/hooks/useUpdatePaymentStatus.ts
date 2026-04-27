@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
 import { toast } from "sonner";
 import { handleChangeSatatus } from "../../../../services/OrderService";
 
@@ -15,7 +14,7 @@ export const useUpdatePaymentStatus = () => {
     }) => handleChangeSatatus(orderId, paymentStatus),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["orders"] });
-      toast.success("Order is confirmed");
+      toast.success("Your request is executed successfully");
     },
     onError: (error: any) => {
       console.log(error);

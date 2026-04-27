@@ -206,7 +206,7 @@ export const getAllAttendeesByEventId = catchAsync(
     const userId = req.user?.userId as string;
     const eventId = req.params.eventId as string;
     const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 1;
+    const limit = Number(req.query.limit) || 15;
 
     const { totalData, totalPage, attendees } =
       await eventService.getAllAttendeesByEvent(eventId, userId, page, limit);

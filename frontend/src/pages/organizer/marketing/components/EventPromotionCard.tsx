@@ -24,7 +24,7 @@ function EventPromotionCard({
   return (
     <div
       onClick={() => onSelectEvent(eventId, title, city)}
-      className="group cursor-pointer border-b border-slate-100 last:border-0">
+      className="group cursor-pointer border-b border-slate-200 last:border-0">
       <div
         className={`flex justify-between items-center py-4 px-6 transition-all duration-300 ${
           selectedEvent.eventId === eventId
