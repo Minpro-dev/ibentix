@@ -1,4 +1,5 @@
 import { prisma } from "../config/prismaClient.config";
+import { AppError } from "../utils/AppError";
 import { uploadSingle } from "../utils/cloudinaryUploader";
 import { handlePrismaError } from "../utils/prismaErrorHandler";
 
@@ -9,6 +10,12 @@ export const organizerService = {
     file: Express.Multer.File | undefined,
   ) => {
     try {
+      const MAX_FILE_SIZE = 2 * 1024 * 1024;
+
+      if (file && Number(file.size) > MAX_FILE_SIZE) {
+        throw new AppError(400, "File size too large. Maximum allowed is 2MB");
+      }
+
       const image = await uploadSingle(file, "organizer-profile");
       const organizerProfile = await prisma.organizerProfile.create({
         data: {

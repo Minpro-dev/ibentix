@@ -41,9 +41,7 @@ function ReviewSummary({
             />
           ))}
         </div>
-        <p className="text-zinc-400 text-[11px] font-bold uppercase tracking-widest">
-          {totalData} Total Reviews
-        </p>
+        <p className="text-zinc-400 text-[11px]">{totalData} Total Reviews</p>
       </div>
 
       {/* Rating Bars (Minimalist Style) */}

@@ -13,11 +13,13 @@ const OrganizerReviews = () => {
   const reviewData = data?.data.data;
   const totalReviewPage = reviewData?.totalPage;
 
+  console.log(reviewData);
+
   const handlePagination = (page: number) => setPage(page);
   const isShowSkeleton = isLoading || !data;
   return (
     <div className="max-w-5xl mx-auto p-6 md:p-10 space-y-12 bg-white">
-      {/* 1. Header & Summary Section */}
+      {/* Header & Summary Section */}
       {isLoading ? (
         <SkeletonReviewSummary />
       ) : (
@@ -28,7 +30,7 @@ const OrganizerReviews = () => {
         />
       )}
 
-      {/* 2. Review List Section */}
+      {/* \ Review List Section */}
       <section className="space-y-8">
         <div className="flex justify-between items-center">
           <h2 className="text-sm text-zinc-400">Latest Feedback</h2>

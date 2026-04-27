@@ -10,8 +10,13 @@ export const createEvent = catchAsync(async (req: Request, res: Response) => {
   if (!req.user?.userId) {
     throw new AppError(401, "Unauthorized: User not found");
   }
-
   const userId = req.user.userId;
+
+  const MAX_FILE_SIZE = 2 * 1024 * 1024;
+
+  if (req?.file && Number(req?.file.size) > MAX_FILE_SIZE) {
+    throw new AppError(400, "File size too large. Maximum allowed is 2MB");
+  }
 
   let thumbnailUrl = "";
 
@@ -206,7 +211,7 @@ export const getAllAttendeesByEventId = catchAsync(
     const userId = req.user?.userId as string;
     const eventId = req.params.eventId as string;
     const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 1;
+    const limit = Number(req.query.limit) || 15;
 
     const { totalData, totalPage, attendees } =
       await eventService.getAllAttendeesByEvent(eventId, userId, page, limit);

@@ -62,7 +62,7 @@ export const authService = {
           data: {
             firstName: data.firstName,
             lastName: data.lastName,
-            email: data.email,
+            email: data.email.toLowerCase(),
             phone: data.phone,
             gender: data.gender,
             address: data.address,
@@ -84,11 +84,15 @@ export const authService = {
             where: { myReferralCode: data.usedReferralCode },
           });
 
+          if (!referralOwner) {
+            throw new AppError(400, "Invalid referral code");
+          }
+
           await tx.referralCoupon.create({
             data: {
               couponCode: referralCouponCode,
               userId: createUser.userId,
-              referralCodeBy: referralOwner!.userId,
+              referralCodeBy: referralOwner.userId,
               validFrom: new Date(),
               validUntil: addMonths(new Date(), 3),
               discountAmount: 10,
@@ -98,7 +102,7 @@ export const authService = {
           await tx.point.create({
             data: {
               userId: referralOwner!.userId,
-              pointAmount: 1000,
+              pointAmount: 10000,
               validFrom: new Date(),
               validUntil: addMonths(new Date(), 3),
             },
@@ -130,7 +134,7 @@ export const authService = {
   // -------------------- POST REFERRAL
   addReferral: async (email: string, usedReferralCode: string) => {
     const REFERRAL_DISCOUNT = 10;
-    const POINT_AMMOUNT = 1000;
+    const POINT_AMMOUNT = 10000;
 
     try {
       const referralUser = await prisma.user.findUnique({
@@ -213,6 +217,12 @@ export const authService = {
       const updateData: any = {
         ...data,
       };
+
+      const MAX_FILE_SIZE = 2 * 1024 * 1024;
+
+      if (file && Number(file.size) > MAX_FILE_SIZE) {
+        throw new AppError(400, "File size too large. Maximum allowed is 2MB");
+      }
 
       if (file) {
         updateData.avatar = file

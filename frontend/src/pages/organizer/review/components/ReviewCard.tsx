@@ -20,7 +20,6 @@ interface ReviewCardProps {
   invoiceNumber: string;
 }
 
-/* --- Sub-Component: Review Card --- */
 export function ReviewCard({
   firstName,
   lastName,
@@ -68,11 +67,11 @@ export function ReviewCard({
 
         {/* Order Meta Data*/}
         <div className="w-full md:w-64 space-y-2 p-4 bg-zinc-50/50 rounded-xl border border-zinc-100/50">
-          <div className="flex items-center gap-2 text-zinc-900 font-bold text-[11px] uppercase tracking-tight">
+          <div className="flex items-center gap-2 text-zinc-900 font-semibold text-[11px] capitalize tracking-tight">
             <RiTicket2Line className="text-indigo-500" />
             {eventName}
           </div>
-          <div className="flex flex-col gap-1 text-[10px] font-medium text-zinc-400">
+          <div className="flex flex-col gap-1 text-[10px] text-zinc-400">
             <span className="flex items-center gap-1">
               <RiTimeLine /> {formatDate(createdAt)}
             </span>

@@ -20,17 +20,11 @@ interface EventCardProps {
 const EventCard = ({ event }: EventCardProps) => {
   const wishlistIds = useEventWishlistStore((state) => state.wishlistIds);
   const isWishlisted = wishlistIds.includes(event.eventId);
-  const mutation = useToggleWishlist();
+  const { mutate } = useToggleWishlist();
   const navigate = useNavigate();
-
-  const handleToggleWishlist = (e: React.MouseEvent) => {
-    e.preventDefault();
-    mutation.mutate(event.eventId);
-  };
 
   return (
     <div className="group w-full max-w-70 mx-auto">
-      {/* Image Container - Padding dikurangi agar lebih compact */}
       <div className="relative mb-4 overflow-hidden rounded-[28px] shadow-sm bg-white p-1.5 border border-zinc-100/50">
         <img
           src={event.thumbnailUrl || eventThumbnailImage}
@@ -40,7 +34,7 @@ const EventCard = ({ event }: EventCardProps) => {
 
         {/* Wishlist Button */}
         <button
-          onClick={handleToggleWishlist}
+          onClick={() => mutate(event.eventId)}
           className="absolute top-4 right-4 p-2.5 bg-white/80 backdrop-blur-sm rounded-full shadow-md border border-white/40 transition-all hover:scale-110 active:scale-95 cursor-pointer">
           {isWishlisted ? (
             <RiHeartFill className="text-red-500 text-xl animate-in zoom-in-50" />

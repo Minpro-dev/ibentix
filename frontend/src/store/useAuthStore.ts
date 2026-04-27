@@ -18,6 +18,8 @@ export const useAuthStore = create<Action & State>((set) => ({
   user: null,
   accessToken: null,
   isInitializing: true,
+  loginError: null,
+  sessionError: null,
 
   setAuth: (token, user) => set({ accessToken: token, user }),
   clearAuth: () => set({ accessToken: null, user: null }),

@@ -4,13 +4,13 @@ import { useEventWishlistStore } from "../../../../store/useEventWishlistStore";
 import Swal from "sweetalert2";
 
 export const useToggleWishlist = () => {
-  const setIds = useEventWishlistStore((state) => state.setIds);
+  // const setIds = useEventWishlistStore((state) => state.setIds);
   const toggleWishlist = useEventWishlistStore((state) => state.toggleWishlist);
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async (eventId: string) => {
-      return await handleToggleWishlist(eventId);
+      await handleToggleWishlist(eventId);
     },
 
     onMutate: async (eventId: string) => {
@@ -18,16 +18,17 @@ export const useToggleWishlist = () => {
       await queryClient.cancelQueries({ queryKey: ["wishlist"] });
 
       // save snapshot
-      const previousWishlist = queryClient.getQueryData(["wishlist"]);
+      // const previousWishlist = queryClient.getQueryData(["wishlist"]);
 
       toggleWishlist(eventId);
 
-      return { previousWishlist };
+      // return { previousWishlist };
     },
 
     onError: (err, eventId) => {
       // ROLLBACK
-      setIds(eventId);
+      // setIds(eventId);
+      toggleWishlist(eventId);
       Swal.fire("Error", "Failed to update wishlist", "error");
       console.log(err);
     },
@@ -35,7 +36,7 @@ export const useToggleWishlist = () => {
     onSettled: () => {
       //syncronize
       queryClient.invalidateQueries({ queryKey: ["wishlist"] });
-      queryClient.invalidateQueries({ queryKey: ["events"] });
+      // queryClient.invalidateQueries({ queryKey: ["events"] });
     },
   });
 };

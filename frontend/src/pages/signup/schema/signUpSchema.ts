@@ -28,6 +28,7 @@ export const signupCredentialsSchema = y.object().shape({
   email: y
     .string()
     .required("Email is required")
+    // .lowercase("Email should be lowercase only")
     .email("Email address is not valid")
     .max(100, "Maximum 100 email characters"),
   phone: y

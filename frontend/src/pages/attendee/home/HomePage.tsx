@@ -15,7 +15,11 @@ import PromoSection from "./components/PromoSection";
 export function HomePage() {
   const { data, isLoading } = useTrendingEvents();
   const navigate = useNavigate();
-  const trendingEvents = data?.data.data;
+  const events = data?.data.data;
+
+  const trendingEvents = events?.filter(
+    (event: Event) => new Date(event.endSellingDate) >= new Date(),
+  );
 
   return (
     <div className="bg-gray-50 min-h-dvh font-sans">

@@ -30,7 +30,6 @@ import OrderNewOrganizer from "./pages/organizer/order/components/OrderNewOrgani
 import CompletedOrderOrganizer from "./pages/organizer/order/components/CompletedOrderOrganizer";
 import ProfileDetails from "./pages/organizer/profile/ProfileDetails";
 import OrderPageAttendee from "./pages/attendee/order/OrderPageAttendee";
-import OrderPayment from "./pages/attendee/payment/OrderPayment";
 import MyOrdersPage from "./pages/attendee/myOrderList/MyOrdersPage";
 import OrderDetailsPage from "./pages/attendee/myOrderList/OrderDetailsPage";
 import NotFoundPage from "./ui/NotFoundPage";
@@ -86,19 +85,7 @@ const router = createBrowserRouter([
       },
       {
         path: "events",
-        element: (
-          // <PrivateRoute allowedRoles={["ATTENDEE"]}>
-          <Events />
-          // </PrivateRoute>
-        ),
-      },
-      {
-        path: "payment",
-        element: (
-          <PrivateRoute allowedRoles={["ATTENDEE"]}>
-            <OrderPayment />
-          </PrivateRoute>
-        ),
+        element: <Events />,
       },
       {
         path: "my-orders",
