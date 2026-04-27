@@ -74,7 +74,7 @@ const Navbar = () => {
                     className="group-hover:scale-110 transition-transform"
                   />
                   <span className="text-[10px] mt-1.5">{item.label}</span>
-                  {item?.path === "/wishlist"
+                  {isLoggin && item?.path === "/wishlist"
                     ? totalWishlist > 0 && (
                         <div className="absolute top-1 right-0 flex h-4 w-4 items-center justify-center rounded-full bg-indigo-500 ring-2 ring-white">
                           <span className="text-[10px] text-white leading-none">
