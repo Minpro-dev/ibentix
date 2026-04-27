@@ -61,6 +61,7 @@ function CreateEvent() {
           formData.append("locationName", values.locationName);
           formData.append("address", values.address);
           formData.append("city", values.city);
+          formData.append("category", values.category);
           formData.append("eventDate", values.eventDate);
           formData.append("startSellingDate", values.startSellingDate);
           formData.append("endSellingDate", values.endSellingDate);
