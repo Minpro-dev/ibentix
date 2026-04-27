@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import type { LoginFormProps } from "../types/loginTypes";
 import Button from "../../../ui/Button";
+import { Link } from "react-router-dom";
 
 function LoginForm({
   errors,
@@ -66,6 +67,14 @@ function LoginForm({
             {errors.password}
           </p>
         )}
+      </div>
+
+      {/* forgot password link */}
+      <div className="flex gap-2 text-xs">
+        <p className="text-zinc-500">Forgot password?</p>
+        <Link to="/reset-password" className="text-indigo-400 hover:underline">
+          Reset password
+        </Link>
       </div>
 
       {/* Action Button */}

@@ -410,7 +410,7 @@ export const authService = {
       .update(rawResetToken)
       .digest("hex");
 
-    const resetUrl = `http://localhost:5173/reset-password?token=${rawResetToken}`;
+    const resetUrl = `http://localhost:5173/reset-password/${rawResetToken}`;
 
     await prisma.resetPassword.create({
       data: {

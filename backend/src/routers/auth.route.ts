@@ -21,7 +21,7 @@ route.post("/verify-otp", authController.verifyOtp);
 route.get("/resend-otp", authController.resendOtp);
 route.post("/forgot-password", authController.resetPasswordRequest);
 
-route.post(
+route.patch(
   "/forgot-password/:token",
   validate(updatePasswordSchema),
   authController.createNewPassword,

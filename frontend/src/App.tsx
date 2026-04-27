@@ -35,6 +35,7 @@ import OrderDetailsPage from "./pages/attendee/myOrderList/OrderDetailsPage";
 import NotFoundPage from "./ui/NotFoundPage";
 import { VerifyEmailPage } from "./pages/signup/components/VerifyEmailPage";
 import { handleResendOtp as loaderResendOtp } from "./services/authService";
+import { ResetPasswordForm } from "./pages/resetPassword/ResetPasswordForm";
 
 const router = createBrowserRouter([
   {
@@ -131,6 +132,10 @@ const router = createBrowserRouter([
       {
         path: "reset-password",
         element: <ResetPasswordPage />,
+      },
+      {
+        path: "reset-password/:token",
+        element: <ResetPasswordForm />,
       },
     ],
   },
