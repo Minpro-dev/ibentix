@@ -410,7 +410,7 @@ export const authService = {
       .update(rawResetToken)
       .digest("hex");
 
-    const resetUrl = `http://localhost:5173/reset-password/${rawResetToken}`;
+    const resetUrl = `https://ibentix-app.vercel.app/reset-password/${rawResetToken}`;
 
     await prisma.resetPassword.create({
       data: {
