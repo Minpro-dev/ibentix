@@ -62,7 +62,7 @@ export const authService = {
           data: {
             firstName: data.firstName,
             lastName: data.lastName,
-            email: data.email,
+            email: data.email.toLowerCase(),
             phone: data.phone,
             gender: data.gender,
             address: data.address,
