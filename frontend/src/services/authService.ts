@@ -45,3 +45,20 @@ export const handleResendOtp = async () => {
     console.log(error);
   }
 };
+
+// req link reset password
+export const forgotPasswordService = async (email: string) => {
+  const response = await api.post("/auth/forgot-password", { email });
+  return response.data;
+};
+
+// post new password
+export const resetPasswordService = async (
+  token: string,
+  newPassword: string,
+) => {
+  const response = await api.patch(`/auth/forgot-password/${token}`, {
+    newPassword,
+  });
+  return response.data;
+};
