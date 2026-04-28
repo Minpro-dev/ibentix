@@ -148,6 +148,13 @@ export const reviewService = {
     });
 
     const averageRatings = await prisma.review.aggregate({
+      where: {
+        order: {
+          event: {
+            userId,
+          },
+        },
+      },
       _avg: {
         rating: true,
       },
