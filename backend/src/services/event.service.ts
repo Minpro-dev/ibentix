@@ -301,6 +301,7 @@ export const updateEventService = async (
       ...(data.price && { price: Number(data.price) }),
       ...(data.eventDate && { eventDate: parseDate(data.eventDate) }),
       ...(data.thumbnailUrl && { thumbnailUrl: data.thumbnailUrl }),
+      ...(data.isFree && { isFree: data.isFree === "true" }),
     },
   });
 };
