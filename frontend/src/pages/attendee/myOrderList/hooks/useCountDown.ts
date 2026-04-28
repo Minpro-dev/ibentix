@@ -6,7 +6,7 @@ export const useCountdown = (createdAt: string, onExpire?: () => void) => {
   useEffect(() => {
     const calculateTime = () => {
       const createdDate = new Date(createdAt).getTime();
-      const expiryDate = createdDate + 2 * 60 * 60 * 1000; // +2 jam
+      const expiryDate = createdDate + 2 * 60 * 1000; //FIXME -> +2 jam
 
       const now = new Date().getTime();
       const diff = expiryDate - now; // differencial
