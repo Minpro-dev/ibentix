@@ -10,7 +10,7 @@ export const useEditEventData = (eventId: string) => {
 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["events"] });
-      toast.success("Event deleted succefully");
+      toast.success("Event edited succefully");
     },
 
     onError: (error: any) => {
