@@ -25,7 +25,7 @@ export function HomePage() {
   );
 
   useEffect(() => {
-    document.title = `Ibentix | Browse your favorite events`; // In the beginning the title is undefined. If we are using [] as dependency, the useEffects only runs during the component mount (initially), so it will undefined forever (our effect does not react to that)
+    document.title = `Ibentix | Browse your favorite events`;
 
     return () => {
       document.title = "Ibentix";
