@@ -38,7 +38,9 @@ export default function Events() {
 
   const events = data?.data.data.events;
   const allEvents = events?.filter(
-    (event: Event) => new Date(event.endSellingDate) >= new Date(),
+    (event: Event) =>
+      new Date(event.endSellingDate) >= new Date() &&
+      new Date(event.startSellingDate) <= new Date(),
   );
   const totalEvents = data?.data.data.totalData;
   const totalPage = data?.data.data.totalPage;

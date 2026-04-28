@@ -19,7 +19,9 @@ export function HomePage() {
   const events = data?.data.data;
 
   const trendingEvents = events?.filter(
-    (event: Event) => new Date(event.endSellingDate) >= new Date(),
+    (event: Event) =>
+      new Date(event.endSellingDate) >= new Date() &&
+      new Date(event.startSellingDate) <= new Date(),
   );
 
   useEffect(() => {
