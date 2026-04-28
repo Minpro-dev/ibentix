@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EventCard from "../../../ui/EventCard";
 import type { Event, EventCategory } from "../../../types/eventType";
 import CategoryFilter from "./components/CategoryFilters";
@@ -42,6 +42,14 @@ export default function Events() {
   );
   const totalEvents = data?.data.data.totalData;
   const totalPage = data?.data.data.totalPage;
+
+  useEffect(() => {
+    document.title = `Event | Browse your favorite events`;
+
+    return () => {
+      document.title = "Ibentix";
+    };
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col font-sans bg-[#F8FAFC]">

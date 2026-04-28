@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import CategoryCard from "./components/CategoryCard";
 import HomePageCta from "./components/HomePageCta";
 import PromoSection from "./components/PromoSection";
+import { useEffect } from "react";
 
 export function HomePage() {
   const { data, isLoading } = useTrendingEvents();
@@ -20,6 +21,14 @@ export function HomePage() {
   const trendingEvents = events?.filter(
     (event: Event) => new Date(event.endSellingDate) >= new Date(),
   );
+
+  useEffect(() => {
+    document.title = `Ibentix | Browse your favorite events`; // In the beginning the title is undefined. If we are using [] as dependency, the useEffects only runs during the component mount (initially), so it will undefined forever (our effect does not react to that)
+
+    return () => {
+      document.title = "Ibentix";
+    };
+  }, []);
 
   return (
     <div className="bg-gray-50 min-h-dvh font-sans">

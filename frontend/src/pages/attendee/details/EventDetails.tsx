@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { RiCalendarLine, RiMapPin2Line } from "react-icons/ri";
 import { useFetchEventSlug } from "./hooks/useFetchEventSlug";
@@ -26,6 +26,15 @@ export default function EventDetailsPage() {
   const handleIncrement = () => {
     setTicketCount(Math.min(event.availableSlot, ticketCount + 1));
   };
+
+  useEffect(() => {
+    if (!event?.title) return;
+    document.title = `Event | ${event?.title}`;
+
+    return () => {
+      document.title = "Ibentix";
+    };
+  }, [event?.title]);
 
   if (isLoading) return <DetailsEventSkeleton />;
 
