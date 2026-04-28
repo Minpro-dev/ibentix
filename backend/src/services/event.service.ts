@@ -256,6 +256,12 @@ export const getTrendingEventsService = async () => {
       eventDate: {
         gte: new Date(),
       },
+      startSellingDate: {
+        lte: new Date(),
+      },
+      endSellingDate: {
+        gte: new Date(),
+      },
     },
     orderBy: {
       availableSlot: "desc", // makin sedikit makin trend
