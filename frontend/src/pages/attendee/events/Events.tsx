@@ -30,6 +30,7 @@ export default function Events() {
 
   const handleSelect = (category: EventCategory | null) => {
     setSelectedCategory(category);
+    setPage(1);
   };
 
   const handleSetpage = (num: number) => {
