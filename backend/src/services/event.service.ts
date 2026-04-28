@@ -258,7 +258,7 @@ export const getTrendingEventsService = async () => {
       },
     },
     orderBy: {
-      availableSlot: "asc", // makin sedikit makin trend
+      availableSlot: "desc", // makin sedikit makin trend
     },
     take: 8,
   });
